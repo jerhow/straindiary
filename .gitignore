@@ -1,0 +1,58 @@
+### <Template from GitHub>
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
+.glide/
+### </Template from GitHub>
+
+### <Mine>
+*.DS_Store
+*hydrate_db.sql
+scratch.*
+*.sqlite3
+Dump*.sql
+*.pem
+
+# Compiled Object files, Static and Dynamic libs (Shared Objects)
+*.o
+*.a
+*.so
+
+# Folders
+_obj/
+_test/
+_db_dumps/
+
+# NOTE: These are commented out because Heroku needs them to build the app
+# Godeps/
+# vendor/
+
+# Config (TBD)
+# config/*.json
+
+# My compiled binaries
+straindiary
+
+# Keeping track of things
+nextsteps.txt
+go-heroku-notes.txt
+bugs.txt
+
+# For quick experiments
+scratch.*
+tutorial*.go
+
+# Ignore some Docker things for the moment
+docker-compose.yml
+Dockerfile*
+### </Mine>
