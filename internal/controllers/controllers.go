@@ -3,12 +3,15 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/jerhow/straindiary/internal/db"
 	"net/http"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Hello!")
+
+	db.Db1()
 
 	type Payload struct {
 		Msg string
