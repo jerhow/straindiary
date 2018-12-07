@@ -5,6 +5,8 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql" // Imports the package solely for its side-effects
 	"github.com/jerhow/straindiary/internal/util"
+	"log"
+	"strings"
 )
 
 var DRIVER string
@@ -53,10 +55,11 @@ func Db1() {
 }
 
 // Takes the relevant values for the INSERT
-// Returns a boolean indicating success|failure
-func WriteNewStrainToDb(userId int, strainName string) bool {
+// Returns a boolean indicating success|failure, and a message which will be "" on success
+func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
 
 	var result bool = true
+	var msg string = ""
 
 	dbh, err := sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
@@ -75,11 +78,17 @@ func WriteNewStrainToDb(userId int, strainName string) bool {
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
-	_, err2 := stmtIns.Exec(userId, strainName)
-	util.ErrChk(err2)
+	_, execErr := stmtIns.Exec(userId, strainName) // first return value is 'result', but it's db driver dependent as to whether it gets populated
+	if execErr != nil {
+		// set the result flag and investigate based on the error message
+		result = false
+		// we can stack the possible error cases here, and fail out hard otherwise
+		if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
+			msg = "Duplicate entry"
+		} else {
+			log.Fatal(execErr) // something else
+		}
+	}
 
-	// At this point, if any of the above were to fail, we would be hard exiting
-	// via log.Fatal(), which gets you an os.Exit(1) anyway. So until I can think
-	// about this more deeply, we're only returning a status when we succeed.
-	return result
+	return result, msg
 }

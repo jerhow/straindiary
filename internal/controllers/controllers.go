@@ -41,6 +41,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	var strainName string
 	var validateResult bool = false
 	var dbWriteResult bool = false
+	var dbWriteMsg string = ""
 
 	type Payload struct {
 		Msg string
@@ -65,13 +66,13 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("strainName: " + strainName)
 
 	// attempt to write to DB
-	dbWriteResult = db.WriteNewStrainToDb(userId, strainName)
+	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
 		payload.Msg = "Looks like everything was written successfully"
 		w.WriteHeader(http.StatusOK)
 	} else {
-		payload.Msg = "Hmm, something didn't go quite right this time"
+		payload.Msg = "Error: " + dbWriteMsg
 		w.WriteHeader(http.StatusBadRequest)
 	}
 
