@@ -51,3 +51,35 @@ func Db1() {
 	// }
 	// defer insert.Close()
 }
+
+// Takes the relevant values for the INSERT
+// Returns a boolean indicating success|failure
+func WriteNewStrainToDb(userId int, strainName string) bool {
+
+	var result bool = true
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `
+		INSERT INTO t_user_strains
+		(user_id, strain_name)
+		VALUES 
+		(?, ?);`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	_, err2 := stmtIns.Exec(userId, strainName)
+	util.ErrChk(err2)
+
+	// At this point, if any of the above were to fail, we would be hard exiting
+	// via log.Fatal(), which gets you an os.Exit(1) anyway. So until I can think
+	// about this more deeply, we're only returning a status when we succeed.
+	return result
+}
