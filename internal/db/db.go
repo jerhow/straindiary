@@ -99,8 +99,10 @@ func DeleteUserStrains(userId int, strainsCSV string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
+	var dbh *sql.DB
+	var err error
 
-	dbh, err := sql.Open(DRIVER, dsn())
+	dbh, err = sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
 	defer dbh.Close()
 
