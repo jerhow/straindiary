@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/jerhow/straindiary/internal/db"
+	"github.com/jerhow/straindiary/internal/helpers"
 	"github.com/jerhow/straindiary/internal/util"
 	"net/http"
 	"regexp"
@@ -38,12 +39,9 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	userIdRaw := r.URL.Query().Get("user_id")
 	sortByRaw := r.URL.Query().Get("sb")
 	orderByRaw := r.URL.Query().Get("ob")
-	var userId, sortBy, orderBy int
-	var sortBySQL, orderBySQL string
+	var userId int
 	var result bool = true
-	var found bool = false
 
-	// TODO: Promote the Payload struct somewhere so that we don't have to restate it in all these controller functions
 	type Payload struct {
 		Msg        string
 		StrainData []db.StrainRow
@@ -51,8 +49,6 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	payload := Payload{
 		Msg: "",
 	}
-
-	// TODO: Promote all of this validation to its own function somewhere
 
 	// validate userId (as input)
 	re := regexp.MustCompile("^\\d+$")
@@ -69,30 +65,11 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	if userIdRaw == "" {
 		userIdRaw = "1"
 	}
-	if sortByRaw == "" {
-		sortByRaw = "1"
-	}
-	if orderByRaw == "" {
-		orderByRaw = "0"
-	}
 
-	sortBy, _ = strconv.Atoi(sortByRaw)
-	orderBy, _ = strconv.Atoi(orderByRaw)
+	sortBySQL, orderBySQL := helpers.Strain_GET_SortOrderQsParams(sortByRaw, orderByRaw)
+	fmt.Println(sortBySQL)
+	fmt.Println(orderBySQL)
 
-	sortByMap := map[int]string{
-		0: "id",
-		1: "strain_name",
-		2: "created_at",
-	}
-	if sortBySQL, found = sortByMap[sortBy]; !found {
-		sortBySQL = "strain_name" // default
-	}
-
-	if orderBy == 1 {
-		orderBySQL = "DESC"
-	} else { // 0 or default
-		orderBySQL = "ASC"
-	}
 	// validation ends
 
 	var strainRows []db.StrainRow
