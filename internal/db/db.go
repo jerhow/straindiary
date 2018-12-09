@@ -92,3 +92,34 @@ func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
 
 	return result, msg
 }
+
+func DeleteUserStrains(userId int, strainsCSV string) (bool, string) {
+
+	// TODO: Replace the util.ErrChk() calls with something we can fail gracefully from
+
+	var result bool = true
+	var msg string = ""
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `DELETE FROM t_user_strains 
+			WHERE user_id = ? 
+			AND id IN (` + strainsCSV + `);`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	_, execErr := stmtIns.Exec(userId)
+	if execErr != nil {
+		result = false
+		msg = execErr.Error()
+	}
+
+	return result, msg
+}
