@@ -93,7 +93,7 @@ func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
 	return result, msg
 }
 
-func DeleteUserStrains(userId int, strainsCSV string) (bool, string) {
+func DeleteUserStrains(userId int, strains []string) (bool, string) {
 
 	// TODO: Replace the util.ErrChk() calls with something we can fail gracefully from
 
@@ -104,31 +104,41 @@ func DeleteUserStrains(userId int, strainsCSV string) (bool, string) {
 
 	dbh, err = sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
-	defer dbh.Close()
+	// defer dbh.Close()
 
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	// I know, I know. Still, strainsCSV is validated before it gets here.
-	// I'd prefer some magic way to use a prepared statement with the IN clause,
-	// but failing that, I'll probably move this to multiple individual DELETEs
-	// which can be prepared statements. I'm not sure that you could sneak an exploit
-	// through with only digits and commas and no spaces, but I'm too paranoid to chance it.
-	//
-	// TODO: Refactor this to execute as multiple individual DELETEs as prepared statements
 	sql := `DELETE FROM t_user_strains 
 			WHERE user_id = ? 
-			AND id IN (` + strainsCSV + `);`
+			AND id = ?;`
 
-	stmtIns, err := dbh.Prepare(sql)
-	util.ErrChk(err)
-	defer stmtIns.Close()
+	for _, strain := range strains {
+		// fmt.Println(strainId)
 
-	_, execErr := stmtIns.Exec(userId)
-	if execErr != nil {
-		result = false
-		msg = execErr.Error()
+		go func(strain string) {
+
+			fmt.Println("DELETE for strain id: " + strain)
+
+			stmtIns, err := dbh.Prepare(sql)
+			util.ErrChk(err)
+
+			_, execErr := stmtIns.Exec(userId, strain)
+			fmt.Println("stmtIns.Exec(userId, " + strain + ") called")
+			util.ErrChk(execErr)
+
+		}(strain)
 	}
+
+	// stmtIns, err := dbh.Prepare(sql)
+	// util.ErrChk(err)
+	// defer stmtIns.Close()
+
+	// _, execErr := stmtIns.Exec(userId)
+	// if execErr != nil {
+	// 	result = false
+	// 	msg = execErr.Error()
+	// }
 
 	return result, msg
 }

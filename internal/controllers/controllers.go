@@ -106,6 +106,7 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 
 	var userId string
 	var strainsCSV string
+	var strains []string
 	var validateResult bool = true
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -140,6 +141,8 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 		payload.Msg = "Invalid format for strain IDs. These need to be comma-separated."
 	}
 
+	strains = strings.Split(strainsCSV, ",")
+
 	util.SetCommonHttpHeaders(w)
 
 	if !validateResult {
@@ -148,7 +151,7 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// proceed
 		userIdInt, _ := strconv.Atoi(userId)
-		dbWriteResult, dbWriteMsg = db.DeleteUserStrains(userIdInt, strainsCSV)
+		dbWriteResult, dbWriteMsg = db.DeleteUserStrains(userIdInt, strains)
 		if !dbWriteResult {
 			// punch out
 			w.WriteHeader(http.StatusBadRequest)
