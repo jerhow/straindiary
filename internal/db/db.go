@@ -54,6 +54,54 @@ func Db1() {
 	// defer insert.Close()
 }
 
+type StrainRow struct {
+	Id         int
+	UserId     int
+	StrainName string
+	CreatedAt  string
+}
+
+// Expects the user's id, and sortBy and orderBy values
+// Returns a slice of db.StrainRow structs
+// NOTE: Assumes that sortBy and orderBy have been sanity-checked
+func UserStrainList(userId int, sortBy string, orderBy string) []StrainRow {
+
+	StrainRows := make([]StrainRow, 0)
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `
+	SELECT 
+		id,
+		user_id,
+		strain_name,
+		date_format(created_at, '%c/%e/%Y') as create_date
+	FROM 
+		t_user_strains
+	WHERE
+		user_id = ?
+	ORDER BY ` + sortBy + ` ` + orderBy + `;`
+
+	rows, err := dbh.Query(sql, userId)
+	util.ErrChk(err)
+	defer rows.Close()
+
+	for rows.Next() { // for each row, scan the result into the EmpRow struct
+		var row StrainRow
+		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.CreatedAt)
+		util.ErrChk(err)
+		// then append the struct to the slice
+		StrainRows = append(StrainRows, row)
+	}
+
+	return StrainRows
+}
+
 // Takes the relevant values for the INSERT
 // Returns a boolean indicating success|failure, and a message which will be "" on success
 func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
