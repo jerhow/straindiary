@@ -60,14 +60,7 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: validate userId against session
 
-	// defaults
-	if userIdRaw == "" {
-		userIdRaw = "1"
-	}
-
 	sortBySQL, orderBySQL := helpers.Strain_GET_SortOrderQsParams(sortByRaw, orderByRaw)
-
-	// validation ends
 
 	var strainRows []db.StrainRow
 	strainRows = db.UserStrainList(userId, sortBySQL, orderBySQL)
