@@ -86,6 +86,53 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	w.Write(payloadJson)
 }
 
+// Wherein a user strain is update/replaced via PUT
+func Strain_PUT(w http.ResponseWriter, r *http.Request) {
+
+	var userId int
+	var strainId int
+	var strainName string
+	var validateResult bool = false
+	var dbWriteResult bool = false
+	var dbWriteMsg string = ""
+
+	type Payload struct {
+		Msg string
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
+	strainId, _ = strconv.Atoi(r.PostFormValue("strain_id"))
+	strainName = r.PostFormValue("strain_name")
+
+	// TODO: Validation
+	validateResult = true // yeah yeah
+	if validateResult {
+		fmt.Println("Validate() call completed")
+	}
+
+	util.SetCommonHttpHeaders(w)
+
+	// attempt to write to DB
+	dbWriteResult, dbWriteMsg = db.UpdateStrainInDb(userId, strainId, strainName)
+	if dbWriteResult {
+		payload.Msg = "Looks like everything was updated successfully"
+		w.WriteHeader(http.StatusOK)
+	} else {
+		payload.Msg = "Error: " + dbWriteMsg
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	payloadJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(payloadJson)
+}
+
 // Wherein one or more strains can be deleted, within an individual user's strains
 // Strains will come in as a comma-separated list of strain ids
 func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
