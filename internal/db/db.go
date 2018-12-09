@@ -80,7 +80,7 @@ func UserStrainList(userId int, sortBy string, orderBy string) []StrainRow {
 		id,
 		user_id,
 		strain_name,
-		date_format(created_at, '%c/%e/%Y') as create_date
+		date_format(created_at, '%c/%e/%Y') as created_at
 	FROM 
 		t_user_strains
 	WHERE

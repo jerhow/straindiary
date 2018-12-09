@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/controllers"
@@ -15,12 +14,13 @@ func main() {
 	db.SetUpEnv()
 
 	// Smoke test db.UserStrainList()
-	var sr []db.StrainRow
-	sr = db.UserStrainList(1, "strain_name", "ASC")
-	fmt.Printf("%+v\n", sr)
+	// var sr []db.StrainRow
+	// sr = db.UserStrainList(1, "strain_name", "ASC")
+	// fmt.Printf("%+v\n", sr)
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", controllers.Index).Methods("GET")
+	r.HandleFunc("/strain", controllers.Strain_GET).Methods("GET")
 	r.HandleFunc("/strain", controllers.Strain_POST).Methods("POST")
 	r.HandleFunc("/strain", controllers.Strain_PUT).Methods("PUT")
 	r.HandleFunc("/strain", controllers.Strain_DELETE).Methods("DELETE")

@@ -34,6 +34,99 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	w.Write(payloadJson)
 }
 
+func Strain_GET(w http.ResponseWriter, r *http.Request) {
+	userIdRaw := r.URL.Query().Get("user_id")
+	sortByRaw := r.URL.Query().Get("sb")
+	orderByRaw := r.URL.Query().Get("ob")
+	var userId, sortBy, orderBy int
+	var sortBySQL, orderBySQL string
+	var result bool = true
+	var found bool = false
+
+	// TODO: Promote the Payload struct somewhere so that we don't have to restate it in all these controller functions
+	type Payload struct {
+		Msg        string
+		StrainData []db.StrainRow
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	// TODO: Promote all of this validation to its own function somewhere
+
+	// validate userId (as input)
+	re := regexp.MustCompile("^\\d+$")
+	if !re.MatchString(userIdRaw) {
+		result = false
+		payload.Msg = "Bad or missing input for userId"
+	} else {
+		userId, _ = strconv.Atoi(userIdRaw)
+	}
+
+	// TODO: validate userId against session
+
+	// defaults
+	if userIdRaw == "" {
+		userIdRaw = "1"
+	}
+	if sortByRaw == "" {
+		sortByRaw = "1"
+	}
+	if orderByRaw == "" {
+		orderByRaw = "0"
+	}
+
+	sortBy, _ = strconv.Atoi(sortByRaw)
+	orderBy, _ = strconv.Atoi(orderByRaw)
+
+	sortByMap := map[int]string{
+		0: "id",
+		1: "strain_name",
+		2: "created_at",
+	}
+	if sortBySQL, found = sortByMap[sortBy]; !found {
+		sortBySQL = "strain_name" // default
+	}
+
+	if orderBy == 1 {
+		orderBySQL = "DESC"
+	} else { // 0 or default
+		orderBySQL = "ASC"
+	}
+	// validation ends
+
+	var strainRows []db.StrainRow
+	strainRows = db.UserStrainList(userId, sortBySQL, orderBySQL)
+	// fmt.Printf("%+v\n", strainRows)
+	payload.StrainData = strainRows
+
+	// fmt.Printf("Type: %T \n", db.FetchEmployeeList())
+	// fmt.Printf("db.FetchEmployeeList() = %#v \n", db.FetchEmployeeList())
+	// fmt.Printf("Type: %T \n", data.EmpRows)
+	// fmt.Printf("db.FetchEmployeeList() = %#v \n", data.EmpRows)
+	// =====================================================================================
+
+	if !result {
+		w.WriteHeader(http.StatusBadRequest)
+		// payload.Msg = "Error"
+		// fmt.Println(dbWriteMsg)
+	} else {
+		// Set whatever HTTP headers and status we need, and write (dispatch) the output
+		// NOTE: The order of w.Header().Set() and w.WriteHeader() seems to matter.
+		// Any w.Header().Set() calls AFTER w.WriteHeader() don't seem to get applied.
+		payload.Msg = "Success"
+		util.SetCommonHttpHeaders(w)
+		w.WriteHeader(http.StatusOK)
+	}
+
+	dataJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(dataJson)
+}
+
 // Wherein a user's new strain gets written to the DB
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
