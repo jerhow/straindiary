@@ -107,6 +107,13 @@ func DeleteUserStrains(userId int, strainsCSV string) (bool, string) {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
+	// I know, I know. Still, strainsCSV is validated before it gets here.
+	// I'd prefer some magic way to use a prepared statement with the IN clause,
+	// but failing that, I'll probably move this to multiple individual DELETEs
+	// which can be prepared statements. I'm not sure that you could sneak an exploit
+	// through with only digits and commas and no spaces, but I'm too paranoid to chance it.
+	//
+	// TODO: Refactor this to execute as multiple individual DELETEs as prepared statements
 	sql := `DELETE FROM t_user_strains 
 			WHERE user_id = ? 
 			AND id IN (` + strainsCSV + `);`

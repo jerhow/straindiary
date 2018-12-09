@@ -105,7 +105,6 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println(r.Header.Get("X-ids-for-deletion"))
 
 	var userId string
-	// var userId int
 	var strainsCSV string
 	var validateResult bool = true
 	var dbWriteResult bool = false
@@ -123,10 +122,7 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 	userId = r.Header.Get("X-user-id")
 	strainsCSV = r.Header.Get("X-ids-for-deletion")
 
-	fmt.Println(userId)
-	fmt.Println(strainsCSV)
-
-	// validate userId as input
+	// validate userId (as input)
 	re := regexp.MustCompile("^\\d+$")
 	if !re.MatchString(userId) {
 		validateResult = false
