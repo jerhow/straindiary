@@ -95,50 +95,33 @@ func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
 
 func DeleteUserStrains(userId int, strains []string) (bool, string) {
 
-	// TODO: Replace the util.ErrChk() calls with something we can fail gracefully from
-
 	var result bool = true
 	var msg string = ""
 	var dbh *sql.DB
 	var err error
 
 	dbh, err = sql.Open(DRIVER, dsn())
-	util.ErrChk(err)
-	// defer dbh.Close()
+	if err != nil {
+		result = false
+		msg = err.Error()
+	}
 
 	err = dbh.Ping()
-	util.ErrChk(err)
+	if err != nil {
+		result = false
+		msg = err.Error()
+	}
 
 	sql := `DELETE FROM t_user_strains 
 			WHERE user_id = ? 
 			AND id = ?;`
 
 	for _, strain := range strains {
-		// fmt.Println(strainId)
-
 		go func(strain string) {
-
-			fmt.Println("DELETE for strain id: " + strain)
-
-			stmtIns, err := dbh.Prepare(sql)
-			util.ErrChk(err)
-
-			_, execErr := stmtIns.Exec(userId, strain)
-			fmt.Println("stmtIns.Exec(userId, " + strain + ") called")
-			util.ErrChk(execErr)
-
+			stmtIns, _ := dbh.Prepare(sql)
+			_, _ = stmtIns.Exec(userId, strain)
 		}(strain)
 	}
-
-	// stmtIns, err := dbh.Prepare(sql)
-	// util.ErrChk(err)
-	// defer stmtIns.Close()
-
-	// _, execErr := stmtIns.Exec(userId)
-	// if execErr != nil {
-	// 	result = false
-	// 	msg = execErr.Error()
-	// }
 
 	return result, msg
 }
