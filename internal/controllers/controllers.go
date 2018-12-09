@@ -97,19 +97,10 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 	var strainRows []db.StrainRow
 	strainRows = db.UserStrainList(userId, sortBySQL, orderBySQL)
-	// fmt.Printf("%+v\n", strainRows)
 	payload.StrainData = strainRows
-
-	// fmt.Printf("Type: %T \n", db.FetchEmployeeList())
-	// fmt.Printf("db.FetchEmployeeList() = %#v \n", db.FetchEmployeeList())
-	// fmt.Printf("Type: %T \n", data.EmpRows)
-	// fmt.Printf("db.FetchEmployeeList() = %#v \n", data.EmpRows)
-	// =====================================================================================
 
 	if !result {
 		w.WriteHeader(http.StatusBadRequest)
-		// payload.Msg = "Error"
-		// fmt.Println(dbWriteMsg)
 	} else {
 		// Set whatever HTTP headers and status we need, and write (dispatch) the output
 		// NOTE: The order of w.Header().Set() and w.WriteHeader() seems to matter.

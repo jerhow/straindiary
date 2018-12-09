@@ -13,11 +13,6 @@ func main() {
 
 	db.SetUpEnv()
 
-	// Smoke test db.UserStrainList()
-	// var sr []db.StrainRow
-	// sr = db.UserStrainList(1, "strain_name", "ASC")
-	// fmt.Printf("%+v\n", sr)
-
 	r := mux.NewRouter()
 	r.HandleFunc("/", controllers.Index).Methods("GET")
 	r.HandleFunc("/strain", controllers.Strain_GET).Methods("GET")
