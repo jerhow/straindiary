@@ -51,12 +51,11 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// validate userId (as input)
-	re := regexp.MustCompile("^\\d+$")
-	if !re.MatchString(userIdRaw) {
+	if util.UserIdValidFormat(userIdRaw) {
+		userId, _ = strconv.Atoi(userIdRaw)
+	} else {
 		result = false
 		payload.Msg = "Bad or missing input for userId"
-	} else {
-		userId, _ = strconv.Atoi(userIdRaw)
 	}
 
 	// TODO: validate userId against session
@@ -67,8 +66,6 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	}
 
 	sortBySQL, orderBySQL := helpers.Strain_GET_SortOrderQsParams(sortByRaw, orderByRaw)
-	fmt.Println(sortBySQL)
-	fmt.Println(orderBySQL)
 
 	// validation ends
 

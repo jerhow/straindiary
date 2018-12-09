@@ -11,6 +11,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 )
 
 var STATIC_ASSET_URL_BASE string
@@ -89,4 +90,10 @@ func FetchEnvVar(envVarName string) string {
 	}
 
 	return val
+}
+
+// Throw a string containing a userId (usually as raw input from a request) at this, get back a boolean
+func UserIdValidFormat(userId string) bool {
+	re := regexp.MustCompile("^\\d+$")
+	return re.MatchString(userId)
 }
