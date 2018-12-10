@@ -26,6 +26,7 @@ func main() {
 	r.HandleFunc("/ui", views.Index).Methods("GET")
 	r.HandleFunc("/ui/", views.Index).Methods("GET")
 	r.HandleFunc("/ui/index", views.Index).Methods("GET")
+	r.HandleFunc("/ui/strains", views.Strains).Methods("GET")
 
 	if err := http.ListenAndServe(":"+config.LOCAL_PORT, r); err != nil {
 		log.Fatal(err)
