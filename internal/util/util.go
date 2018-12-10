@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"regexp"
+	"time"
 )
 
 var STATIC_ASSET_URL_BASE string
@@ -24,6 +25,8 @@ type TemplateCommon struct {
 	MastheadTagline    string
 	ShowNav            bool
 }
+
+var TmplCommon TemplateCommon
 
 // Anything we need to initialize in 'util' should go in here,
 // or at least be kicked off from in here
@@ -52,6 +55,13 @@ func Setup() {
 	default:
 		STATIC_ASSET_URL_BASE = config.STATIC_ASSET_URL_BASE_DEFAULT
 	}
+
+	// Initialize the common template struct
+	// Expects STATIC_ASSET_URL_BASE to be set already
+	TmplCommon.PageTitle = config.PAGE_TITLE
+	TmplCommon.CopyrightYear = time.Now().Year()
+	TmplCommon.StaticAssetUrlBase = STATIC_ASSET_URL_BASE
+	TmplCommon.MastheadTagline = config.MASTHEAD_TAGLINE
 }
 
 func SetCommonHttpHeaders(w http.ResponseWriter) {

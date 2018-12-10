@@ -5,12 +5,14 @@ import (
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/controllers"
 	"github.com/jerhow/straindiary/internal/db"
+	"github.com/jerhow/straindiary/internal/util"
 	"log"
 	"net/http"
 )
 
 func main() {
 
+	util.Setup()
 	db.SetUpEnv()
 
 	r := mux.NewRouter()
