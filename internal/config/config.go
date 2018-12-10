@@ -8,7 +8,7 @@ package config
 const LOCAL_PORT string = "3000"
 
 const PAGE_TITLE string = "Strain Diary: Track Your Trees"
-const MASTHEAD_TAGLINE string = "Tools for Technical Managers"
+const MASTHEAD_TAGLINE string = "Track Your Trees"
 
 const STATIC_ASSET_URL_BASE_PROD string = "https://s3.amazonaws.com/straindiary/"
 const STATIC_ASSET_URL_BASE_STAGE string = "https://s3.amazonaws.com/straindiary/"

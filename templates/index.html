@@ -1,0 +1,41 @@
+{{template "header" .}}
+{{template "index-header-inject" .}}
+{{template "header-end" .}}
+
+<div class="break" style="height: 15px;"></div>
+<div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div>
+<div class="break" style="height: 15px;"></div>
+<form action="/login" method="post">
+    <table>
+        <tr>
+            <td>
+                Email: 
+            </td>
+            <td>
+                <input type="text" id="un" name="un" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Password: 
+            </td>
+            <td>
+                <input type="password" id="pw" name="pw" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="right">
+                <br />
+                <input id="btnSubmit" type="submit" value="Submit" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <br />
+                <h4>{{.LoginMsg}}</h4>
+            </td>
+        </tr>
+    </table>
+</form>
+
+{{template "footer" .}}
