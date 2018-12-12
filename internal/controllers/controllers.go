@@ -44,7 +44,7 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 	type Payload struct {
 		Msg        string
-		StrainData []db.StrainRow
+		StrainData map[int]db.StrainRow
 	}
 	payload := Payload{
 		Msg: "",
@@ -62,7 +62,7 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 	sortBySQL, orderBySQL := helpers.Strain_GET_SortOrderQsParams(sortByRaw, orderByRaw)
 
-	var strainRows []db.StrainRow
+	var strainRows map[int]db.StrainRow
 	strainRows = db.UserStrainList(userId, sortBySQL, orderBySQL)
 	payload.StrainData = strainRows
 

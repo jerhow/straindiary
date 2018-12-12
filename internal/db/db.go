@@ -62,11 +62,9 @@ type StrainRow struct {
 }
 
 // Expects the user's id, and sortBy and orderBy values
-// Returns a slice of db.StrainRow structs
+// Returns a numericall-indexed map of db.StrainRow structs
 // NOTE: Assumes that sortBy and orderBy have been sanity-checked
-func UserStrainList(userId int, sortBy string, orderBy string) []StrainRow {
-
-	StrainRows := make([]StrainRow, 0)
+func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow {
 
 	dbh, err := sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
@@ -90,15 +88,19 @@ func UserStrainList(userId int, sortBy string, orderBy string) []StrainRow {
 	util.ErrChk(err)
 	defer rows.Close()
 
-	for rows.Next() { // for each row, scan the result into the EmpRow struct
+	indexedRows := make(map[int]StrainRow)
+	idx := 0
+	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
 		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.CreatedAt)
 		util.ErrChk(err)
-		// then append the struct to the slice
-		StrainRows = append(StrainRows, row)
+
+		// then add the struct containing the row values to the indexed map of rows, and increment the index
+		indexedRows[idx] = row
+		idx++
 	}
 
-	return StrainRows
+	return indexedRows
 }
 
 // Takes the relevant values for the INSERT
