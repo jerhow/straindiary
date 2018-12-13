@@ -7,24 +7,15 @@
 <div class="break" style="height: 15px;"></div>
 
 
-
-<!--
-<form action="/login" method="post">
+<h3>New Strain</h3>
+<form id="new_strain">
     <table>
         <tr>
             <td>
-                Email: 
+                Name: 
             </td>
             <td>
-                <input type="text" id="un" name="un" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Password: 
-            </td>
-            <td>
-                <input type="password" id="pw" name="pw" />
+                <input type="text" id="name" name="name" size="50" />
             </td>
         </tr>
         <tr>
@@ -41,6 +32,60 @@
         </tr>
     </table>
 </form>
--->
+
+<div id="strain_container"></div>
+
+<script type="text/javascript">
+var sd = {
+    request: new XMLHttpRequest(),
+    resp: "",
+    data: null,
+    buildStrainOutput: function() {
+        // console.log(this.data.StrainData);
+        var strainDivs = [];
+        var strainDiv = "";
+        var idx, strainId, userId, strainName, createdAt = null;
+        var strainCount = 0;
+        for (idx in this.data.StrainData) {
+            strainCount++;
+        }
+        
+        for(var idx = 0; idx < strainCount; idx++) {
+            // console.log(this.data.StrainData[idx]);
+            strainId = this.data.StrainData[idx]["Id"];
+            userId = this.data.StrainData[idx]["UserId"];
+            strainName = this.data.StrainData[idx]["StrainName"];
+            createdAt = this.data.StrainData[idx]["CreatedAt"];
+            strainDiv = "" +
+                "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
+                "<h4>" + strainName + "</h4>" +
+                "</div>";
+            console.log(strainDiv);
+            strainDivs.push(strainDiv);
+        }
+        
+        document.getElementById("strain_container").innerHTML = strainDivs.join("");
+        return true;
+    }
+};
+
+sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
+
+sd.request.onload = function() {
+  if (sd.request.status >= 200 && sd.request.status < 400) {
+    sd.resp = sd.request.responseText;
+    sd.data = JSON.parse(sd.resp);
+    sd.buildStrainOutput();
+  } else {
+    console.log("We reached our target server, but it returned an error")
+  }
+};
+
+sd.request.onerror = function() {
+  // There was a connection error of some sort
+};
+
+sd.request.send();
+</script>
 
 {{template "footer" .}}
