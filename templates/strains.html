@@ -15,13 +15,13 @@
                 Name: 
             </td>
             <td>
-                <input type="text" id="name" name="name" size="50" />
+                <input type="text" id="strain_name" name="strain_name" size="75" maxlength="100" />
             </td>
         </tr>
         <tr>
             <td colspan="2" align="right">
                 <br />
-                <input id="btnSubmit" type="submit" value="Submit" />
+                <input id="btnSubmit" type="button" value="Submit" onclick="sd.sendNewStrain();" />
             </td>
         </tr>
         <tr>
@@ -40,6 +40,25 @@ var sd = {
     request: new XMLHttpRequest(),
     resp: "",
     data: null,
+    viewStrains: function() {
+        sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
+
+        sd.request.onload = function() {
+            if (sd.request.status >= 200 && sd.request.status < 400) {
+                sd.resp = sd.request.responseText;
+                sd.data = JSON.parse(sd.resp);
+                sd.buildStrainOutput();
+            } else {
+                console.log("We reached our target server, but it returned an error")
+            }
+        };
+
+        sd.request.onerror = function() {
+        // There was a connection error of some sort
+        };
+
+        sd.request.send();
+    },
     buildStrainOutput: function() {
         // console.log(this.data.StrainData);
         var strainDivs = [];
@@ -60,32 +79,74 @@ var sd = {
                 "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
                 "<h4>" + strainName + "</h4>" +
                 "</div>";
-            console.log(strainDiv);
             strainDivs.push(strainDiv);
         }
         
         document.getElementById("strain_container").innerHTML = strainDivs.join("");
         return true;
+    },
+    sendNewStrain: function(data) {
+        var XHR = new XMLHttpRequest();
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        var name;
+
+        var userId = "2";
+        var strain_name = document.getElementById("strain_name").value;
+        urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
+        urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
+  
+        // Combine the pairs into a single string and replace all %-encoded spaces to 
+        // the '+' character; matches the behaviour of browser form submissions.
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+         // Define what happens on successful data submission
+        XHR.addEventListener('load', function(event) {
+            console.log('Yeah! Data sent and response loaded.');
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener('error', function(event) {
+            console.log('Oops! Something goes wrong.');
+        });
+
+        // Set up our request
+        XHR.open('POST', '/strain');
+
+        // Add the required HTTP header for form data POST requests
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        XHR.onreadystatechange = function () {
+            if(XHR.readyState === 4 && XHR.status === 200) {
+                console.log(XHR.responseText);
+                sd.viewStrains();
+            }
+        };
+
+        // Finally, send our data.
+        XHR.send(urlEncodedData);
     }
 };
 
-sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
+sd.viewStrains();
 
-sd.request.onload = function() {
-  if (sd.request.status >= 200 && sd.request.status < 400) {
-    sd.resp = sd.request.responseText;
-    sd.data = JSON.parse(sd.resp);
-    sd.buildStrainOutput();
-  } else {
-    console.log("We reached our target server, but it returned an error")
-  }
-};
+// sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
 
-sd.request.onerror = function() {
-  // There was a connection error of some sort
-};
+// sd.request.onload = function() {
+//   if (sd.request.status >= 200 && sd.request.status < 400) {
+//     sd.resp = sd.request.responseText;
+//     sd.data = JSON.parse(sd.resp);
+//     sd.buildStrainOutput();
+//   } else {
+//     console.log("We reached our target server, but it returned an error")
+//   }
+// };
 
-sd.request.send();
+// sd.request.onerror = function() {
+//   // There was a connection error of some sort
+// };
+
+// sd.request.send();
 </script>
 
 {{template "footer" .}}
