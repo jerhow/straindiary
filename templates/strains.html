@@ -6,7 +6,7 @@
 <div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div>
 <div class="break" style="height: 15px;"></div>
 
-
+<!--
 <h3>New Strain</h3>
 <form id="new_strain">
     <table>
@@ -15,7 +15,7 @@
                 Name: 
             </td>
             <td>
-                <input type="text" id="strain_name" name="strain_name" size="75" maxlength="100" />
+                <input type="text" id="strain_name" name="strain_name" size="25" maxlength="100" />
             </td>
         </tr>
         <tr>
@@ -32,6 +32,7 @@
         </tr>
     </table>
 </form>
+-->
 
 <div id="strain_container"></div>
 
@@ -77,7 +78,7 @@ var sd = {
             createdAt = this.data.StrainData[idx]["CreatedAt"];
             strainDiv = "" +
                 "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
-                "<h4>" + strainName + "</h4>" +
+                "<div id=\"strain_name_\"" + strainId + " class=\"strain_name\">" + strainName + "</div>" +
                 "</div>";
             strainDivs.push(strainDiv);
         }

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-<!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>{{.Common.PageTitle}}</title>
 <!-- <link rel="stylesheet" type="text/css" href="{{ .Common.StaticAssetUrlBase }}base.css" media="all"> -->
@@ -53,9 +53,40 @@ HR {
 
 .strain_div {
     border: 1px solid black;
-    width: 200px;
+    width: 85%;
     margin: 15px;
     padding: 5px;
+    /* display: block; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.strain_name {
+    text-align: left;
+    vertical-align: top;
+    height: 75px;
+}
+
+#outer_container {
+    /* height: 90%; */
+    width: 100%;
+    /* border: 2px solid green; */
+    margin: 0 auto;
+    text-align: center;
+}
+
+@media screen and (min-width: 275px) and (max-width: 1023px) { 
+    #outer_container {
+        width: 100%;
+        /* border-color: blue; */
+    }
+}
+
+@media screen and (min-width: 1024px) { 
+    #outer_container {
+        width: 1000px;
+        /* border-color: red; */
+    }
 }
 </style>
 
