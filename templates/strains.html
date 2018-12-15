@@ -6,33 +6,23 @@
 <div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div>
 <div class="break" style="height: 15px;"></div>
 
-<!--
-<h3>New Strain</h3>
-<form id="new_strain">
-    <table>
-        <tr>
-            <td>
-                Name: 
-            </td>
-            <td>
+<button id="btn_add_a_strain">Add a strain</button>
+<div id="new_strain_form_container">
+    <h3>New Strain</h3>
+    <form id="new_strain">
+        <ul class="new_strain_form">
+            <li>
+                <label>Name</label>
                 <input type="text" id="strain_name" name="strain_name" size="25" maxlength="100" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right">
-                <br />
+            </li>
+            <li>
+                <!-- NOTE: Don't use a button tag here - it causes the POST data to be sent in the URL for some reason -->
+                <!-- <button id="btnSubmit" onclick="sd.sendNewStrain();">Submit</button> -->
                 <input id="btnSubmit" type="button" value="Submit" onclick="sd.sendNewStrain();" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <br />
-                <h4>{{.LoginMsg}}</h4>
-            </td>
-        </tr>
-    </table>
-</form>
--->
+            </li>
+        </ul>
+    </form>
+</div> <!-- "new_strain_container" -->
 
 <div id="strain_container"></div>
 
@@ -126,28 +116,15 @@ var sd = {
 
         // Finally, send our data.
         XHR.send(urlEncodedData);
+    },
+    popNewStrainForm: function() {
+        document.getElementById("btn_add_a_strain").style.setProperty("display", "none");
+        document.getElementById("new_strain_form_container").style.setProperty("display", "inline");
     }
 };
 
 sd.viewStrains();
-
-// sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
-
-// sd.request.onload = function() {
-//   if (sd.request.status >= 200 && sd.request.status < 400) {
-//     sd.resp = sd.request.responseText;
-//     sd.data = JSON.parse(sd.resp);
-//     sd.buildStrainOutput();
-//   } else {
-//     console.log("We reached our target server, but it returned an error")
-//   }
-// };
-
-// sd.request.onerror = function() {
-//   // There was a connection error of some sort
-// };
-
-// sd.request.send();
+document.getElementById("btn_add_a_strain").addEventListener("click", sd.popNewStrainForm);
 </script>
 
 {{template "footer" .}}
