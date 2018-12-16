@@ -58,7 +58,14 @@ type StrainRow struct {
 	Id         int
 	UserId     int
 	StrainName string
+	SativaPct  int
+	IndicaPct  int
+	ThcPct     int
+	CbdPct     int
+	Stars      int
+	Comments   string
 	CreatedAt  string
+	ModifiedAt string
 }
 
 // Expects the user's id, and sortBy and orderBy values
@@ -73,11 +80,29 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	err = dbh.Ping()
 	util.ErrChk(err)
 
+	// sql := `SELECT
+	// 			id,
+	// 			user_id,
+	// 			strain_name,
+	// 			date_format(created_at, '%c/%e/%Y') as created_at
+	// 		FROM
+	// 			t_user_strains
+	// 		WHERE
+	// 			user_id = ?
+	// 		ORDER BY ` + sortBy + ` ` + orderBy + `;`
+
 	sql := `SELECT 
 				id,
 				user_id,
 				strain_name,
-				date_format(created_at, '%c/%e/%Y') as created_at
+				sativa_pct,
+				indica_pct,
+				thc_pct,
+				cbd_pct,
+				stars,
+				comments,
+				date_format(created_at, '%c/%e/%Y %r') as created_at,
+				date_format(modified_at, '%c/%e/%Y %r') as modified_at
 			FROM 
 				t_user_strains
 			WHERE
@@ -92,7 +117,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	idx := 0
 	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
-		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.CreatedAt)
+		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.SativaPct, &row.IndicaPct,
+			&row.ThcPct, &row.CbdPct, &row.Stars, &row.Comments, &row.CreatedAt, &row.ModifiedAt)
 		util.ErrChk(err)
 
 		// then add the struct containing the row values to the indexed map of rows, and increment the index
