@@ -2,27 +2,11 @@
 {{template "index-header-inject" .}}
 {{template "header-end" .}}
 
-<div class="break" style="height: 15px;"></div>
-<div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div>
+<!-- <div class="break" style="height: 15px;"></div>
+<div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div> -->
 <div class="break" style="height: 15px;"></div>
 
 <button id="btn_add_a_strain">Add a strain</button>
-<div id="new_strain_form_container">
-    <h3>New Strain</h3>
-    <form id="new_strain">
-        <ul class="new_strain_form">
-            <li>
-                <label>Name</label>
-                <input type="text" id="strain_name" name="strain_name" size="25" maxlength="100" />
-            </li>
-            <li>
-                <!-- NOTE: Don't use a button tag here - it causes the POST data to be sent in the URL for some reason -->
-                <!-- <button id="btnSubmit" onclick="sd.sendNewStrain();">Submit</button> -->
-                <input id="btnSubmit" type="button" value="Submit" onclick="sd.sendNewStrain();" />
-            </li>
-        </ul>
-    </form>
-</div> <!-- "new_strain_container" -->
 
 <div id="strain_container"></div>
 
@@ -31,6 +15,7 @@ var sd = {
     request: new XMLHttpRequest(),
     resp: "",
     data: null,
+    modal: null,
     viewStrains: function() {
         sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
 
@@ -118,13 +103,50 @@ var sd = {
         XHR.send(urlEncodedData);
     },
     popNewStrainForm: function() {
-        document.getElementById("btn_add_a_strain").style.setProperty("display", "none");
-        document.getElementById("new_strain_form_container").style.setProperty("display", "inline");
+        sd.modal.open();
+    },
+    newStrainForm: "" +
+        "<div id='new_strain_form_container'>" +
+        "   <h3>Add a Strain</h3>" +
+        "   <form id='new_strain'>" +
+        "       <ul class='new_strain_form'>" +
+        "           <li>" +
+        "               <label>Name</label>" +
+        "               <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' />" +
+        "           </li>" +
+        "       </ul>" +
+        "   </form>" +
+        "</div>" +
+    "",
+    instantiateModal: function() {
+        this.modal = new tingle.modal({
+            footer: true,
+            stickyFooter: true,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+        });
+
+        sd.modal.setContent(sd.newStrainForm);
+
+        sd.modal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.closeModal(true);
+        });
+
+        sd.modal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--danger tingle-btn--pull-right', function() {
+            sd.closeModal(false);
+        });
+    },
+    closeModal: function(submitForm) {
+        if(submitForm === true) {
+            sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
+        }
+        sd.modal.close();
     }
 };
 
 sd.viewStrains();
 document.getElementById("btn_add_a_strain").addEventListener("click", sd.popNewStrainForm);
+sd.instantiateModal();
 </script>
 
 {{template "footer" .}}
