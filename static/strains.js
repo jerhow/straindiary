@@ -1,0 +1,132 @@
+var sd = {
+    request: new XMLHttpRequest(),
+    resp: "",
+    data: null,
+    modal: null,
+    viewStrains: function() {
+        sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
+
+        sd.request.onload = function() {
+            if (sd.request.status >= 200 && sd.request.status < 400) {
+                sd.resp = sd.request.responseText;
+                sd.data = JSON.parse(sd.resp);
+                sd.buildStrainOutput();
+            } else {
+                console.log("We reached our target server, but it returned an error")
+            }
+        };
+
+        sd.request.onerror = function() {
+        // There was a connection error of some sort
+        };
+
+        sd.request.send();
+    },
+    buildStrainOutput: function() {
+        // console.log(this.data.StrainData);
+        var strainDivs = [];
+        var strainDiv = "";
+        var idx, strainId, userId, strainName, createdAt = null;
+        var strainCount = 0;
+        for (idx in this.data.StrainData) {
+            strainCount++;
+        }
+        
+        for(var idx = 0; idx < strainCount; idx++) {
+            // console.log(this.data.StrainData[idx]);
+            strainId = this.data.StrainData[idx]["Id"];
+            userId = this.data.StrainData[idx]["UserId"];
+            strainName = this.data.StrainData[idx]["StrainName"];
+            createdAt = this.data.StrainData[idx]["CreatedAt"];
+            strainDiv = "" +
+                "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
+                "<div id=\"strain_name_\"" + strainId + " class=\"strain_name\">" + strainName + "</div>" +
+                "</div>";
+            strainDivs.push(strainDiv);
+        }
+        
+        document.getElementById("strain_container").innerHTML = strainDivs.join("");
+        return true;
+    },
+    sendNewStrain: function(data) {
+        var XHR = new XMLHttpRequest();
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        var name;
+
+        var userId = "2";
+        var strain_name = document.getElementById("strain_name").value;
+        urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
+        urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
+  
+        // Combine the pairs into a single string and replace all %-encoded spaces to 
+        // the '+' character; matches the behaviour of browser form submissions.
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+         // Define what happens on successful data submission
+        XHR.addEventListener('load', function(event) {
+            console.log('Yeah! Data sent and response loaded.');
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener('error', function(event) {
+            console.log('Oops! Something goes wrong.');
+        });
+
+        // Set up our request
+        XHR.open('POST', '/strain');
+
+        // Add the required HTTP header for form data POST requests
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        XHR.onreadystatechange = function () {
+            if(XHR.readyState === 4 && XHR.status === 200) {
+                console.log(XHR.responseText);
+                sd.viewStrains();
+            }
+        };
+
+        // Finally, send our data.
+        XHR.send(urlEncodedData);
+    },
+    popNewStrainForm: function() {
+        sd.modal.open();
+    },
+    newStrainForm: "" +
+        "<div id='new_strain_form_container'>" +
+        "   <h3>Add a Strain</h3>" +
+        "   <form id='new_strain'>" +
+        "       <ul class='new_strain_form'>" +
+        "           <li>" +
+        "               <label>Name</label>" +
+        "               <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' />" +
+        "           </li>" +
+        "       </ul>" +
+        "   </form>" +
+        "</div>" +
+    "",
+    instantiateModal: function() {
+        this.modal = new tingle.modal({
+            footer: true,
+            stickyFooter: true,
+            closeMethods: ['overlay', 'button', 'escape'],
+            closeLabel: "Close",
+        });
+
+        sd.modal.setContent(sd.newStrainForm);
+
+        sd.modal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.closeModal(true);
+        });
+
+        sd.modal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            sd.closeModal(false);
+        });
+    },
+    closeModal: function(submitForm) {
+        if(submitForm === true) {
+            sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
+        }
+        sd.modal.close();
+    }
+};
