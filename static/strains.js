@@ -23,9 +23,7 @@ var sd = {
         sd.request.send();
     },
     buildStrainOutput: function() {
-        // console.log(this.data.StrainData);
         var strainDivs = [];
-        var strainDiv = "";
         var idx, strainId, userId, strainName, createdAt = null;
         var strainCount = 0;
         for (idx in this.data.StrainData) {
@@ -33,16 +31,15 @@ var sd = {
         }
         
         for(var idx = 0; idx < strainCount; idx++) {
-            // console.log(this.data.StrainData[idx]);
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
             createdAt = this.data.StrainData[idx]["CreatedAt"];
-            strainDiv = "" +
+            strainDivs.push("" +
                 "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
                 "<div id=\"strain_name_\"" + strainId + " class=\"strain_name\">" + strainName + "</div>" +
-                "</div>";
-            strainDivs.push(strainDiv);
+                "</div>"
+            );
         }
         
         document.getElementById("strain_container").innerHTML = strainDivs.join("");
