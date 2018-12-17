@@ -93,12 +93,35 @@ var sd = {
         "<div id='new_strain_form_container'>" +
         "   <h3>Add a Strain</h3>" +
         "   <form id='new_strain'>" +
-        "       <ul class='new_strain_form'>" +
-        "           <li>" +
-        "               <label>Name</label>" +
-        "               <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' />" +
-        "           </li>" +
-        "       </ul>" +
+        "       <table width='100%'>" +
+        "           <tr>" +
+        "               <td>" +
+        "                   <label>Name</label>" +
+        "               </td>" +
+        "               <td>" +
+        "                   <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' />" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td>" +
+        "                   <label>Rating</label>" +
+        "               </td>" +
+        "               <td>" +
+        "                   <span class='starRating'>" +
+        "                       <input id='rating5' type='radio' name='rating' value='5'>" +
+        "                       <label for='rating5'>5</label>" +
+        "                       <input id='rating4' type='radio' name='rating' value='4'>" +
+        "                       <label for='rating4'>4</label>" +
+        "                       <input id='rating3' type='radio' name='rating' value='3'>" +
+        "                       <label for='rating3'>3</label>" +
+        "                       <input id='rating2' type='radio' name='rating' value='2'>" +
+        "                       <label for='rating2'>2</label>" +
+        "                       <input id='rating1' type='radio' name='rating' value='1'>" +
+        "                       <label for='rating1'>1</label>" +
+        "                   </span>" +
+        "               </td>" +
+        "           </tr>" +
+        "       </table>" +
         "   </form>" +
         "</div>" +
     "",
