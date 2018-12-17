@@ -80,17 +80,6 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	// sql := `SELECT
-	// 			id,
-	// 			user_id,
-	// 			strain_name,
-	// 			date_format(created_at, '%c/%e/%Y') as created_at
-	// 		FROM
-	// 			t_user_strains
-	// 		WHERE
-	// 			user_id = ?
-	// 		ORDER BY ` + sortBy + ` ` + orderBy + `;`
-
 	sql := `SELECT 
 				id,
 				user_id,
