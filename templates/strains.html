@@ -11,7 +11,7 @@
 <div id="strain_container"></div>
 
 <link rel="stylesheet" type="text/css" href="{{ .Common.StaticAssetUrlBase }}star-rating-widget/stars.css" media="all">
-<script src="{{ .Common.StaticAssetUrlBase }}strains.js"></script>
+<script src="{{ .Common.StaticAssetUrlBase }}strains.js?{{.Nonce}}"></script>
 
 <script type="text/javascript">
 sd.viewStrains();

@@ -7,15 +7,10 @@
 package views
 
 import (
-	// "fmt"
-	// "net/url"
-	// "encoding/json"
+	"github.com/jerhow/straindiary/internal/util"
 	"html/template"
 	"net/http"
-	// "regexp"
-	// "strconv"
-	// "strings"
-	"github.com/jerhow/straindiary/internal/util"
+	"time"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -49,12 +44,14 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		LoginMsg  string
 		UserMsg   template.HTML
 		Common    util.TemplateCommon
+		Nonce     int64
 	}
 	data := PageData{
 		BodyTitle: "Welcome!",
 		LoginMsg:  "",
 		UserMsg:   template.HTML(""),
 		Common:    util.TmplCommon,
+		Nonce:     time.Now().UnixNano(),
 	}
 
 	tmpl := template.Must(template.ParseFiles(
@@ -64,4 +61,9 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		"templates/header.html",
 		"templates/footer.html"))
 	tmpl.Execute(w, data)
+}
+
+func GetEpochNano() int64 {
+	// REF: https://gobyexample.com/epoch
+	return time.Now().UnixNano()
 }
