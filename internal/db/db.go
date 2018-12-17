@@ -64,6 +64,8 @@ type StrainRow struct {
 	CbdPct     int
 	Stars      int
 	Comments   string
+	Company    string
+	Dispensary string
 	CreatedAt  string
 	ModifiedAt string
 }
@@ -90,6 +92,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 				cbd_pct,
 				stars,
 				comments,
+				company,
+				dispensary,
 				date_format(created_at, '%c/%e/%Y %r') as created_at,
 				date_format(modified_at, '%c/%e/%Y %r') as modified_at
 			FROM 
@@ -107,7 +111,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
 		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.SativaPct, &row.IndicaPct,
-			&row.ThcPct, &row.CbdPct, &row.Stars, &row.Comments, &row.CreatedAt, &row.ModifiedAt)
+			&row.ThcPct, &row.CbdPct, &row.Stars, &row.Comments, &row.Company, &row.Dispensary,
+			&row.CreatedAt, &row.ModifiedAt)
 		util.ErrChk(err)
 
 		// then add the struct containing the row values to the indexed map of rows, and increment the index
