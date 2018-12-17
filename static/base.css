@@ -47,10 +47,11 @@ HR {
     text-align: center;
 }
 
-#new_strain_form_container {
+#new_strain_form_container input {
     /* margin-left: auto;
     margin-right: auto; */
     /* margin: 0 auto; */
+    /* border: 1px solid black; */
 }
 
 .new_strain_form {
@@ -87,6 +88,12 @@ HR {
     vertical-align: top;
     height: 75px;
 }
+
+.strain_name_input {
+    border: 2px solid black;
+}
+
+
 
 @media screen and (min-width: 275px) and (max-width: 1023px) { 
     #outer_container {

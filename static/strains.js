@@ -93,20 +93,11 @@ var sd = {
         "<div id='new_strain_form_container'>" +
         "   <h3>Add a Strain</h3>" +
         "   <form id='new_strain'>" +
-        "       <table width='100%'>" +
+        "       <table width='100%' border=1 cellpadding=1 cellspacing=0>" +
         "           <tr>" +
-        "               <td>" +
-        "                   <label>Name</label>" +
-        "               </td>" +
-        "               <td>" +
-        "                   <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' />" +
-        "               </td>" +
-        "           </tr>" +
-        "           <tr>" +
-        "               <td>" +
-        "                   <label>Rating</label>" +
-        "               </td>" +
-        "               <td>" +
+        "               <td colspan=2>" +
+        "                   <input type='text' id='strain_name' name='strain_name' size='40' maxlength='100' value='Name of Strain' />" +
+        "                   &nbsp;&nbsp;&nbsp;&nbsp;" +
         "                   <span class='starRating'>" +
         "                       <input id='rating5' type='radio' name='rating' value='5'>" +
         "                       <label for='rating5'>5</label>" +
@@ -119,6 +110,27 @@ var sd = {
         "                       <input id='rating1' type='radio' name='rating' value='1'>" +
         "                       <label for='rating1'>1</label>" +
         "                   </span>" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td>" +
+        "                   <label>Sativa:</label> <input type='text' id='sativa_pct' name='sativa_pct' size='5' maxlength='3' /> %" +
+        "               </td>" +
+        "               <td>" +
+        "                   <label>Indica</label>: <input type='text' id='indica_pct' name='indica_pct' size='5' maxlength='3' /> %" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td>" +
+        "                   <label>THC:</label> <input type='text' id='thc_pct' name='thc_pct' size='5' maxlength='3' /> %" +
+        "               </td>" +
+        "               <td>" +
+        "                   <label>CBD:</label> <input type='text' id='cbd_pct' name='cbd_pct' size='5' maxlength='3' /> %" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td colspan=2>" +
+        "                   <textarea id='comments' name='comments' rows=15 cols=40>Thoughts, observations, likes, dislikes, comments...</textarea>" +
         "               </td>" +
         "           </tr>" +
         "       </table>" +
