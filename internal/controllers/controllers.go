@@ -87,11 +87,15 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 // Wherein a user's new strain gets written to the DB
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
-
-	// fmt.Printf("%+v\n", r) // dump out the request
-
 	var userId int
 	var strainName string
+	var sativaPct int
+	var indicaPct int
+	var thcPct int
+	var cbdPct int
+	var stars int
+	var comments string
+
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -105,6 +109,12 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainName = r.PostFormValue("strain_name")
+	sativaPct, _ = strconv.Atoi(r.PostFormValue("sativa_pct"))
+	indicaPct, _ = strconv.Atoi(r.PostFormValue("indica_pct"))
+	thcPct, _ = strconv.Atoi(r.PostFormValue("thc_pct"))
+	cbdPct, _ = strconv.Atoi(r.PostFormValue("cbd_pct"))
+	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
+	comments = r.PostFormValue("comments")
 
 	// Check for empty values, validate, sanity check, etc
 	// When we have validation code, we'll invoke it here
@@ -119,7 +129,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("strainName: " + strainName)
 
 	// attempt to write to DB
-	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName)
+	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName, sativaPct, indicaPct,
+		thcPct, cbdPct, stars, comments)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
 		payload.Msg = "Looks like everything was written successfully"

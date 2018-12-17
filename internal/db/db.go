@@ -120,7 +120,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 
 // Takes the relevant values for the INSERT
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
+func WriteNewStrainToDb(userId int, strainName string, sativaPct int, indicaPct int,
+	thcPct int, cbdPct int, stars int, comments string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -134,15 +135,17 @@ func WriteNewStrainToDb(userId int, strainName string) (bool, string) {
 
 	sql := `
 		INSERT INTO t_user_strains
-		(user_id, strain_name)
+		(user_id, strain_name, sativa_pct, indica_pct, thc_pct, cbd_pct, stars, comments)
 		VALUES 
-		(?, ?);`
+		(?, ?, ?, ?, ?, ?, ?, ?);`
 
 	stmtIns, err := dbh.Prepare(sql)
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
-	_, execErr := stmtIns.Exec(userId, strainName) // first return value is 'result', but it's db driver dependent as to whether it gets populated
+	// first return value is 'result', but it's db driver dependent as to whether it gets populated
+	_, execErr := stmtIns.Exec(userId, strainName, sativaPct, indicaPct,
+		thcPct, cbdPct, stars, comments)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false
