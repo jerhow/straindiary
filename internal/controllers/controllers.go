@@ -85,17 +85,8 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 // Wherein a user's new strain gets written to the DB
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
-	var userId int
-	var strainName string
-	var sativaPct int
-	var indicaPct int
-	var thcPct int
-	var cbdPct int
-	var stars int
-	var comments string
-	var company string
-	var dispensary string
-
+	var userId, sativaPct, indicaPct, thcPct, cbdPct, stars int
+	var strainName, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -152,18 +143,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 // Wherein a user strain is update/replaced via PUT
 func Strain_PUT(w http.ResponseWriter, r *http.Request) {
-
-	var userId int
-	var strainId int
-	var strainName string
-	var sativaPct int
-	var indicaPct int
-	var thcPct int
-	var cbdPct int
-	var stars int
-	var comments string
-	var company string
-	var dispensary string
+	var userId, strainId, sativaPct, indicaPct, thcPct, cbdPct, stars int
+	var strainName, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
