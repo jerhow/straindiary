@@ -77,6 +77,10 @@ func ErrChk(err error) {
 	}
 }
 
+func DumpRequest(r *http.Request) {
+	fmt.Printf("%+v\n", r)
+}
+
 // Pass it the ENV variable you want, get back the value.
 // This is environment-sensitive (prod, stage, dev, devlocal).
 // Note the order of precedence in environments:
