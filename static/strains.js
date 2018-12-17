@@ -95,10 +95,11 @@ var sd = {
         "   <form id='new_strain'>" +
         "       <table width='100%' border=1 cellpadding=1 cellspacing=0>" +
         "           <tr>" +
-        "               <td colspan=2>" +
-        "                   <input type='text' id='strain_name' name='strain_name' size='40' maxlength='100' value='Name of Strain' />" +
-        "                   &nbsp;&nbsp;&nbsp;&nbsp;" +
-        "                   <span class='starRating'>" +
+        "               <td>" +
+        "                   <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' value='Name of Strain' />" +
+        "               </td>" +
+        "               <td>" +
+        "                   Rating: <span class='starRating'>" +
         "                       <input id='rating5' type='radio' name='rating' value='5'>" +
         "                       <label for='rating5'>5</label>" +
         "                       <input id='rating4' type='radio' name='rating' value='4'>" +
@@ -130,7 +131,17 @@ var sd = {
         "           </tr>" +
         "           <tr>" +
         "               <td colspan=2>" +
-        "                   <textarea id='comments' name='comments' rows=15 cols=40>Thoughts, observations, likes, dislikes, comments...</textarea>" +
+        "                   <textarea id='comments' name='comments' rows=10 cols=40>Thoughts, observations, likes, dislikes, comments...</textarea>" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td colspan=2>" +
+        "                   <input type='text' id='company' name='company' size='40' maxlength='100' value='Company' />" +
+        "               </td>" +
+        "           </tr>" +
+        "           <tr>" +
+        "               <td colspan=2>" +
+        "                   <input type='text' id='dispensary' name='dispensary' size='40' maxlength='100' value='Dispensary' />" +
         "               </td>" +
         "           </tr>" +
         "       </table>" +
@@ -140,7 +151,7 @@ var sd = {
     instantiateModal: function() {
         this.modal = new tingle.modal({
             footer: true,
-            stickyFooter: true,
+            stickyFooter: false,
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: "Close",
         });
