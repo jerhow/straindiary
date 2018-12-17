@@ -16,8 +16,6 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Hello!")
 
-	db.Db1()
-
 	type Payload struct {
 		Msg string
 	}
