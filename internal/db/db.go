@@ -168,8 +168,9 @@ func WriteNewStrainToDb(userId int, strainName string, sativaPct int, indicaPct 
 
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct int, indicaPct int,
-	thcPct int, cbdPct int, stars int, comments string) (bool, string) {
+func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct int,
+	indicaPct int, thcPct int, cbdPct int, stars int, comments string,
+	company string, dispensary string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -183,7 +184,7 @@ func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct int
 
 	sql := `UPDATE t_user_strains
 			SET strain_name = ?, sativa_pct = ?, indica_pct = ?, thc_pct = ?, cbd_pct = ?, 
-				stars = ?, comments = ?, modified_at = NOW()
+				stars = ?, comments = ?, company = ?, dispensary = ?, modified_at = NOW()
 			WHERE user_id = ? 
 			AND id = ?;`
 
@@ -192,7 +193,7 @@ func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct int
 	defer stmtIns.Close()
 
 	_, execErr := stmtIns.Exec(strainName, sativaPct, indicaPct, thcPct, cbdPct,
-		stars, comments, userId, strainId)
+		stars, comments, company, dispensary, userId, strainId)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false

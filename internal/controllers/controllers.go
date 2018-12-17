@@ -162,6 +162,8 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	var cbdPct int
 	var stars int
 	var comments string
+	var company string
+	var dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -182,6 +184,8 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	cbdPct, _ = strconv.Atoi(r.PostFormValue("cbd_pct"))
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
 	comments = r.PostFormValue("comments")
+	company = r.PostFormValue("company")
+	dispensary = r.PostFormValue("dispensary")
 
 	// TODO: Validation
 	validateResult = true // yeah yeah
@@ -193,7 +197,7 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 
 	// attempt to write to DB
 	dbWriteResult, dbWriteMsg = db.UpdateStrainInDb(userId, strainId, strainName,
-		sativaPct, indicaPct, thcPct, cbdPct, stars, comments)
+		sativaPct, indicaPct, thcPct, cbdPct, stars, comments, company, dispensary)
 	if dbWriteResult {
 		payload.Msg = "Looks like everything was updated successfully"
 		w.WriteHeader(http.StatusOK)
