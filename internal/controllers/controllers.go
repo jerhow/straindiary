@@ -93,6 +93,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	var cbdPct int
 	var stars int
 	var comments string
+	var company string
+	var dispensary string
 
 	var validateResult bool = false
 	var dbWriteResult bool = false
@@ -113,6 +115,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	cbdPct, _ = strconv.Atoi(r.PostFormValue("cbd_pct"))
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
 	comments = r.PostFormValue("comments")
+	company = r.PostFormValue("company")
+	dispensary = r.PostFormValue("dispensary")
 
 	// Check for empty values, validate, sanity check, etc
 	// When we have validation code, we'll invoke it here
@@ -128,7 +132,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 	// attempt to write to DB
 	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName, sativaPct, indicaPct,
-		thcPct, cbdPct, stars, comments)
+		thcPct, cbdPct, stars, comments, company, dispensary)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
 		payload.Msg = "Looks like everything was written successfully"
