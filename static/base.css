@@ -51,28 +51,39 @@ HR {
     /* margin-left: auto;
     margin-right: auto; */
     /* margin: 0 auto; */
-    border: 1px solid black;
+    border: 0px solid black;
     /* margin-top: 0; */
 }
 
-.new_strain_form {
-    border: 1px dotted blue;
-    /* margin: 10px auto; */
-	/* max-width: 400px; */
-	/* padding: 20px 12px 10px 20px; */
+#new_strain_modal_title, 
+#con_strain_name, #con_star_rating, #con_sativa_pct, #con_indica_pct, #con_thc_pct, #con_cbd_pct, 
+#con_comments, #con_company, #con_dispensary {
+    padding-bottom: .25rem;
 }
 
-.new_strain_form li {
-    padding: 0;
-	/* display: block; */
-	list-style: none;
+#con_sativa_pct, #con_indica_pct {
+    float: left;
+    clear: none;
 }
 
-/* .new_strain_form label {
-	padding: 0px;
-	display:block;
-	font-weight: bold;
-} */
+#con_thc_pct, #con_cbd_pct {
+    float: right;
+    clear: right;
+}
+
+#strain_name {
+    width: 13rem;
+}
+
+#sativa_pct, #indica_pct, #thc_pct, #cbd_pct {
+    width: 3rem;
+}
+
+#new_strain_modal_title {
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: underline;
+}
 
 .strain_div {
     border: 1px solid black;

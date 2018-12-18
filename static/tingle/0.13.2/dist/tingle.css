@@ -101,7 +101,7 @@
 }
 
 .tingle-modal-box__content {
-  padding: 1.5rem 1.5rem;
+  padding: 1rem 1.5rem;
 }
 
 .tingle-modal-box__footer {
@@ -186,7 +186,7 @@
 }
 
 .tingle-btn--primary {
-  background-color: #3498db;
+  background-color: #9c3;
 }
 
 .tingle-btn--danger {
