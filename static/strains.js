@@ -91,6 +91,51 @@ var sd = {
     },
     newStrainForm: "" +
         "<div id='new_strain_form_container'>" +
+        "   <div>Add a Strain</div>" +
+        "   <form id='new_strain'>" +
+        "       <div id='con_strain_name'>" +
+        "           <input type='text' id='strain_name' name='strain_name' size='25' maxlength='100' value='Name of Strain' />" +
+        "       </div>" +
+        "       <div id='con_star_rating'>" +
+        "           Rating: <span class='starRating'>" +
+        "               <input id='rating5' type='radio' name='rating' value='5'>" +
+        "               <label for='rating5'>5</label>" +
+        "               <input id='rating4' type='radio' name='rating' value='4'>" +
+        "               <label for='rating4'>4</label>" +
+        "               <input id='rating3' type='radio' name='rating' value='3'>" +
+        "               <label for='rating3'>3</label>" +
+        "               <input id='rating2' type='radio' name='rating' value='2'>" +
+        "               <label for='rating2'>2</label>" +
+        "               <input id='rating1' type='radio' name='rating' value='1'>" +
+        "               <label for='rating1'>1</label>" +
+        "           </span>" +
+        "       </div>" +
+        "       <div id='con_sativa_pct'>" +
+        "           <label>Sativa:</label> <input type='number' id='sativa_pct' name='sativa_pct' /> %" +
+        "       </div>" +
+        "       <div id='con_indica_pct'>" +
+        "           <label>Indica</label>: <input type='number' id='indica_pct' name='indica_pct' /> %" +
+        "       </div>" +
+        "       <div id='con_thc_pct'>" +
+        "           <label>THC:</label> <input type='number' id='thc_pct' name='thc_pct' /> %" +
+        "       </div>" +
+        "       <div id='con_cbd_pct'>" +
+        "           <label>CBD:</label> <input type='number' id='cbd_pct' name='cbd_pct' /> %" +
+        "       </div>" +
+        "       <div id='con_comments'>" +
+        "           <textarea id='comments' name='comments' rows=10 cols=30>Thoughts, observations, likes, dislikes, comments...</textarea>" +
+        "       </div>" +
+        "       <div id='con_company'>" +
+        "           <input type='text' id='company' name='company' value='Company' />" +
+        "       </div>" +
+        "       <div id='con_dispensary'>" +
+        "           <input type='text' id='dispensary' name='dispensary' value='Dispensary' />" +
+        "       </div>" +
+        "   </form>" +
+        "</div>" +
+    "",
+    newStrainFormTable: "" +
+        "<div id='new_strain_form_container'>" +
         "   <h3>Add a Strain</h3>" +
         "   <form id='new_strain'>" +
         "       <table width='100%' border=1 cellpadding=1 cellspacing=0>" +
@@ -151,7 +196,7 @@ var sd = {
     instantiateModal: function() {
         this.modal = new tingle.modal({
             footer: true,
-            stickyFooter: false,
+            stickyFooter: true,
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: "Close",
         });

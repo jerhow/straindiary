@@ -47,11 +47,12 @@ HR {
     text-align: center;
 }
 
-#new_strain_form_container input {
+#new_strain_form_container {
     /* margin-left: auto;
     margin-right: auto; */
     /* margin: 0 auto; */
-    /* border: 1px solid black; */
+    border: 1px solid black;
+    /* margin-top: 0; */
 }
 
 .new_strain_form {
@@ -89,9 +90,9 @@ HR {
     height: 75px;
 }
 
-.strain_name_input {
+/* .strain_name_input {
     border: 2px solid black;
-}
+} */
 
 
 
