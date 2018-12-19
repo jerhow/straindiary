@@ -130,7 +130,7 @@ var sd = {
         "       <input type='hidden' id='stars' name='user_id' value='" + userId + "' />" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
-        "           <input type='text' id='strain_name' name='strain_name' />" +
+        "           <input type='text' id='strain_name' name='strain_name' tabindex='100' />" +
         "       </div>" +
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +
@@ -147,26 +147,26 @@ var sd = {
         "           </span>" +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
-        "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' /> %" +
+        "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' /> %" +
         "       </div>" +
         "       <div id='con_thc_pct'>" +
-        "           <label id='thc_pct_label'>THC:</label> <input type='number' step='.01' id='thc_pct' name='thc_pct' /> %" +
+        "           <label id='thc_pct_label'>THC:</label> <input type='number' step='.01' id='thc_pct' name='thc_pct' tabindex='103' /> %" +
         "       </div>" +
         "       <div id='con_indica_pct'>" +
-        "           <label id='indica_pct_label'>Indica:</label> <input type='number' step='.01' id='indica_pct' name='indica_pct' /> %" +
+        "           <label id='indica_pct_label'>Indica:</label> <input type='number' step='.01' id='indica_pct' name='indica_pct' tabindex='102' /> %" +
         "       </div>" +
         "       <div id='con_cbd_pct'>" +
-        "           <label id='cbd_pct_label'>CBD:</label> <input type='number' step='.01' id='cbd_pct' name='cbd_pct' /> %" +
+        "           <label id='cbd_pct_label'>CBD:</label> <input type='number' step='.01' id='cbd_pct' name='cbd_pct' tabindex='104' /> %" +
         "       </div>" +
         "       <div id='con_company'>" +
-        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' />" +
+        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' tabindex='105' />" +
         "       </div>" +
         "       <div id='con_dispensary'>" +
-        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' />" +
+        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' tabindex='106' />" +
         "       </div>" +
         "       <div id='con_comments'>" +
         "           <label>Comments:</label> " +
-        "           <textarea id='comments' name='comments' rows=4 cols=30></textarea>" +
+        "           <textarea id='comments' name='comments' rows=4 cols=30 tabindex='107'></textarea>" +
         "       </div>" +
         "   </form>" +
         "</div>";
