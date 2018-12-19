@@ -24,7 +24,8 @@ var sd = {
     },
     buildStrainOutput: function() {
         var strainDivs = [];
-        var idx, strainId, userId, strainName, createdAt = null;
+        var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
+        var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = 0;
         for (idx in this.data.StrainData) {
             strainCount++;
@@ -34,10 +35,21 @@ var sd = {
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
+            sativaPct = this.data.StrainData[idx]["SativaPct"];
+            indicaPct = this.data.StrainData[idx]["IndicaPct"];
+            thcPct = this.data.StrainData[idx]["ThcPct"];
+            cbdPct = this.data.StrainData[idx]["CbdPct"];
+            stars = this.data.StrainData[idx]["Stars"];
+            comments = this.data.StrainData[idx]["Comments"];
+            company = this.data.StrainData[idx]["Company"];
+            dispensary = this.data.StrainData[idx]["Dispensary"];
             createdAt = this.data.StrainData[idx]["CreatedAt"];
+            modifiedAt = this.data.StrainData[idx]["ModifiedAt"];
             strainDivs.push("" +
-                "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
+                "<div id='strain_" + strainId + " class='strain_div'>" +
                 "<div id=\"strain_name_\"" + strainId + " class=\"strain_name_display\">" + strainName + "</div>" +
+                sativaPct + " " + indicaPct + " " + thcPct + " " + cbdPct + " " + stars + " " + comments + " " + 
+                company + " " + dispensary + " " + createdAt + " " + modifiedAt + "<br />" +
                 "</div>"
             );
         }
