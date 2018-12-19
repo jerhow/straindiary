@@ -62,7 +62,7 @@ HR {
 }
 
 #strain_name {
-    size: 18;
+    width: 14rem;
 }
 
 #con_star_rating {
@@ -103,9 +103,17 @@ HR {
     margin-right: 11px; /* yeah yeah... */
 }
 
+#company {
+    width: 12rem;
+}
+
 #con_dispensary  {
     clear: left;
     margin-bottom: 1rem;
+}
+
+#dispensary {
+    width: 12rem;
 }
 
 #con_comments {
@@ -118,10 +126,6 @@ HR {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 100%;
-}
-
-#strain_name {
-    width: 16rem;
 }
 
 #sativa_pct, #indica_pct, #thc_pct, #cbd_pct {
