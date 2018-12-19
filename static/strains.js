@@ -114,23 +114,23 @@ var sd = {
         "       <div id='con_sativa_pct'>" +
         "           <label>Sativa:</label> <input type='number' id='sativa_pct' name='sativa_pct' /> %" +
         "       </div>" +
+        "       <div id='con_indica_pct'>" +
+        "           <label>Indica:</label> <input type='number' id='indica_pct' name='indica_pct' /> %" +
+        "       </div>" +
         "       <div id='con_thc_pct'>" +
         "           <label>THC:</label> <input type='number' id='thc_pct' name='thc_pct' /> %" +
-        "       </div>" +
-        "       <div id='con_indica_pct'>" +
-        "           <label>Indica</label>: <input type='number' id='indica_pct' name='indica_pct' /> %" +
         "       </div>" +
         "       <div id='con_cbd_pct'>" +
         "           <label>CBD:</label> <input type='number' id='cbd_pct' name='cbd_pct' /> %" +
         "       </div>" +
-        "       <div id='con_comments'>" +
-        "           <textarea id='comments' name='comments' rows=10 cols=30>Thoughts, observations, likes, dislikes, comments...</textarea>" +
-        "       </div>" +
         "       <div id='con_company'>" +
-        "           <input type='text' id='company' name='company' value='Company' />" +
+        "           <label>Company:</label> <input type='text' id='company' name='company' />" +
         "       </div>" +
         "       <div id='con_dispensary'>" +
-        "           <input type='text' id='dispensary' name='dispensary' value='Dispensary' />" +
+        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' />" +
+        "       </div>" +
+        "       <div id='con_comments'>" +
+        "           <textarea id='comments' name='comments' rows=10 cols=30>Thoughts, observations, likes, dislikes, comments...</textarea>" +
         "       </div>" +
         "   </form>" +
         "</div>" +
@@ -138,7 +138,7 @@ var sd = {
     instantiateModal: function() {
         this.modal = new tingle.modal({
             footer: true,
-            stickyFooter: true,
+            stickyFooter: false,
             closeMethods: ['overlay', 'button', 'escape'],
             closeLabel: "Close",
         });

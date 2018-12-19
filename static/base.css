@@ -40,7 +40,6 @@ HR {
 }
 
 #outer_container {
-    /* height: 90%; */
     width: 100%;
     border: 1px solid green;
     margin: 0 auto;
@@ -48,27 +47,62 @@ HR {
 }
 
 #new_strain_form_container {
-    /* margin-left: auto;
-    margin-right: auto; */
-    /* margin: 0 auto; */
     border: 0px solid black;
-    /* margin-top: 0; */
 }
 
-#new_strain_modal_title, 
-#con_strain_name, #con_star_rating, #con_sativa_pct, #con_indica_pct, #con_thc_pct, #con_cbd_pct, 
-#con_comments, #con_company, #con_dispensary {
-    padding-bottom: .25rem;
+#new_strain_modal_title {
+    padding-bottom: .5rem;
 }
 
-#con_sativa_pct, #con_indica_pct {
+#con_strain_name {
+    padding-bottom: .5rem;
+}
+
+#con_star_rating {
+    padding-bottom: .5rem;
+}
+
+#con_sativa_pct {
     float: left;
-    clear: none;
+    padding-bottom: .5rem;
 }
 
-#con_thc_pct, #con_cbd_pct {
+#con_indica_pct {
     float: right;
-    clear: right;
+    padding-bottom: .5rem;
+}
+
+#con_thc_pct {
+    float: left;
+    clear: left;
+    padding-bottom: .5rem;
+}
+
+#con_cbd_pct {
+    float: right;
+    padding-bottom: .5rem;
+}
+
+#con_company {
+    clear: left;
+    padding-bottom: .5rem;
+}
+
+#con_dispensary  {
+    clear: left;
+    margin-bottom: 1rem;
+}
+
+#con_comments {
+    clear: left;
+}
+
+#comments {
+    -webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+
+	width: 100%;
 }
 
 #strain_name {
