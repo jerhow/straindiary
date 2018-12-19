@@ -3,6 +3,7 @@ var sd = {
     resp: "",
     data: null,
     modal: null,
+    userId: null,
     viewStrains: function() {
         sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
 
@@ -101,10 +102,12 @@ var sd = {
     popNewStrainForm: function() {
         sd.modal.open();
     },
-    newStrainForm: "" +
+    newStrainForm: function(userId) {
+        return "" +
         "<div id='new_strain_form_container'>" +
         "   <div id='new_strain_modal_title'>New Strain</div>" +
         "   <form id='new_strain_form'>" +
+        "       <input type='hidden' id='user_id' name='user_id' value='" + userId + "' />" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
         "           <input type='text' id='strain_name' name='strain_name' />" +
@@ -146,9 +149,9 @@ var sd = {
         "           <textarea id='comments' name='comments' rows=4 cols=30></textarea>" +
         "       </div>" +
         "   </form>" +
-        "</div>" +
-    "",
-    instantiateModal: function() {
+        "</div>";
+    },
+    instantiateModal: function(userId) {
         this.modal = new tingle.modal({
             footer: true,
             stickyFooter: false,
@@ -156,7 +159,7 @@ var sd = {
             closeLabel: "Close",
         });
 
-        sd.modal.setContent(sd.newStrainForm);
+        sd.modal.setContent(sd.newStrainForm(userId));
 
         sd.modal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.closeModal(true);

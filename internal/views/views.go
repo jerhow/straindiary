@@ -45,6 +45,7 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		UserMsg   template.HTML
 		Common    util.TemplateCommon
 		Nonce     int64
+		UserId    int
 	}
 	data := PageData{
 		BodyTitle: "Welcome!",
@@ -52,6 +53,7 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		UserMsg:   template.HTML(""),
 		Common:    util.TmplCommon,
 		Nonce:     time.Now().UnixNano(),
+		UserId:    2, // TODO: This is obviously temporary
 	}
 
 	tmpl := template.Must(template.ParseFiles(
