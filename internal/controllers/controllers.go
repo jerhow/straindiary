@@ -85,7 +85,8 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 
 // Wherein a user's new strain gets written to the DB
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
-	var userId, sativaPct, indicaPct, thcPct, cbdPct, stars int
+	var userId, stars int
+	var sativaPct, indicaPct, thcPct, cbdPct float64
 	var strainName, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
@@ -100,10 +101,10 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainName = r.PostFormValue("strain_name")
-	sativaPct, _ = strconv.Atoi(r.PostFormValue("sativa_pct"))
-	indicaPct, _ = strconv.Atoi(r.PostFormValue("indica_pct"))
-	thcPct, _ = strconv.Atoi(r.PostFormValue("thc_pct"))
-	cbdPct, _ = strconv.Atoi(r.PostFormValue("cbd_pct"))
+	sativaPct, _ = strconv.ParseFloat(r.PostFormValue("sativa_pct"), 64)
+	indicaPct, _ = strconv.ParseFloat(r.PostFormValue("indica_pct"), 64)
+	thcPct, _ = strconv.ParseFloat(r.PostFormValue("thc_pct"), 64)
+	cbdPct, _ = strconv.ParseFloat(r.PostFormValue("cbd_pct"), 64)
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
 	comments = r.PostFormValue("comments")
 	company = r.PostFormValue("company")
@@ -143,7 +144,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 // Wherein a user strain is update/replaced via PUT
 func Strain_PUT(w http.ResponseWriter, r *http.Request) {
-	var userId, strainId, sativaPct, indicaPct, thcPct, cbdPct, stars int
+	var userId, strainId, stars int
+	var sativaPct, indicaPct, thcPct, cbdPct float64
 	var strainName, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
@@ -159,10 +161,10 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainId, _ = strconv.Atoi(r.PostFormValue("strain_id"))
 	strainName = r.PostFormValue("strain_name")
-	sativaPct, _ = strconv.Atoi(r.PostFormValue("sativa_pct"))
-	indicaPct, _ = strconv.Atoi(r.PostFormValue("indica_pct"))
-	thcPct, _ = strconv.Atoi(r.PostFormValue("thc_pct"))
-	cbdPct, _ = strconv.Atoi(r.PostFormValue("cbd_pct"))
+	sativaPct, _ = strconv.ParseFloat(r.PostFormValue("sativa_pct"), 64)
+	indicaPct, _ = strconv.ParseFloat(r.PostFormValue("indica_pct"), 64)
+	thcPct, _ = strconv.ParseFloat(r.PostFormValue("thc_pct"), 64)
+	cbdPct, _ = strconv.ParseFloat(r.PostFormValue("cbd_pct"), 64)
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
 	comments = r.PostFormValue("comments")
 	company = r.PostFormValue("company")

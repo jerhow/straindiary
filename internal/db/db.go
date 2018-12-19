@@ -58,10 +58,10 @@ type StrainRow struct {
 	Id         int
 	UserId     int
 	StrainName string
-	SativaPct  int
-	IndicaPct  int
-	ThcPct     int
-	CbdPct     int
+	SativaPct  float64
+	IndicaPct  float64
+	ThcPct     float64
+	CbdPct     float64
 	Stars      int
 	Comments   string
 	Company    string
@@ -86,10 +86,10 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 				id,
 				user_id,
 				strain_name,
-				sativa_pct,
-				indica_pct,
-				thc_pct,
-				cbd_pct,
+				ROUND(sativa_pct, 2) AS sativa_pct,
+				ROUND(indica_pct, 2) AS indica_pct,
+				ROUND(thc_pct, 2) AS thc_pct,
+				ROUND(cbd_pct, 2) AS cbd_pct,
 				stars,
 				comments,
 				company,
@@ -125,8 +125,9 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 
 // Takes the relevant values for the INSERT
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func WriteNewStrainToDb(userId int, strainName string, sativaPct int, indicaPct int, thcPct int,
-	cbdPct int, stars int, comments string, company string, dispensary string) (bool, string) {
+func WriteNewStrainToDb(userId int, strainName string, sativaPct float64, indicaPct float64,
+	thcPct float64, cbdPct float64, stars int, comments string, company string,
+	dispensary string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -168,8 +169,8 @@ func WriteNewStrainToDb(userId int, strainName string, sativaPct int, indicaPct 
 
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct int,
-	indicaPct int, thcPct int, cbdPct int, stars int, comments string,
+func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct float64,
+	indicaPct float64, thcPct float64, cbdPct float64, stars int, comments string,
 	company string, dispensary string) (bool, string) {
 
 	var result bool = true
