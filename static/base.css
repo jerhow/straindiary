@@ -58,6 +58,10 @@ HR {
     padding-bottom: .5rem;
 }
 
+#strain_name {
+    size: 18;
+}
+
 #con_star_rating {
     padding-bottom: .5rem;
 }
@@ -98,15 +102,15 @@ HR {
 }
 
 #comments {
+    /* Credit: https://davidwalsh.name/textarea-width */
     -webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-
 	width: 100%;
 }
 
 #strain_name {
-    width: 13rem;
+    width: 16rem;
 }
 
 #sativa_pct, #indica_pct, #thc_pct, #cbd_pct {
@@ -129,17 +133,11 @@ HR {
     margin-right: auto;
 }
 
-.strain_name {
+.strain_name_display {
     text-align: left;
     vertical-align: top;
     height: 75px;
 }
-
-/* .strain_name_input {
-    border: 2px solid black;
-} */
-
-
 
 @media screen and (min-width: 275px) and (max-width: 1023px) { 
     #outer_container {

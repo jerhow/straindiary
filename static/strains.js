@@ -37,7 +37,7 @@ var sd = {
             createdAt = this.data.StrainData[idx]["CreatedAt"];
             strainDivs.push("" +
                 "<div id=\"strain_" + strainId + "\" class=\"strain_div\">" +
-                "<div id=\"strain_name_\"" + strainId + " class=\"strain_name\">" + strainName + "</div>" +
+                "<div id=\"strain_name_\"" + strainId + " class=\"strain_name_display\">" + strainName + "</div>" +
                 "</div>"
             );
         }
@@ -130,7 +130,8 @@ var sd = {
         "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' />" +
         "       </div>" +
         "       <div id='con_comments'>" +
-        "           <textarea id='comments' name='comments' rows=10 cols=30>Thoughts, observations, likes, dislikes, comments...</textarea>" +
+        "           <label>Comments:</label> " +
+        "           <textarea id='comments' name='comments' rows=4 cols=30></textarea>" +
         "       </div>" +
         "   </form>" +
         "</div>" +
