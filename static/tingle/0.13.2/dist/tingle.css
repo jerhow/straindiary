@@ -189,6 +189,7 @@
 .tingle-btn--primary {
   /* background-color: #9c3; */
   background-color: #57ab57;
+  font-size: 1.25rem;
 }
 
 .tingle-btn--danger {

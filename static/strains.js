@@ -91,7 +91,7 @@ var sd = {
     },
     newStrainForm: "" +
         "<div id='new_strain_form_container'>" +
-        "   <div id='new_strain_modal_title'>Add a Strain</div>" +
+        "   <div id='new_strain_modal_title'>New Strain</div>" +
         "   <form id='new_strain_form'>" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
@@ -118,13 +118,13 @@ var sd = {
         "           <label>Indica:</label> <input type='number' id='indica_pct' name='indica_pct' /> %" +
         "       </div>" +
         "       <div id='con_thc_pct'>" +
-        "           <label>THC:</label> <input type='number' id='thc_pct' name='thc_pct' /> %" +
+        "           <label id='thc_pct_label'>THC:</label> <input type='number' id='thc_pct' name='thc_pct' /> %" +
         "       </div>" +
         "       <div id='con_cbd_pct'>" +
         "           <label>CBD:</label> <input type='number' id='cbd_pct' name='cbd_pct' /> %" +
         "       </div>" +
         "       <div id='con_company'>" +
-        "           <label>Company:</label> <input type='text' id='company' name='company' />" +
+        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' />" +
         "       </div>" +
         "       <div id='con_dispensary'>" +
         "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' />" +
