@@ -140,7 +140,7 @@ var sd = {
         this.modal = new tingle.modal({
             footer: true,
             stickyFooter: false,
-            closeMethods: ['overlay', 'button', 'escape'],
+            closeMethods: ['escape'],
             closeLabel: "Close",
         });
 
