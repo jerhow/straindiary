@@ -125,9 +125,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 
 // Takes the relevant values for the INSERT
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func WriteNewStrainToDb(userId int, strainName string, sativaPct float64, indicaPct float64,
-	thcPct float64, cbdPct float64, stars int, comments string, company string,
-	dispensary string) (bool, string) {
+func WriteNewStrainToDb(userId int, strainName string, stars int, sativaPct float64, indicaPct float64,
+	thcPct float64, cbdPct float64, company string, dispensary string, comments string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -141,8 +140,8 @@ func WriteNewStrainToDb(userId int, strainName string, sativaPct float64, indica
 
 	sql := `
 		INSERT INTO t_user_strains
-		(user_id, strain_name, sativa_pct, indica_pct, thc_pct, cbd_pct, 
-			stars, comments, company, dispensary)
+		(user_id, strain_name, stars, sativa_pct, indica_pct, thc_pct, cbd_pct, 
+			company, dispensary, comments)
 		VALUES 
 		(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
 
@@ -151,8 +150,8 @@ func WriteNewStrainToDb(userId int, strainName string, sativaPct float64, indica
 	defer stmtIns.Close()
 
 	// first return value is 'result', but it's db driver dependent as to whether it gets populated
-	_, execErr := stmtIns.Exec(userId, strainName, sativaPct, indicaPct,
-		thcPct, cbdPct, stars, comments, company, dispensary)
+	_, execErr := stmtIns.Exec(userId, strainName, stars, sativaPct, indicaPct,
+		thcPct, cbdPct, company, dispensary, comments)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false

@@ -62,12 +62,28 @@ var sd = {
         var XHR = new XMLHttpRequest();
         var urlEncodedData = "";
         var urlEncodedDataPairs = [];
-        var name;
 
-        var userId = "2";
+        var userId = document.getElementById("user_id").value;
         var strain_name = document.getElementById("strain_name").value;
+        var stars = document.getElementById("stars").value;
+        var sativa_pct = document.getElementById("sativa_pct").value;
+        var indica_pct = document.getElementById("indica_pct").value;
+        var thc_pct = document.getElementById("thc_pct").value;
+        var cbd_pct = document.getElementById("cbd_pct").value;
+        var company = document.getElementById("company").value;
+        var dispensary = document.getElementById("dispensary").value;
+        var comments = document.getElementById("comments").value;
+
         urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
         urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
+        urlEncodedDataPairs.push(encodeURIComponent("stars") + '=' + encodeURIComponent(stars));
+        urlEncodedDataPairs.push(encodeURIComponent("sativa_pct") + '=' + encodeURIComponent(sativa_pct));
+        urlEncodedDataPairs.push(encodeURIComponent("indica_pct") + '=' + encodeURIComponent(indica_pct));
+        urlEncodedDataPairs.push(encodeURIComponent("thc_pct") + '=' + encodeURIComponent(thc_pct));
+        urlEncodedDataPairs.push(encodeURIComponent("cbd_pct") + '=' + encodeURIComponent(cbd_pct));
+        urlEncodedDataPairs.push(encodeURIComponent("company") + '=' + encodeURIComponent(company));
+        urlEncodedDataPairs.push(encodeURIComponent("dispensary") + '=' + encodeURIComponent(dispensary));
+        urlEncodedDataPairs.push(encodeURIComponent("comments") + '=' + encodeURIComponent(comments));
   
         // Combine the pairs into a single string and replace all %-encoded spaces to 
         // the '+' character; matches the behaviour of browser form submissions.
@@ -99,6 +115,9 @@ var sd = {
         // Finally, send our data.
         XHR.send(urlEncodedData);
     },
+    onStarClick: function(starValue) {
+        document.getElementById('stars').value = starValue;
+    },
     popNewStrainForm: function() {
         sd.modal.open();
     },
@@ -108,21 +127,22 @@ var sd = {
         "   <div id='new_strain_modal_title'>New Strain</div>" +
         "   <form id='new_strain_form'>" +
         "       <input type='hidden' id='user_id' name='user_id' value='" + userId + "' />" +
+        "       <input type='hidden' id='stars' name='user_id' value='" + userId + "' />" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
         "           <input type='text' id='strain_name' name='strain_name' />" +
         "       </div>" +
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +
-        "               <input id='rating5' type='radio' name='rating' value='5'>" +
+        "               <input id='rating5' type='radio' name='rating5' value='5' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating5'>5</label>" +
-        "               <input id='rating4' type='radio' name='rating' value='4'>" +
+        "               <input id='rating4' type='radio' name='rating4' value='4' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating4'>4</label>" +
-        "               <input id='rating3' type='radio' name='rating' value='3'>" +
+        "               <input id='rating3' type='radio' name='rating3' value='3' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating3'>3</label>" +
-        "               <input id='rating2' type='radio' name='rating' value='2'>" +
+        "               <input id='rating2' type='radio' name='rating2' value='2' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating2'>2</label>" +
-        "               <input id='rating1' type='radio' name='rating' value='1'>" +
+        "               <input id='rating1' type='radio' name='rating1' value='1' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating1'>1</label>" +
         "           </span>" +
         "       </div>" +
