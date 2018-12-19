@@ -75,23 +75,27 @@ HR {
 }
 
 #con_indica_pct {
-    float: right;
-    padding-bottom: .5rem;
-}
-
-#con_thc_pct {
     float: left;
     clear: left;
     padding-bottom: .5rem;
 }
 
+#con_thc_pct {
+    float: right;
+    padding-bottom: .5rem;
+}
+
 #thc_pct_label {
-    margin-right: 12px; /* yeah yeah... */
+    font-size: .95rem;
 }
 
 #con_cbd_pct {
     float: right;
     padding-bottom: .5rem;
+}
+
+#cbd_pct_label {
+    font-size: .95rem;
 }
 
 #con_company {

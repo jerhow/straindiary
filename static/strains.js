@@ -112,16 +112,16 @@ var sd = {
         "           </span>" +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
-        "           <label>Sativa:</label> <input type='number' id='sativa_pct' name='sativa_pct' /> %" +
-        "       </div>" +
-        "       <div id='con_indica_pct'>" +
-        "           <label>Indica:</label> <input type='number' id='indica_pct' name='indica_pct' /> %" +
+        "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' id='sativa_pct' name='sativa_pct' /> %" +
         "       </div>" +
         "       <div id='con_thc_pct'>" +
         "           <label id='thc_pct_label'>THC:</label> <input type='number' id='thc_pct' name='thc_pct' /> %" +
         "       </div>" +
+        "       <div id='con_indica_pct'>" +
+        "           <label id='indica_pct_label'>Indica:</label> <input type='number' id='indica_pct' name='indica_pct' /> %" +
+        "       </div>" +
         "       <div id='con_cbd_pct'>" +
-        "           <label>CBD:</label> <input type='number' id='cbd_pct' name='cbd_pct' /> %" +
+        "           <label id='cbd_pct_label'>CBD:</label> <input type='number' id='cbd_pct' name='cbd_pct' /> %" +
         "       </div>" +
         "       <div id='con_company'>" +
         "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' />" +
