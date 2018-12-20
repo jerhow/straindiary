@@ -50,10 +50,23 @@ var sd = {
             createdAt = this.data.StrainData[idx]["CreatedAt"];
             modifiedAt = this.data.StrainData[idx]["ModifiedAt"];
             strainDivs.push("" +
-                "<div id='strain_" + strainId + " class='strain_div'>" +
-                "<div id=\"strain_name_\"" + strainId + " class=\"strain_name_display\">" + strainName + "</div>" +
-                sativaPct + " " + indicaPct + " " + thcPct + " " + cbdPct + " " + stars + " " + comments + " " + 
-                company + " " + dispensary + " " + createdAt + " " + modifiedAt + "<br />" +
+                "<div id='strain_" + strainId + "' class='strain_row'>" +
+                "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
+                "       <div id='strain_name_" + strainId + "' class='strain_name_display'>" + strainName + "</div> " +
+                "       <div id='strain_name_" + strainId + "' class='strain_rating_display'>" + stars + " stars</div> " +
+                "       <div id='strain_company_" + strainId + "' class='strain_company_display'>" + company + "</div> " +
+                "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>" + dispensary + "</div> " +
+                "   </div>" +
+                "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
+                "       <div id='stats_sativa_" + strainId + "' class='strain_stats_display'>" + sativaPct + "% Sativa</div> " +
+                "       <div id='stats_indica_" + strainId + "' class='strain_stats_display'>" + indicaPct + "% Indica</div> " +
+                "       <div id='stats_thc_" + strainId + "' class='strain_stats_display'>" + thcPct + "% THC</div> " +
+                "       <div id='stats_cbd_" + strainId + "' class='strain_stats_display'>" + cbdPct + "% CBD</div> " +
+                "   </div>" +
+                "   <div class='clear'></div>" +
+                "   <div id='comments_row_" + strainId + "' class='comments_row'>" + 
+                "       <div id='comment_text_" + strainId + "' class='comment_text'>\"" + comments + "\"</div>" +
+                "   </div>" +
                 "</div>"
             );
         }

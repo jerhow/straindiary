@@ -41,7 +41,7 @@ HR {
 
 #outer_container {
     width: 100%;
-    border: 1px solid green;
+    border: 0px solid green;
     margin: 0 auto;
     text-align: center;
 }
@@ -125,11 +125,13 @@ HR {
 }
 
 #comments {
+    /* -----------------------------------------------*/
     /* Credit: https://davidwalsh.name/textarea-width */
     -webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
     width: 100%;
+    /* -----------------------------------------------*/
     
     font-family: Arial, Helvetica, sans-serif;
     font-size: .9rem;
@@ -139,20 +141,76 @@ HR {
     width: 3rem;
 }
 
-.strain_div {
-    border: 1px solid black;
-    width: 85%;
+.strain_row {
+    /* border: 0px solid black; */
+    border-top: 1px solid black;
+    width: 90%;
     margin: 15px;
-    padding: 5px;
+    padding: 3px;
     /* display: block; */
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto;
+    margin-right: auto; */
+    overflow: auto;
+}
+
+.strain_column_left {
+    border: 0px solid purple;
+    float: left;
+    width: 49%;
+    text-align: left;
+    /* font-size: .75rem; */
+    height: auto;
+}
+
+.strain_column_right {
+    border: 0px solid purple;
+    float: right;
+    width: 49%;
+    text-align: right;
+    /* font-size: .75rem; */
+    height: auto;
 }
 
 .strain_name_display {
+    font-size: .90rem;
+    text-decoration: underline;
+}
+
+.strain_rating_display {
+    font-size: .70rem;
+}
+
+.strain_company_display {
+    font-size: .70rem;
+}
+
+.strain_dispensary_display {
+    font-size: .70rem;
+}
+
+.strain_stats_display {
+    font-size: .70rem;
+}
+
+.comments_row {
+    border: 0px solid orange;
+    /* float: left; */
+    /* width: 98%; */
     text-align: left;
-    vertical-align: top;
-    height: 75px;
+    /* font-size: .75rem; */
+    height: auto;
+    overflow: auto;
+    font-size: .70rem;
+    margin-top: 3px;
+}
+
+.comment_text {
+    font-size: .70rem;
+    font-style: italic;
+}
+
+.clear {
+    clear: both;
 }
 
 @media screen and (min-width: 275px) and (max-width: 1023px) { 
