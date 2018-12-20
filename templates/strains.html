@@ -17,6 +17,7 @@
 <script src="{{ .Common.StaticAssetUrlBase }}strains.js?{{.Nonce}}"></script>
 
 <script type="text/javascript">
+sd.userId = "{{.UserId}}";
 sd.viewStrains();
 document.getElementById("btn_add_a_strain").addEventListener("click", sd.popNewStrainForm);
 sd.instantiateModal("{{.UserId}}");

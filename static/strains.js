@@ -1,11 +1,12 @@
 var sd = {
     request: new XMLHttpRequest(),
-    resp: "",
+    resp: null,
     data: null,
     modal: null,
     userId: null,
     viewStrains: function() {
-        sd.request.open('GET', '/strain?user_id=2&sb=1&ob=0', true);
+        var url = '/strain?user_id=' + sd.userId + '&sb=1&ob=0';
+        sd.request.open('GET', url, true);
 
         sd.request.onload = function() {
             if (sd.request.status >= 200 && sd.request.status < 400) {
@@ -13,12 +14,14 @@ var sd = {
                 sd.data = JSON.parse(sd.resp);
                 sd.buildStrainOutput();
             } else {
-                console.log("We reached our target server, but it returned an error")
+                console.log("We reached our target server, but it returned an error: ");
+                console.log("Error number: " + sd.request.status);
+                console.log("Error msg: " + sd.request.statusText);
             }
         };
 
         sd.request.onerror = function() {
-        // There was a connection error of some sort
+            // There was a connection error of some sort
         };
 
         sd.request.send();

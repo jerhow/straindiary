@@ -53,7 +53,7 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		UserMsg:   template.HTML(""),
 		Common:    util.TmplCommon,
 		Nonce:     time.Now().UnixNano(),
-		UserId:    2, // TODO: This is obviously temporary
+		UserId:    3, // TODO: This is obviously temporary
 	}
 
 	tmpl := template.Must(template.ParseFiles(
