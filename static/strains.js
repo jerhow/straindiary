@@ -118,10 +118,19 @@ var sd = {
         // Finally, send our data.
         XHR.send(urlEncodedData);
     },
+    // clearForm: function() {
+    //     var elements = ['stars', 'strain_name', 'sativa_pct', 'indica_pct', 'thc_pct', 'cbd_pct', 
+    //         'company', 'dispensary', 'comments'];
+    //     for(x in elements) {
+    //         document.getElementById(elements[x]).value = "";
+    //     }
+    // },
     onStarClick: function(starValue) {
         document.getElementById('stars').value = starValue;
     },
     popNewStrainForm: function() {
+        // sd.clearForm();
+        sd.instantiateModal(sd.userId);
         sd.modal.open();
     },
     newStrainForm: function(userId) {
