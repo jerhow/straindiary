@@ -30,10 +30,7 @@ var sd = {
         var strainDivs = [];
         var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
         var stars, comments, company, dispensary, createdAt, modifiedAt;
-        var strainCount = 0;
-        for (idx in this.data.StrainData) {
-            strainCount++;
-        }
+        var strainCount = Object.keys(this.data.StrainData).length;
         
         for(var idx = 0; idx < strainCount; idx++) {
             strainId = this.data.StrainData[idx]["Id"];
