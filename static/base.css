@@ -141,8 +141,28 @@ HR {
     width: 3rem;
 }
 
+#functional_row_top {
+    border: 0px solid black;
+    width: 90%;
+    margin: 15px;
+    padding: 3px;
+    overflow: auto;
+}
+
+#btn_add_a_strain {
+    float: left;
+}
+
+#btn_sort {
+    float: right;
+}
+
+#sort_ddl {
+    float: right;
+    display: none;
+}
+
 .strain_row {
-    /* border: 0px solid black; */
     border-top: 1px solid black;
     width: 90%;
     margin: 15px;

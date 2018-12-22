@@ -4,9 +4,31 @@
 
 <!-- <div class="break" style="height: 15px;"></div>
 <div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div> -->
-<div class="break" style="height: 15px;"></div>
+<div class="break" style="height: 10px;"></div>
 
-<button id="btn_add_a_strain">Add a strain</button>
+<div id='functional_row_top'>
+    <button id="btn_add_a_strain">Add a strain</button>
+    
+    <button id="btn_sort" onclick="javascript:sd.clickSort();">Order By</button>
+    <select id="sort_ddl" onchange="javascript:sd.sortChange(this);">
+        <option value="1,0">Name (A&rarr;Z)</option>
+        <option value="1,1">Name (Z&rarr;A)</option>
+        <option value="6,1">Rating (Hi&rarr;Lo)</option>
+        <option value="6,0">Rating (Lo&rarr;Hi)</option>
+        <option value="8,0">Company (A&rarr;Z)</option>
+        <option value="8,1">Company (Z&rarr;A)</option>
+        <option value="9,0">Dispensary (A&rarr;Z)</option>
+        <option value="9,1">Dispensary (Z&rarr;A)</option>
+        <option value="2,1">Sativa (Hi&rarr;Lo)</option>
+        <option value="2,0">Sativa (Lo&rarr;Hi)</option>
+        <option value="3,1">Indica (Hi&rarr;Lo)</option>
+        <option value="3,0">Indica (Lo&rarr;Hi)</option>
+        <option value="4,1">THC (Hi&rarr;Lo)</option>
+        <option value="4,0">THC (Lo&rarr;Hi)</option>
+        <option value="5,1">CBD (Hi&rarr;Lo)</option>
+        <option value="5,0">CBD (Lo&rarr;Hi)</option>
+    </select>
+</div>
 
 <div id="strain_container"></div>
 

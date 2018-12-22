@@ -5,8 +5,14 @@ var sd = {
     modal: null,
     userId: null,
     staticPath: "",
-    viewStrains: function() {
-        var url = '/strain?user_id=' + sd.userId + '&sb=1&ob=0';
+    viewStrains: function(sortBy, orderBy) {
+        if(!sortBy) {
+            sortBy = "1";
+        }
+        if(!orderBy) {
+            orderBy = "0";
+        }
+        var url = '/strain?user_id=' + sd.userId + '&sb=' + sortBy + '&ob=' + orderBy;
         sd.request.open('GET', url, true);
 
         sd.request.onload = function() {
@@ -213,5 +219,15 @@ var sd = {
             sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
         }
         sd.modal.close();
+    },
+    clickSort: function() {
+        document.getElementById("btn_sort").style.display = "none";
+        document.getElementById("sort_ddl").style.display = "inline";
+    },
+    sortChange: function(obj) {
+        var vals = obj.value.split(',');
+        sd.viewStrains(vals[0], vals[1]); // (sortBy, orderBy)
+        document.getElementById("sort_ddl").style.display = "none";
+        document.getElementById("btn_sort").style.display = "inline";
     }
 };
