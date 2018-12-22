@@ -180,6 +180,11 @@ HR {
     font-size: .70rem;
 }
 
+.star_for_list {
+    width: 1.5em;
+    height: 1.5em;
+}
+
 .strain_company_display {
     font-size: .70rem;
 }

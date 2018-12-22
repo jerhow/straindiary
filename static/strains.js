@@ -4,6 +4,7 @@ var sd = {
     data: null,
     modal: null,
     userId: null,
+    staticPath: "",
     viewStrains: function() {
         var url = '/strain?user_id=' + sd.userId + '&sb=1&ob=0';
         sd.request.open('GET', url, true);
@@ -50,7 +51,7 @@ var sd = {
                 "<div id='strain_" + strainId + "' class='strain_row'>" +
                 "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
                 "       <div id='strain_name_" + strainId + "' class='strain_name_display'>" + strainName + "</div> " +
-                "       <div id='strain_name_" + strainId + "' class='strain_rating_display'>" + stars + " stars</div> " +
+                "       <div id='star_rating_" + strainId + "' class='strain_rating_display'>" + sd.displayStars(stars) + "</div> " +
                 "       <div id='strain_company_" + strainId + "' class='strain_company_display'>" + company + "</div> " +
                 "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>" + dispensary + "</div> " +
                 "   </div>" +
@@ -70,6 +71,10 @@ var sd = {
         
         document.getElementById("strain_container").innerHTML = strainDivs.join("");
         return true;
+    },
+    displayStars(rating) {
+        var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
+        return star.repeat(rating);
     },
     sendNewStrain: function(data) {
         var XHR = new XMLHttpRequest();

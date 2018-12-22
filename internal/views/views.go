@@ -7,6 +7,7 @@
 package views
 
 import (
+	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/util"
 	"html/template"
 	"net/http"
@@ -40,20 +41,22 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func Strains(w http.ResponseWriter, r *http.Request) {
 
 	type PageData struct {
-		BodyTitle string
-		LoginMsg  string
-		UserMsg   template.HTML
-		Common    util.TemplateCommon
-		Nonce     int64
-		UserId    int
+		BodyTitle  string
+		LoginMsg   string
+		UserMsg    template.HTML
+		Common     util.TemplateCommon
+		Nonce      int64
+		UserId     int
+		StaticPath string
 	}
 	data := PageData{
-		BodyTitle: "Welcome!",
-		LoginMsg:  "",
-		UserMsg:   template.HTML(""),
-		Common:    util.TmplCommon,
-		Nonce:     time.Now().UnixNano(),
-		UserId:    3, // TODO: This is obviously temporary
+		BodyTitle:  "Welcome!",
+		LoginMsg:   "",
+		UserMsg:    template.HTML(""),
+		Common:     util.TmplCommon,
+		Nonce:      time.Now().UnixNano(),
+		UserId:     3, // TODO: This is obviously temporary
+		StaticPath: config.STATIC_ASSET_URL_BASE_LOCAL,
 	}
 
 	tmpl := template.Must(template.ParseFiles(
