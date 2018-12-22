@@ -152,7 +152,7 @@ var sd = {
         "   <div id='new_strain_modal_title'>New Strain</div>" +
         "   <form id='new_strain_form'>" +
         "       <input type='hidden' id='user_id' name='user_id' value='" + userId + "' />" +
-        "       <input type='hidden' id='stars' name='user_id' value='" + userId + "' />" +
+        "       <input type='hidden' id='stars' name='stars' value='' />" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
         "           <input type='text' id='strain_name' name='strain_name' tabindex='100' />" +
