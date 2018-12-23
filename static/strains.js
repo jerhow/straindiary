@@ -71,6 +71,10 @@ var sd = {
                 "   <div id='comments_row_" + strainId + "' class='comments_row'>" + 
                 "       <div id='comment_text_" + strainId + "' class='comment_text'>" + comments + "</div>" +
                 "   </div>" +
+                "   <div id='action_row_" + strainId + "' class='action_row'>" + 
+                "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain'>&nbsp;Edit&nbsp;</button>" +
+                "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain'>Delete</button>" +
+                "   </div>" +
                 "</div>"
             );
         }
