@@ -197,7 +197,8 @@
 }
 
 .tingle-btn--default {
-  background-color: #34495e;
+  /* background-color: #34495e; */
+  background-color: #2b2f3a;
 }
 
 .tingle-btn--pull-left {
