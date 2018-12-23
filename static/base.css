@@ -151,10 +151,18 @@ HR {
 
 #btn_add_a_strain {
     float: left;
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .9rem;
 }
 
 #btn_sort {
     float: right;
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .9rem;
 }
 
 #sort_ddl {
