@@ -69,7 +69,7 @@ var sd = {
                 "   </div>" +
                 "   <div class='clear'></div>" +
                 "   <div id='comments_row_" + strainId + "' class='comments_row'>" + 
-                "       <div id='comment_text_" + strainId + "' class='comment_text'>\"" + comments + "\"</div>" +
+                "       <div id='comment_text_" + strainId + "' class='comment_text'>" + comments + "</div>" +
                 "   </div>" +
                 "</div>"
             );

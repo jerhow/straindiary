@@ -184,7 +184,7 @@ HR {
 .strain_column_left {
     border: 0px solid purple;
     float: left;
-    width: 49%;
+    width: 70%;
     text-align: left;
     /* font-size: .75rem; */
     height: auto;
@@ -193,7 +193,7 @@ HR {
 .strain_column_right {
     border: 0px solid purple;
     float: right;
-    width: 49%;
+    width: 29%;
     text-align: right;
     /* font-size: .75rem; */
     height: auto;
