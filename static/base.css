@@ -46,11 +46,11 @@ HR {
     text-align: center;
 }
 
-#new_strain_form_container {
+#new_strain_form_container, #edit_strain_form_container {
     border: 0px solid black;
 }
 
-#new_strain_modal_title {
+#new_strain_modal_title, #edit_strain_modal_title {
     font-size: 1rem;
     font-weight: bold;
     text-decoration: underline;

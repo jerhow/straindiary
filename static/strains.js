@@ -39,7 +39,7 @@ var sd = {
         var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
         
-        for(var idx = 0; idx < strainCount; idx++) {
+        for(idx = 0; idx < strainCount; idx++) {
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
@@ -72,7 +72,7 @@ var sd = {
                 "       <div id='comment_text_" + strainId + "' class='comment_text'>" + comments + "</div>" +
                 "   </div>" +
                 "   <div id='action_row_" + strainId + "' class='action_row'>" + 
-                "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain'>&nbsp;Edit&nbsp;</button>" +
+                "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain' onclick='sd.popEditStrainForm(" + strainId + ")'>&nbsp;Edit&nbsp;</button>" +
                 "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain'>Delete</button>" +
                 "   </div>" +
                 "</div>"
@@ -200,7 +200,75 @@ var sd = {
         "   </form>" +
         "</div>";
     },
-    instantiateModal: function(userId) {
+    popEditStrainForm: function(strainId) {
+        sd.instantiateModal(sd.userId, strainId);
+        sd.modal.open();
+    },
+    editStrainForm: function(userId, strainId) {
+        var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
+        var stars, comments, company, dispensary, createdAt, modifiedAt;
+        var strainCount = Object.keys(this.data.StrainData).length;
+        var vals;
+        
+        // Find the correct strainId and grab a reference to it from the data object
+        for(idx = 0; idx < strainCount; idx++) {
+            if(this.data.StrainData[idx]["Id"] === strainId) {
+                vals = this.data.StrainData[idx];
+                break;
+            }
+        }
+        
+        return "" +
+        "<div id='edit_strain_form_container'>" +
+        "   <div id='edit_strain_modal_title'>Edit Strain</div>" +
+        "   <form id='edit_strain_form'>" +
+        "       <input type='hidden' id='user_id' name='user_id' value='" + userId + "' />" +
+        "       <input type='hidden' id='strain_id' name='strain_id' value='" + strainId + "' />" +
+        "       <input type='hidden' id='stars' name='stars' value='" + vals['Stars'] + "' />" +
+        "       <div id='con_strain_name'>" +
+        "           <label>Name:</label> " +
+        "           <input type='text' id='strain_name' name='strain_name' tabindex='100' value='" + vals['StrainName'] + "' />" +
+        "       </div>" +
+        "       <div id='con_star_rating'>" +
+        "           <label>Rating:</label> <span class='starRating'>" +
+        "               <input id='rating5' type='radio' name='rating' value='5' onclick='sd.onStarClick(this.value);'>" +
+        "               <label for='rating5'>5</label>" +
+        "               <input id='rating4' type='radio' name='rating' value='4' onclick='sd.onStarClick(this.value);'>" +
+        "               <label for='rating4'>4</label>" +
+        "               <input id='rating3' type='radio' name='rating' value='3' onclick='sd.onStarClick(this.value);'>" +
+        "               <label for='rating3'>3</label>" +
+        "               <input id='rating2' type='radio' name='rating' value='2' onclick='sd.onStarClick(this.value);'>" +
+        "               <label for='rating2'>2</label>" +
+        "               <input id='rating1' type='radio' name='rating' value='1' onclick='sd.onStarClick(this.value);'>" +
+        "               <label for='rating1'>1</label>" +
+        "           </span>" +
+        "       </div>" +
+        "       <div id='con_sativa_pct'>" +
+        "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' value='" + vals['SativaPct'] + "' /> %" +
+        "       </div>" +
+        "       <div id='con_thc_pct'>" +
+        "           <label id='thc_pct_label'>THC:</label> <input type='number' step='.01' id='thc_pct' name='thc_pct' tabindex='103' value='" + vals['ThcPct'] + "' /> %" +
+        "       </div>" +
+        "       <div id='con_indica_pct'>" +
+        "           <label id='indica_pct_label'>Indica:</label> <input type='number' step='.01' id='indica_pct' name='indica_pct' tabindex='102' value='" + vals['IndicaPct'] + "' /> %" +
+        "       </div>" +
+        "       <div id='con_cbd_pct'>" +
+        "           <label id='cbd_pct_label'>CBD:</label> <input type='number' step='.01' id='cbd_pct' name='cbd_pct' tabindex='104' value='" + vals['CbdPct'] + "' /> %" +
+        "       </div>" +
+        "       <div id='con_company'>" +
+        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' tabindex='105' value='" + vals['Company'] + "' />" +
+        "       </div>" +
+        "       <div id='con_dispensary'>" +
+        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' tabindex='106' value='" + vals['Dispensary'] + "' />" +
+        "       </div>" +
+        "       <div id='con_comments'>" +
+        "           <label>Comments:</label> " +
+        "           <textarea id='comments' name='comments' rows=4 cols=30 tabindex='107'>" + vals['Comments'] + "</textarea>" +
+        "       </div>" +
+        "   </form>" +
+        "</div>";
+    },
+    instantiateModal: function(userId, strainId) {
         this.modal = new tingle.modal({
             footer: true,
             stickyFooter: false,
@@ -208,7 +276,11 @@ var sd = {
             closeLabel: "Close",
         });
 
-        sd.modal.setContent(sd.newStrainForm(userId));
+        if(!strainId) {
+            sd.modal.setContent(sd.newStrainForm(userId));
+        } else {
+            sd.modal.setContent(sd.editStrainForm(userId, strainId));
+        }
 
         sd.modal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.closeModal(true);
