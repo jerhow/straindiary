@@ -227,7 +227,7 @@ var sd = {
         "       <input type='hidden' id='stars' name='stars' value='" + vals['Stars'] + "' />" +
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
-        "           <input type='text' id='strain_name' name='strain_name' tabindex='100' value='" + vals['StrainName'] + "' />" +
+        "           <input type='text' id='strain_name' name='strain_name' tabindex='100' value=\"" + vals['StrainName'] + "\" />" +
         "       </div>" +
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +
@@ -256,10 +256,10 @@ var sd = {
         "           <label id='cbd_pct_label'>CBD:</label> <input type='number' step='.01' id='cbd_pct' name='cbd_pct' tabindex='104' value='" + vals['CbdPct'] + "' /> %" +
         "       </div>" +
         "       <div id='con_company'>" +
-        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' tabindex='105' value='" + vals['Company'] + "' />" +
+        "           <label id='company_label'>Company:</label> <input type='text' id='company' name='company' tabindex='105' value=\"" + vals['Company'] + "\" />" +
         "       </div>" +
         "       <div id='con_dispensary'>" +
-        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' tabindex='106' value='" + vals['Dispensary'] + "' />" +
+        "           <label>Dispensary:</label> <input type='text' id='dispensary' name='dispensary' tabindex='106' value=\"" + vals['Dispensary'] + "\" />" +
         "       </div>" +
         "       <div id='con_comments'>" +
         "           <label>Comments:</label> " +
