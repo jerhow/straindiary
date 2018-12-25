@@ -200,10 +200,6 @@ var sd = {
         "   </form>" +
         "</div>";
     },
-    popEditStrainForm: function(strainId) {
-        sd.instantiateModal(sd.userId, strainId);
-        sd.modal.open();
-    },
     editStrainForm: function(userId, strainId) {
         var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
         var stars, comments, company, dispensary, createdAt, modifiedAt;
@@ -232,15 +228,15 @@ var sd = {
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +
         "               <input id='rating5' type='radio' name='rating' value='5' onclick='sd.onStarClick(this.value);'>" +
-        "               <label for='rating5'>5</label>" +
+        "               <label for='rating5' id='rating_label_5'>5</label>" +
         "               <input id='rating4' type='radio' name='rating' value='4' onclick='sd.onStarClick(this.value);'>" +
-        "               <label for='rating4'>4</label>" +
+        "               <label for='rating4' id='rating_label_4'>4</label>" +
         "               <input id='rating3' type='radio' name='rating' value='3' onclick='sd.onStarClick(this.value);'>" +
-        "               <label for='rating3'>3</label>" +
+        "               <label for='rating3' id='rating_label_3'>3</label>" +
         "               <input id='rating2' type='radio' name='rating' value='2' onclick='sd.onStarClick(this.value);'>" +
-        "               <label for='rating2'>2</label>" +
+        "               <label for='rating2' id='rating_label_2'>2</label>" +
         "               <input id='rating1' type='radio' name='rating' value='1' onclick='sd.onStarClick(this.value);'>" +
-        "               <label for='rating1'>1</label>" +
+        "               <label for='rating1' id='rating_label_1'>1</label>" +
         "           </span>" +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
@@ -267,6 +263,16 @@ var sd = {
         "       </div>" +
         "   </form>" +
         "</div>";
+    },
+    popEditStrainForm: function(strainId) {
+        sd.instantiateModal(sd.userId, strainId);
+        sd.modal.open();
+        sd.setStarWidgetValue(document.getElementById("stars").value);
+    },
+    setStarWidgetValue: function(rating) {
+        if(rating > 0) { // In the absence of a rating we get 0
+            document.getElementById("rating" + rating).checked = true;
+        }
     },
     instantiateModal: function(userId, strainId) {
         this.modal = new tingle.modal({
