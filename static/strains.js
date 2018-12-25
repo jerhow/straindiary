@@ -147,7 +147,7 @@ var sd = {
         document.getElementById('stars').value = starValue;
     },
     popNewStrainForm: function() {
-        sd.instantiateModal(sd.userId);
+        sd.instantiateFormModal(sd.userId);
         sd.modal.open();
     },
     newStrainForm: function(userId) {
@@ -265,7 +265,7 @@ var sd = {
         "</div>";
     },
     popEditStrainForm: function(strainId) {
-        sd.instantiateModal(sd.userId, strainId);
+        sd.instantiateFormModal(sd.userId, strainId);
         sd.modal.open();
         sd.setStarWidgetValue(document.getElementById("stars").value);
     },
@@ -274,7 +274,7 @@ var sd = {
             document.getElementById("rating" + rating).checked = true;
         }
     },
-    instantiateModal: function(userId, strainId) {
+    instantiateFormModal: function(userId, strainId) {
         this.modal = new tingle.modal({
             footer: true,
             stickyFooter: false,
