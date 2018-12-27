@@ -2,7 +2,8 @@ var sd = {
     request: new XMLHttpRequest(),
     resp: null,
     data: null,
-    modal: null,
+    newModal: null, // new strain
+    editModal: null,
     userId: null,
     staticPath: "",
     viewStrains: function(sortBy, orderBy) {
@@ -157,8 +158,8 @@ var sd = {
         document.getElementById('stars').value = starValue;
     },
     popNewStrainForm: function() {
-        sd.instantiateFormModal(sd.userId);
-        sd.modal.open();
+        sd.instantiateNewFormModal(sd.userId);
+        sd.newModal.open();
     },
     newStrainForm: function(userId) {
         return "" +
@@ -275,8 +276,8 @@ var sd = {
         "</div>";
     },
     popEditStrainForm: function(strainId) {
-        sd.instantiateFormModal(sd.userId, strainId);
-        sd.modal.open();
+        sd.instantiateEditFormModal(sd.userId, strainId);
+        sd.editModal.open();
         sd.setStarWidgetValue(document.getElementById("stars").value);
     },
     setStarWidgetValue: function(rating) {
@@ -284,32 +285,54 @@ var sd = {
             document.getElementById("rating" + rating).checked = true;
         }
     },
-    instantiateFormModal: function(userId, strainId) {
-        this.modal = new tingle.modal({
+    instantiateNewFormModal: function(userId) {
+        sd.newModal = new tingle.modal({
             footer: true,
             stickyFooter: false,
             closeMethods: ['escape'],
             closeLabel: "Close",
         });
 
-        if(!strainId) {
-            sd.modal.setContent(sd.newStrainForm(userId));
-        } else {
-            sd.modal.setContent(sd.editStrainForm(userId, strainId));
-        }
+        sd.newModal.setContent(sd.newStrainForm(userId));
 
-        sd.modal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.closeModal(true);
+        sd.newModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.closeNewModal(true);
         });
 
-        sd.modal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-            sd.closeModal(false);
+        sd.newModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            sd.closeNewModal(false);
         });
     },
-    closeModal: function(submitForm) {
-        if(submitForm === true) {
+    instantiateEditFormModal: function(userId, strainId) {
+        sd.editModal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['escape'],
+            closeLabel: "Close",
+        });
+
+        sd.editModal.setContent(sd.editStrainForm(userId, strainId));
+
+        sd.editModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.closeEditModal(true);
+        });
+
+        sd.editModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            sd.closeEditModal(false);
+        });
+    },
+    closeNewModal: function(submitForm) {
+        if(submitForm) {
             sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
         }
-        sd.modal.close();
+        sd.newModal.close();
+        sd.newModal = null;
+    },
+    closeEditModal: function(submitForm) {
+        if(submitForm) {
+            // TODO: here's where we'd submit the form for the edit
+        }
+        sd.editModal.close();
+        sd.editModal = null;
     }
 };

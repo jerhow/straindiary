@@ -43,7 +43,7 @@ sd.staticPath = "{{.StaticPath}}";
 sd.userId = "{{.UserId}}";
 sd.viewStrains();
 document.getElementById("btn_add_a_strain").addEventListener("click", sd.popNewStrainForm);
-sd.instantiateFormModal("{{.UserId}}"); // TODO: Maybe trigger this on the button click?
+sd.instantiateNewFormModal("{{.UserId}}"); // TODO: Maybe trigger this on the button click?
 </script>
 
 {{template "footer" .}}
