@@ -7,7 +7,7 @@
 <div class="break" style="height: 10px;"></div>
 
 <div id='functional_row_top'>
-    <button id="btn_add_a_strain">Add a strain</button>
+    <button id="btn_add_a_strain" onclick="sd.popNewStrainForm();">Add a strain</button>
     
     <button id="btn_sort" onclick="javascript:sd.clickSort();">Order By</button>
     <select id="sort_ddl" onchange="javascript:sd.sortChange(this);">
@@ -42,8 +42,6 @@
 sd.staticPath = "{{.StaticPath}}";
 sd.userId = "{{.UserId}}";
 sd.viewStrains();
-document.getElementById("btn_add_a_strain").addEventListener("click", sd.popNewStrainForm);
-sd.instantiateNewFormModal("{{.UserId}}"); // TODO: Maybe trigger this on the button click?
 </script>
 
 {{template "footer" .}}

@@ -158,7 +158,7 @@ var sd = {
         document.getElementById('stars').value = starValue;
     },
     popNewStrainForm: function() {
-        sd.instantiateNewFormModal(sd.userId);
+        sd.instantiateNewFormModal();
         sd.newModal.open();
     },
     newStrainForm: function(userId) {
@@ -285,7 +285,7 @@ var sd = {
             document.getElementById("rating" + rating).checked = true;
         }
     },
-    instantiateNewFormModal: function(userId) {
+    instantiateNewFormModal: function() {
         sd.newModal = new tingle.modal({
             footer: true,
             stickyFooter: false,
@@ -293,7 +293,7 @@ var sd = {
             closeLabel: "Close",
         });
 
-        sd.newModal.setContent(sd.newStrainForm(userId));
+        sd.newModal.setContent(sd.newStrainForm(sd.userId));
 
         sd.newModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.closeNewModal(true);
