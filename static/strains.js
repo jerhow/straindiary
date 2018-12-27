@@ -143,6 +143,16 @@ var sd = {
         // Finally, send our data.
         XHR.send(urlEncodedData);
     },
+    clickSort: function() {
+        document.getElementById("btn_sort").style.display = "none";
+        document.getElementById("sort_ddl").style.display = "inline";
+    },
+    sortChange: function(obj) {
+        var vals = obj.value.split(',');
+        sd.viewStrains(vals[0], vals[1]); // (sortBy, orderBy)
+        document.getElementById("sort_ddl").style.display = "none";
+        document.getElementById("btn_sort").style.display = "inline";
+    },
     onStarClick: function(starValue) {
         document.getElementById('stars').value = starValue;
     },
@@ -301,15 +311,5 @@ var sd = {
             sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
         }
         sd.modal.close();
-    },
-    clickSort: function() {
-        document.getElementById("btn_sort").style.display = "none";
-        document.getElementById("sort_ddl").style.display = "inline";
-    },
-    sortChange: function(obj) {
-        var vals = obj.value.split(',');
-        sd.viewStrains(vals[0], vals[1]); // (sortBy, orderBy)
-        document.getElementById("sort_ddl").style.display = "none";
-        document.getElementById("btn_sort").style.display = "inline";
     }
 };
