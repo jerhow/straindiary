@@ -201,8 +201,6 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 // Strains will come in as a comma-separated list of strain ids
 func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 
-	// fmt.Printf("%+v\n", r) // dump out the request
-
 	// NOTE: By RESTful convention, DELETE is not meant for batch deletions.
 	// It's really meant for something like DELETE /host/app/item/id
 	// where you're deleting the thing represented by 'id'

@@ -345,7 +345,7 @@ var sd = {
         sd.deleteModal.setContent(sd.deleteModalContent(userId, strainId, strainName));
 
         sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.closeDeleteModal(true);
+            sd.closeDeleteModal(true, userId, strainId);
         });
 
         sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
@@ -375,11 +375,37 @@ var sd = {
         sd.editModal.close();
         sd.editModal = null;
     },
-    closeDeleteModal: function(submitForm) {
+    closeDeleteModal: function(submitForm, userId, strainId) {
         if(submitForm) {
-            // dispatch
+            sd.sendDeletion(userId, strainId);
         }
         sd.deleteModal.close();
         sd.deleteModal = null;
+    },
+    sendDeletion: function(userId, strainId) {
+        var XHR = new XMLHttpRequest();
+
+        XHR.addEventListener('load', function(event) {
+            console.log('Yeah! Deletion sent and response loaded');
+        });
+
+        XHR.addEventListener('error', function(event) {
+            console.log('Oops! Something went wrong with the deletion');
+        });
+
+        XHR.open('DELETE', '/strain');
+
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-ids-for-deletion', strainId);
+
+        XHR.onreadystatechange = function () {
+            if(XHR.readyState === 4 && XHR.status === 200) {
+                console.log(XHR.responseText);
+                sd.viewStrains();
+            }
+        };
+
+        XHR.send();
     }
 };
