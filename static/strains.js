@@ -87,7 +87,7 @@ var sd = {
         var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
         return star.repeat(rating);
     },
-    sendNewStrain: function(data) {
+    sendNewStrain: function(method) { // expects 'POST' or 'PUT'
         var XHR = new XMLHttpRequest();
         var urlEncodedData = "";
         var urlEncodedDataPairs = [];
@@ -103,6 +103,10 @@ var sd = {
         var dispensary = document.getElementById("dispensary").value;
         var comments = document.getElementById("comments").value;
 
+        if(method === 'PUT') {
+            var strainId = document.getElementById("strain_id").value;
+        }
+
         urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
         urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
         urlEncodedDataPairs.push(encodeURIComponent("stars") + '=' + encodeURIComponent(stars));
@@ -113,6 +117,10 @@ var sd = {
         urlEncodedDataPairs.push(encodeURIComponent("company") + '=' + encodeURIComponent(company));
         urlEncodedDataPairs.push(encodeURIComponent("dispensary") + '=' + encodeURIComponent(dispensary));
         urlEncodedDataPairs.push(encodeURIComponent("comments") + '=' + encodeURIComponent(comments));
+
+        if(method === 'PUT') {
+            urlEncodedDataPairs.push(encodeURIComponent("strain_id") + '=' + encodeURIComponent(strainId));
+        }
   
         // Combine the pairs into a single string and replace all %-encoded spaces to 
         // the '+' character; matches the behaviour of browser form submissions.
@@ -129,7 +137,7 @@ var sd = {
         });
 
         // Set up our request
-        XHR.open('POST', '/strain');
+        XHR.open(method, '/strain');
 
         // Add the required HTTP header for form data POST requests
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -212,10 +220,8 @@ var sd = {
         "</div>";
     },
     editStrainForm: function(userId, strainId) {
-        var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
-        var stars, comments, company, dispensary, createdAt, modifiedAt;
+        var idx, vals;
         var strainCount = Object.keys(this.data.StrainData).length;
-        var vals;
         
         // Find the correct strainId and grab a reference to it from the data object
         for(idx = 0; idx < strainCount; idx++) {
@@ -323,14 +329,14 @@ var sd = {
     },
     closeNewModal: function(submitForm) {
         if(submitForm) {
-            sd.sendNewStrain(); // TODO: fix sendNewStrain() to return status so we can close only on success
+            sd.sendNewStrain('POST'); // TODO: fix sendNewStrain() to return status so we can close only on success
         }
         sd.newModal.close();
         sd.newModal = null;
     },
     closeEditModal: function(submitForm) {
         if(submitForm) {
-            // TODO: here's where we'd submit the form for the edit
+            sd.sendNewStrain('PUT');
         }
         sd.editModal.close();
         sd.editModal = null;
