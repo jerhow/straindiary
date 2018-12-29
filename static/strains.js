@@ -4,6 +4,7 @@ var sd = {
     data: null,
     newModal: null, // new strain
     editModal: null,
+    deleteModal: null,
     userId: null,
     staticPath: "",
     viewStrains: function(sortBy, orderBy) {
@@ -74,7 +75,8 @@ var sd = {
                 "   </div>" +
                 "   <div id='action_row_" + strainId + "' class='action_row'>" + 
                 "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain' onclick='sd.popEditStrainForm(" + strainId + ")'>&nbsp;Edit&nbsp;</button>" +
-                "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain'>Delete</button>" +
+                // "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain'>Delete</button>" +
+                "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain' onclick=\"sd.popDeleteModal(" + strainId + ", '" + strainName + "')\">Delete</button>" +
                 "   </div>" +
                 "</div>"
             );
@@ -327,6 +329,38 @@ var sd = {
             sd.closeEditModal(false);
         });
     },
+// ===============================================================================================
+    popDeleteModal: function(strainId, strainName) {
+        sd.instantiateDeleteModal(sd.userId, strainId, strainName);
+        sd.deleteModal.open();
+    },
+    instantiateDeleteModal: function(userId, strainId, strainName) {
+        sd.deleteModal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['escape'],
+            closeLabel: "Close",
+        });
+
+        sd.deleteModal.setContent(sd.deleteModalContent(userId, strainId, strainName));
+
+        sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.closeDeleteModal(true);
+        });
+
+        sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            sd.closeDeleteModal(false);
+        });
+    },
+    deleteModalContent: function(userId, strainId, strainName) {
+        return "" +
+        "<h1>This is the delete modal!</h1>" +
+        "<h3>Are you sure you want to delete " + strainName + "?</h3>" +
+        "<h5>userId: " + userId + "</h5>" + 
+        "<h5>strainId: " + strainId + "</h5>" + 
+        "";
+    },
+// ===============================================================================================
     closeNewModal: function(submitForm) {
         if(submitForm) {
             sd.sendNewStrain('POST'); // TODO: fix sendNewStrain() to return status so we can close only on success
@@ -340,5 +374,12 @@ var sd = {
         }
         sd.editModal.close();
         sd.editModal = null;
+    },
+    closeDeleteModal: function(submitForm) {
+        if(submitForm) {
+            // dispatch
+        }
+        sd.deleteModal.close();
+        sd.deleteModal = null;
     }
 };
