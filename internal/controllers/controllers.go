@@ -10,7 +10,6 @@ import (
 	"regexp"
 	"strconv"
 	"strings"
-	"time"
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -140,7 +139,6 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error: %s", err)
 	}
 
-	time.Sleep(5 * time.Second) // TESTING
 	w.Write(payloadJson)
 }
 
@@ -196,7 +194,6 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error: %s", err)
 	}
 
-	time.Sleep(5 * time.Second) // TESTING
 	w.Write(payloadJson)
 }
 
@@ -280,6 +277,5 @@ func Strain_DELETE(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Error: %s", err)
 	}
 
-	time.Sleep(5 * time.Second) // TESTING
 	w.Write(payloadJson)
 }
