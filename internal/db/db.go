@@ -231,11 +231,23 @@ func DeleteUserStrains(userId int, strains []string) (bool, string) {
 			WHERE user_id = ? 
 			AND id = ?;`
 
+	// Deleting concurrently
+	// for _, strain := range strains {
+	// 	go func(strain string) {
+	// 		stmtIns, _ := dbh.Prepare(sql)
+	// 		_, _ = stmtIns.Exec(userId, strain)
+	// 	}(strain)
+	// }
+
+	// Deleting sequentially
 	for _, strain := range strains {
-		go func(strain string) {
-			stmtIns, _ := dbh.Prepare(sql)
-			_, _ = stmtIns.Exec(userId, strain)
-		}(strain)
+		stmtIns, _ := dbh.Prepare(sql)
+		_, err = stmtIns.Exec(userId, strain)
+		if err != nil {
+			result = false
+			msg = "Something went wrong when trying to delete this record"
+			break
+		}
 	}
 
 	return result, msg
