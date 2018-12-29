@@ -309,12 +309,11 @@ var sd = {
         sd.newModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.sendStrain('POST', function() {
                 sd.newModal.close();
-                sd.newModal = null;
             });
         });
 
         sd.newModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-            sd.closeNewModal(false);
+            sd.newModal.close();
         });
     },
     instantiateEditFormModal: function(userId, strainId) {
@@ -330,12 +329,11 @@ var sd = {
         sd.editModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.sendStrain('PUT', function() {
                 sd.editModal.close();
-                sd.editModal = null;
             });
         });
 
         sd.editModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
-            sd.closeEditModal(false);
+            sd.editModal.close();
         });
     },
     popDeleteModal: function(strainId, strainName) {
@@ -355,12 +353,11 @@ var sd = {
         sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary_delete tingle-btn--pull-left', function() {
             sd.sendDeletion(userId, strainId, function() {
                 sd.deleteModal.close();
-                sd.deleteModal = null;
             });
         });
 
         sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
-            sd.closeDeleteModal(false);
+            sd.deleteModal.close();
         });
     },
     deleteModalContent: function(strainName) {
