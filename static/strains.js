@@ -342,25 +342,23 @@ var sd = {
             closeLabel: "Close",
         });
 
-        sd.deleteModal.setContent(sd.deleteModalContent(userId, strainId, strainName));
+        sd.deleteModal.setContent(sd.deleteModalContent(strainName));
 
-        sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+        sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary_delete tingle-btn--pull-left', function() {
             sd.closeDeleteModal(true, userId, strainId);
         });
 
-        sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+        sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
             sd.closeDeleteModal(false);
         });
     },
-    deleteModalContent: function(userId, strainId, strainName) {
+    deleteModalContent: function(strainName) {
         return "" +
-        "<h1>This is the delete modal!</h1>" +
-        "<h3>Are you sure you want to delete " + strainName + "?</h3>" +
-        "<h5>userId: " + userId + "</h5>" + 
-        "<h5>strainId: " + strainId + "</h5>" + 
-        "";
+        "<div class='delete_confirm'>Are you sure you want to delete<br />" + 
+        "<span style='font-weight: bold;'>" + strainName + "</span>" +
+        "<span>?</span>" +
+        "</div>";
     },
-// ===============================================================================================
     closeNewModal: function(submitForm) {
         if(submitForm) {
             sd.sendNewStrain('POST'); // TODO: fix sendNewStrain() to return status so we can close only on success
