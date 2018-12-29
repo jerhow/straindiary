@@ -89,7 +89,9 @@ var sd = {
         var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
         return star.repeat(rating);
     },
-    sendNewStrain: function(method) { // expects 'POST' or 'PUT'
+    // Expects 'POST' or 'PUT'
+    // _callback gets executed when the asynchronous call finishes
+    sendStrain: function(method, _callback) {
         var XHR = new XMLHttpRequest();
         var urlEncodedData = "";
         var urlEncodedDataPairs = [];
@@ -147,6 +149,7 @@ var sd = {
         XHR.onreadystatechange = function () {
             if(XHR.readyState === 4 && XHR.status === 200) {
                 console.log(XHR.responseText);
+                _callback();
                 sd.viewStrains();
             }
         };
@@ -304,7 +307,10 @@ var sd = {
         sd.newModal.setContent(sd.newStrainForm(sd.userId));
 
         sd.newModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.closeNewModal(true);
+            sd.sendStrain('POST', function() {
+                sd.newModal.close();
+                sd.newModal = null;
+            });
         });
 
         sd.newModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
@@ -316,20 +322,22 @@ var sd = {
             footer: true,
             stickyFooter: false,
             closeMethods: ['escape'],
-            closeLabel: "Close",
+            closeLabel: "Close"
         });
 
         sd.editModal.setContent(sd.editStrainForm(userId, strainId));
 
         sd.editModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.closeEditModal(true);
+            sd.sendStrain('PUT', function() {
+                sd.editModal.close();
+                sd.editModal = null;
+            });
         });
 
         sd.editModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
             sd.closeEditModal(false);
         });
     },
-// ===============================================================================================
     popDeleteModal: function(strainId, strainName) {
         sd.instantiateDeleteModal(sd.userId, strainId, strainName);
         sd.deleteModal.open();
@@ -345,7 +353,10 @@ var sd = {
         sd.deleteModal.setContent(sd.deleteModalContent(strainName));
 
         sd.deleteModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary_delete tingle-btn--pull-left', function() {
-            sd.closeDeleteModal(true, userId, strainId);
+            sd.sendDeletion(userId, strainId, function() {
+                sd.deleteModal.close();
+                sd.deleteModal = null;
+            });
         });
 
         sd.deleteModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
@@ -359,20 +370,6 @@ var sd = {
         "<span>?</span>" +
         "</div>";
     },
-    closeNewModal: function(submitForm) {
-        if(submitForm) {
-            sd.sendNewStrain('POST'); // TODO: fix sendNewStrain() to return status so we can close only on success
-        }
-        sd.newModal.close();
-        sd.newModal = null;
-    },
-    closeEditModal: function(submitForm) {
-        if(submitForm) {
-            sd.sendNewStrain('PUT');
-        }
-        sd.editModal.close();
-        sd.editModal = null;
-    },
     closeDeleteModal: function(submitForm, userId, strainId) {
         if(submitForm) {
             sd.sendDeletion(userId, strainId);
@@ -380,7 +377,8 @@ var sd = {
         sd.deleteModal.close();
         sd.deleteModal = null;
     },
-    sendDeletion: function(userId, strainId) {
+    // _callback gets executed when the asynchronous call finishes
+    sendDeletion: function(userId, strainId, _callback) {
         var XHR = new XMLHttpRequest();
 
         XHR.addEventListener('load', function(event) {
@@ -400,6 +398,7 @@ var sd = {
         XHR.onreadystatechange = function () {
             if(XHR.readyState === 4 && XHR.status === 200) {
                 console.log(XHR.responseText);
+                _callback();
                 sd.viewStrains();
             }
         };
