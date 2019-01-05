@@ -67,7 +67,7 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	err = dbh.QueryRow("SELECT id, pw FROM t_login WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
+	err = dbh.QueryRow("SELECT user_id, pw FROM t_login WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
 
 	switch {
 	case err == sql.ErrNoRows:
