@@ -54,6 +54,38 @@ func Db1() {
 	// defer insert.Close()
 }
 
+func FetchPwdHashAndUserId(un string) (string, int) {
+	var pwdHashFromDb string
+	var idFromDb int
+	var retHash string = ""
+	var retId int = -1
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	err = dbh.QueryRow("SELECT id, pw FROM t_login WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
+
+	switch {
+	case err == sql.ErrNoRows:
+		// TODO: Handle this case
+		fmt.Println("No user with that ID")
+	case err != nil:
+		// TODO: Handle this case
+		log.Fatal(err) // Fatal is equivalent to Print() followed by a call to os.Exit(1)
+	default:
+		// fmt.Printf("\nUSER: %s, %s\n", LName, FInitial)
+		// fmt.Println("Something happened")
+		retHash = pwdHashFromDb
+		retId = idFromDb
+	}
+
+	return retHash, retId
+}
+
 type StrainRow struct {
 	Id         int
 	UserId     int
