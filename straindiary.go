@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/controllers"
@@ -10,6 +11,16 @@ import (
 	"log"
 	"net/http"
 )
+
+func simpleMw(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		fmt.Println("Hello from simpleMw()!")
+		log.Println(r.RequestURI)
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
+		next.ServeHTTP(w, r)
+	})
+}
 
 func main() {
 
@@ -27,6 +38,8 @@ func main() {
 	r.HandleFunc("/ui/", views.Index).Methods("GET")
 	r.HandleFunc("/ui/index", views.Index).Methods("GET")
 	r.HandleFunc("/ui/strains", views.Strains).Methods("GET")
+
+	r.Use(simpleMw)
 
 	if err := http.ListenAndServe(":"+config.LOCAL_PORT, r); err != nil {
 		log.Fatal(err)
