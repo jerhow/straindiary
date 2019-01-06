@@ -46,7 +46,7 @@ func authCheck(next http.Handler) http.Handler {
 				// This route requires a valid session, which you'd only have if you autheticated
 				if auth.CheckSession(userId, authToken) == true {
 					// session is legit and not expired, so allow request to pass through
-					_ = auth.RefreshSession(userId, authToken)
+					go auth.RefreshSession(userId, authToken)
 					next.ServeHTTP(w, r)
 				} else {
 					// session not found or expired - respond appropriately
@@ -61,7 +61,7 @@ func authCheck(next http.Handler) http.Handler {
 				}
 			} else {
 				// this is an open route, allow request to pass through
-				_ = auth.RefreshSession(userId, authToken)
+				go auth.RefreshSession(userId, authToken)
 				next.ServeHTTP(w, r) // call the next handler, which can be another middleware in the chain, or the final handler
 			}
 		} else {

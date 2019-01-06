@@ -7,6 +7,7 @@ import (
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/util"
 	"log"
+	"strconv"
 	"strings"
 )
 
@@ -114,10 +115,7 @@ func FetchSessionAuth(userId int, authToken string) int {
 	return rowId
 }
 
-func RefreshSessionExpiry(userId int, authToken string) bool {
-	var result bool = true
-	// var msg string = ""
-
+func RefreshSessionExpiry(userId int, authToken string) {
 	dbh, err := sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
 	defer dbh.Close()
@@ -136,17 +134,11 @@ func RefreshSessionExpiry(userId int, authToken string) bool {
 
 	_, execErr := stmtIns.Exec(userId, authToken)
 	if execErr != nil {
-		// set the result flag and investigate based on the error message
-		result = false
-		// we can stack the possible error cases here, and fail out hard otherwise
-		if strings.Contains(execErr.Error(), "Something something") {
-			// msg = "Something something"
-		} else {
-			log.Fatal(execErr) // something else
-		}
+		log.Println("ERROR: db.RefreshSessionExpiry() \n" +
+			"This function did not complete successfully \n" +
+			"userId: " + strconv.Itoa(userId) + "\n" +
+			"authToken: " + authToken)
 	}
-
-	return result
 }
 
 type StrainRow struct {
