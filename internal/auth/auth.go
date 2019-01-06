@@ -93,3 +93,7 @@ func CheckSession(userId int, authToken string) bool {
 
 	return result
 }
+
+func RefreshSession(userId int, authToken string) bool {
+	return db.RefreshSessionExpiry(userId, authToken)
+}
