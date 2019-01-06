@@ -84,7 +84,7 @@ func main() {
 
 	r.HandleFunc("/login", controllers.Login_POST).Methods("POST")
 
-	r.Use(simpleMw)
+	r.Use(authCheck) // middleware which will run before any route controller
 
 	if err := http.ListenAndServe(":"+config.LOCAL_PORT, r); err != nil {
 		log.Fatal(err)
