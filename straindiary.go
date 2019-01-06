@@ -28,11 +28,9 @@ import (
 // NOTE: The routes, and whether they require auth are stored in config.RoutesAuthRequired.
 func authCheck(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-
+		// log.Println(r.RequestURI)
 		userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
 		authToken := r.Header.Get("X-auth-token")
-
-		log.Println(r.RequestURI)
 
 		type Payload struct {
 			Msg string
@@ -41,18 +39,16 @@ func authCheck(next http.Handler) http.Handler {
 			Msg: "",
 		}
 
-		route := strings.Split(r.RequestURI, "?")[0]
-		_, routePresent := config.RoutesAuthRequired[route]
+		route := strings.Split(r.RequestURI, "?")[0]        // just the route before the '?'
+		_, routePresent := config.RoutesAuthRequired[route] // does this route exist in our configs?
 		if routePresent {
 			if config.RoutesAuthRequired[route] {
-				fmt.Println("Auth required for route " + route)
-				// Check for auth header containing userId and token
-				// Pass userId and token to auth.something() to check for a valid session
-				// If valid, pass through
-				// If !valid, return a 401 Unauthorized with some useful payload for the client to communicate with the user
+				// This route requires a valid session, which you'd only have if you autheticated
 				if auth.CheckSession(userId, authToken) == true {
+					// session is legit and not expired, so allow request to pass through
 					next.ServeHTTP(w, r)
 				} else {
+					// session not found or expired - respond appropriately
 					payload.Msg = "Invalid or expired session, please log in."
 					util.SetCommonHttpHeaders(w)
 					w.WriteHeader(http.StatusUnauthorized)
@@ -63,28 +59,14 @@ func authCheck(next http.Handler) http.Handler {
 					w.Write(dataJson)
 				}
 			} else {
-				fmt.Println("Auth not required for route " + route + ", request passes through")
-				// This is an open route, allow request to pass through
-				next.ServeHTTP(w, r)
+				// this is an open route, allow request to pass through
+				next.ServeHTTP(w, r) // call the next handler, which can be another middleware in the chain, or the final handler
 			}
 		} else {
-			fmt.Println("This is an error state: The route must be added to config.RoutesAuthRequired")
-			// This is an error state: The route must be added to config.RoutesAuthRequired
+			// this is an error state: The route must be added to config.RoutesAuthRequired
 			// TODO: Handle this case
+			fmt.Println("This is an error state: The route must be added to config.RoutesAuthRequired")
 		}
-
-		// // test/demo code
-		// someCondition := true
-		// if someCondition {
-		// 	util.SetCommonHttpHeaders(w)
-		// 	w.WriteHeader(http.StatusOK)
-		// 	w.Write([]byte("Hello!\n"))
-		// } else {
-		// 	next.ServeHTTP(w, r)
-		// }
-
-		// Call the next handler, which can be another middleware in the chain, or the final handler.
-		// next.ServeHTTP(w, r)
 	})
 }
 
