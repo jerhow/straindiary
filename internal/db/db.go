@@ -86,6 +86,34 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 	return retHash, retId
 }
 
+func FetchSessionAuth(userId int, authToken string) int {
+	var rowId int = -1
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `SELECT id 
+			FROM t_session_auth
+			WHERE user_id = ?
+			AND auth_token = ?
+			AND expires_at > NOW()
+			LIMIT 1;`
+
+	row := dbh.QueryRow(sql, userId, authToken)
+	_ = row.Scan(&rowId) // Returns an error, but it's behaving weirdly
+	// TODO: Revisit how we're handling this.
+	// REF: "sql.ErrNoRows undefined (type string has no field or method ErrNoRows)"
+
+	// Testing indicates that this will be 0 if no row is found
+	// If it remains -1, something else went wrong
+	// Only a value > 0 is valid for an auth token row id
+	return rowId
+}
+
 type StrainRow struct {
 	Id         int
 	UserId     int

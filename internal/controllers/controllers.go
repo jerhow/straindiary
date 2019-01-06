@@ -87,7 +87,7 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 }
 
 func Strain_GET(w http.ResponseWriter, r *http.Request) {
-	userIdRaw := r.URL.Query().Get("user_id")
+	userIdRaw := r.Header.Get("X-user-id")
 	sortByRaw := r.URL.Query().Get("sb")
 	orderByRaw := r.URL.Query().Get("ob")
 	var userId int

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	// "github.com/jerhow/straindiary/internal/auth"
+	"github.com/jerhow/straindiary/internal/auth"
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/controllers"
 	"github.com/jerhow/straindiary/internal/db"
@@ -11,6 +12,7 @@ import (
 	"github.com/jerhow/straindiary/internal/views"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 )
 
@@ -26,9 +28,18 @@ import (
 // NOTE: The routes, and whether they require auth are stored in config.RoutesAuthRequired.
 func authCheck(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Do stuff here
-		// fmt.Println("Hello from simpleMw()!")
+
+		userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
+		authToken := r.Header.Get("X-auth-token")
+
 		log.Println(r.RequestURI)
+
+		type Payload struct {
+			Msg string
+		}
+		payload := Payload{
+			Msg: "",
+		}
 
 		route := strings.Split(r.RequestURI, "?")[0]
 		_, routePresent := config.RoutesAuthRequired[route]
@@ -39,6 +50,18 @@ func authCheck(next http.Handler) http.Handler {
 				// Pass userId and token to auth.something() to check for a valid session
 				// If valid, pass through
 				// If !valid, return a 401 Unauthorized with some useful payload for the client to communicate with the user
+				if auth.CheckSession(userId, authToken) == true {
+					next.ServeHTTP(w, r)
+				} else {
+					payload.Msg = "Invalid or expired session, please log in."
+					util.SetCommonHttpHeaders(w)
+					w.WriteHeader(http.StatusUnauthorized)
+					dataJson, err := json.Marshal(payload)
+					if err != nil {
+						fmt.Fprintf(w, "Error: %s", err)
+					}
+					w.Write(dataJson)
+				}
 			} else {
 				fmt.Println("Auth not required for route " + route + ", request passes through")
 				// This is an open route, allow request to pass through

@@ -21,7 +21,7 @@ const HTTP_RESP_CONTENT_LANGUAGE string = "en"
 const HTTP_RESP_CACHE_CONTROL string = "no-store, no-cache"
 const HTTP_RESP_LOCATION string = "https://www.straindiary.com"
 
-const SQL_SESSION_OFFSET string = "INTERVAL 1 DAY"
+const SQL_SESSION_OFFSET string = "INTERVAL 1 DAY" // meaning that sessions time out after 24 hours
 
 var RoutesAuthRequired = map[string]bool{
 	"/":           false,

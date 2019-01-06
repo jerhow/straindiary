@@ -77,3 +77,19 @@ func NewSession(userId int) (bool, string, string) {
 
 	return result, msg, authToken
 }
+
+func CheckSession(userId int, authToken string) bool {
+	var result bool
+
+	rowId := db.FetchSessionAuth(userId, authToken)
+
+	if rowId < 1 {
+		result = false
+		// msg = "No matching auth session found"
+	} else {
+		result = true
+		// msg = "Found a matching auth session"
+	}
+
+	return result
+}
