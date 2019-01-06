@@ -67,7 +67,7 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	err = dbh.QueryRow("SELECT user_id, pw FROM t_login WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
+	err = dbh.QueryRow("SELECT id, pw FROM t_user WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
 
 	switch {
 	case err == sql.ErrNoRows:
@@ -77,8 +77,7 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 		// TODO: Handle this case
 		log.Fatal(err) // Fatal is equivalent to Print() followed by a call to os.Exit(1)
 	default:
-		// fmt.Printf("\nUSER: %s, %s\n", LName, FInitial)
-		// fmt.Println("Something happened")
+		// fmt.Println("Hey something happened")
 		retHash = pwdHashFromDb
 		retId = idFromDb
 	}
