@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
+	// "github.com/jerhow/straindiary/internal/auth"
 	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/controllers"
 	"github.com/jerhow/straindiary/internal/db"
@@ -10,15 +11,57 @@ import (
 	"github.com/jerhow/straindiary/internal/views"
 	"log"
 	"net/http"
+	"strings"
 )
 
-func simpleMw(next http.Handler) http.Handler {
+// Middleware for checking whether a route requires auth or an existing session,
+// and if it does, whether the request provides credentials which would allow the request
+// to pass through to completion.
+//
+// If no, then we stop the request here and send an HTTP 401 Unauthorized response,
+// along with some additional info for the client ("Invalid or expired session, please log in"
+// or something). From there the client would redirect to the login form
+// or whatever UX we're presenting for logins.
+//
+// NOTE: The routes, and whether they require auth are stored in config.RoutesAuthRequired.
+func authCheck(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Do stuff here
 		// fmt.Println("Hello from simpleMw()!")
 		log.Println(r.RequestURI)
+
+		route := strings.Split(r.RequestURI, "?")[0]
+		_, routePresent := config.RoutesAuthRequired[route]
+		if routePresent {
+			if config.RoutesAuthRequired[route] {
+				fmt.Println("Auth required for route " + route)
+				// Check for auth header containing userId and token
+				// Pass userId and token to auth.something() to check for a valid session
+				// If valid, pass through
+				// If !valid, return a 401 Unauthorized with some useful payload for the client to communicate with the user
+			} else {
+				fmt.Println("Auth not required for route " + route + ", request passes through")
+				// This is an open route, allow request to pass through
+				next.ServeHTTP(w, r)
+			}
+		} else {
+			fmt.Println("This is an error state: The route must be added to config.RoutesAuthRequired")
+			// This is an error state: The route must be added to config.RoutesAuthRequired
+			// TODO: Handle this case
+		}
+
+		// // test/demo code
+		// someCondition := true
+		// if someCondition {
+		// 	util.SetCommonHttpHeaders(w)
+		// 	w.WriteHeader(http.StatusOK)
+		// 	w.Write([]byte("Hello!\n"))
+		// } else {
+		// 	next.ServeHTTP(w, r)
+		// }
+
 		// Call the next handler, which can be another middleware in the chain, or the final handler.
-		next.ServeHTTP(w, r)
+		// next.ServeHTTP(w, r)
 	})
 }
 

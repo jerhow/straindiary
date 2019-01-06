@@ -20,3 +20,12 @@ const HTTP_RESP_CONTENT_TYPE string = "application/json"
 const HTTP_RESP_CONTENT_LANGUAGE string = "en"
 const HTTP_RESP_CACHE_CONTROL string = "no-store, no-cache"
 const HTTP_RESP_LOCATION string = "https://www.straindiary.com"
+
+var RoutesAuthRequired = map[string]bool{
+	"/":           false,
+	"/strain":     true,
+	"/ui":         false,
+	"/ui/index":   false,
+	"/ui/strains": true,
+	"/login":      false,
+}
