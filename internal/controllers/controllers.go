@@ -3,16 +3,19 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
+	// "github.com/jerhow/straindiary/internal/auth"
+	"github.com/jerhow/straindiary/internal/auth"
 	"github.com/jerhow/straindiary/internal/db"
 	"github.com/jerhow/straindiary/internal/helpers"
 	"github.com/jerhow/straindiary/internal/util"
+	"log"
 	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func Index_GET(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Println("Hello!")
 
@@ -31,6 +34,61 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 	w.Write(payloadJson)
+}
+
+func Login_POST(w http.ResponseWriter, r *http.Request) {
+	var un string = r.PostFormValue("un")
+	var pw string = r.PostFormValue("pw")
+	var authResult bool = false
+	var userId int = -1
+	var authToken string = ""
+	var newSessionResult bool
+	var newSessionMsg string
+
+	type Payload struct {
+		Msg       string
+		UserId    int
+		AuthToken string
+	}
+	payload := Payload{
+		Msg:       "",
+		UserId:    -1,
+		AuthToken: "",
+	}
+
+	util.SetCommonHttpHeaders(w)
+
+	// fmt.Println(un)
+	// fmt.Println(pw)
+	// fmt.Println(auth.Login(un, pw))
+
+	authResult, userId = auth.Login(un, pw)
+
+	if authResult {
+		newSessionResult, newSessionMsg, authToken = auth.NewSession(userId)
+		if newSessionResult {
+			payload.Msg = "Login successful"
+			payload.UserId = userId
+			payload.AuthToken = authToken
+			w.WriteHeader(http.StatusOK) // 200
+		} else {
+			// Problem with auth.NewSession(userId)
+			log.Println("Error from auth.NewSession: " + newSessionMsg)
+			payload.Msg = "Well shit, there's been a server error"
+			w.WriteHeader(http.StatusInternalServerError) // 500
+		}
+	} else {
+		payload.Msg = "Login not successful"
+		payload.AuthToken = authToken
+		w.WriteHeader(http.StatusUnauthorized) // 401
+	}
+
+	dataJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(dataJson)
 }
 
 func Strain_GET(w http.ResponseWriter, r *http.Request) {

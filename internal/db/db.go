@@ -197,6 +197,78 @@ func WriteNewStrainToDb(userId int, strainName string, stars int, sativaPct floa
 	return result, msg
 }
 
+func WriteNewSessionAuth(userId int, authToken string) (bool, string) {
+	var result bool = true
+	var msg string = ""
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `INSERT INTO t_session_auth
+			(user_id, auth_token)
+			VALUES 
+			(?, ?);`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	// first return value is 'result', but it's db driver dependent as to whether it gets populated, so it's not reliable
+	_, execErr := stmtIns.Exec(userId, authToken)
+
+	if execErr != nil {
+		// set the result flag and investigate based on the error message
+		result = false
+		// we can stack the possible error cases here, and fail out hard otherwise
+		if strings.Contains(execErr.Error(), "Something something") {
+			msg = "Something something"
+		} else {
+			log.Fatal(execErr) // something else
+		}
+	}
+
+	return result, msg
+}
+
+// Expires any sessions for a given userId (by deleting them)
+func ExpireSessionAuth(userId int) (bool, string) {
+	var result bool = true
+	var msg string = ""
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `DELETE FROM t_session_auth WHERE user_id = ?;`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	// first return value is 'result', but it's db driver dependent as to whether it gets populated, so it's not reliable
+	_, execErr := stmtIns.Exec(userId)
+
+	if execErr != nil {
+		// set the result flag and investigate based on the error message
+		result = false
+		// we can stack the possible error cases here, and fail out hard otherwise
+		if strings.Contains(execErr.Error(), "Something something") {
+			msg = "Something something"
+		} else {
+			log.Fatal(execErr) // something else
+		}
+	}
+
+	return result, msg
+}
+
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
 func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct float64,

@@ -15,7 +15,7 @@ import (
 func simpleMw(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		// Do stuff here
-		fmt.Println("Hello from simpleMw()!")
+		// fmt.Println("Hello from simpleMw()!")
 		log.Println(r.RequestURI)
 		// Call the next handler, which can be another middleware in the chain, or the final handler.
 		next.ServeHTTP(w, r)
@@ -28,7 +28,7 @@ func main() {
 	db.SetUpEnv()
 
 	r := mux.NewRouter()
-	r.HandleFunc("/", controllers.Index).Methods("GET")
+	r.HandleFunc("/", controllers.Index_GET).Methods("GET")
 	r.HandleFunc("/strain", controllers.Strain_GET).Methods("GET")
 	r.HandleFunc("/strain", controllers.Strain_POST).Methods("POST")
 	r.HandleFunc("/strain", controllers.Strain_PUT).Methods("PUT")
@@ -38,6 +38,8 @@ func main() {
 	r.HandleFunc("/ui/", views.Index).Methods("GET")
 	r.HandleFunc("/ui/index", views.Index).Methods("GET")
 	r.HandleFunc("/ui/strains", views.Strains).Methods("GET")
+
+	r.HandleFunc("/login", controllers.Login_POST).Methods("POST")
 
 	r.Use(simpleMw)
 
