@@ -23,12 +23,12 @@ func HashPwd(pwd string) (string, error) {
 	return string(bytes), err
 }
 
-func CheckPasswordHash(pwd string, hash string) bool {
+func checkPasswordHash(pwd string, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(pwd))
 	return (err == nil) // 'CompareHashAndPassword' returns nil on success or an error on failure, so we can return the result of the evaluation
 }
 
 func Login(un string, pwdFromUser string) (bool, int) {
 	pwdHashFromDb, userId := db.FetchPwdHashAndUserId(un)
-	return CheckPasswordHash(pwdFromUser, pwdHashFromDb), userId
+	return checkPasswordHash(pwdFromUser, pwdHashFromDb), userId
 }
