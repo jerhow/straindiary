@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	// "github.com/jerhow/straindiary/internal/auth"
 	"github.com/jerhow/straindiary/internal/auth"
 	"github.com/jerhow/straindiary/internal/db"
 	"github.com/jerhow/straindiary/internal/helpers"
@@ -57,10 +56,6 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 	}
 
 	util.SetCommonHttpHeaders(w)
-
-	// fmt.Println(un)
-	// fmt.Println(pw)
-	// fmt.Println(auth.Login(un, pw))
 
 	authResult, userId = auth.Login(un, pw)
 
