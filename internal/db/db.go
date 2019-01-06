@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql" // Imports the package solely for its side-effects
+	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/util"
 	"log"
 	"strings"
@@ -209,9 +210,9 @@ func WriteNewSessionAuth(userId int, authToken string) (bool, string) {
 	util.ErrChk(err)
 
 	sql := `INSERT INTO t_session_auth
-			(user_id, auth_token)
+			(user_id, auth_token, expires_at)
 			VALUES 
-			(?, ?);`
+			(?, ?, (NOW() + ` + config.SQL_SESSION_OFFSET + `));`
 
 	stmtIns, err := dbh.Prepare(sql)
 	util.ErrChk(err)

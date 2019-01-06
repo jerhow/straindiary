@@ -56,6 +56,8 @@ func NewSession(userId int) (bool, string, string) {
 	var msg string = ""
 	var authToken string = ""
 
+	// NOTE: We're expiring auth by userId altogether because if we're logging in,
+	// everything that proceeded this session is irrelevant
 	expireResult, expireMsg := db.ExpireSessionAuth(userId)
 	if !expireResult {
 		fmt.Println(expireMsg)
