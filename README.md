@@ -8,5 +8,5 @@ Project started Dec 6 2018, to scratch an itch. Trying to keep this as simple as
 - UI prioritizes mobile experience first, desktop later
 
 ### License
-Copyright © 2018 Jerry Howard<br/>
+Copyright © 2018-2019 Jerry Howard<br/>
 Distributed under the MIT License
