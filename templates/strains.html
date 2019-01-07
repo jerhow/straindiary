@@ -30,6 +30,12 @@
     </select>
 </div>
 
+<div id='strains_page_login_msg'>
+    <div class="clear" style="height: 40px;"></div>
+    <button id="btn_strains_page_login" onclick="sd.popLoginForm();">Please sign in</button>
+    <div class="clear" style="height: 100px;"></div>
+</div>
+
 <div id="strain_container"></div>
 
 <script src="{{ .Common.StaticAssetUrlBase }}tingle/0.13.2/dist/tingle.min.js"></script>
@@ -47,6 +53,7 @@ if(sd.tokenExists()) {
     sd.viewStrains();
 } else {
     document.getElementById("functional_row_top").style.display = 'none';
+    document.getElementById("strains_page_login_msg").style.display = 'inline';
     sd.popLoginForm();
 }
 </script>

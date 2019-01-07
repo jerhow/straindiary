@@ -310,6 +310,17 @@ HR {
     font-size: 1.25rem;
 }
 
+#strains_page_login_msg {
+    display: none;
+}
+
+#btn_strains_page_login {
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .9rem;
+}
+
 .clear {
     clear: both;
 }
