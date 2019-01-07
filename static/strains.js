@@ -5,8 +5,69 @@ var sd = {
     newModal: null, // new strain
     editModal: null,
     deleteModal: null,
+    loginModal: null,
     userId: null,
     staticPath: "",
+    tokenExists: function() {
+        if(!docCookies.hasItem('auth_token')) {
+            // pop login modal
+            return false;
+        } else {
+            return true;
+        }
+    },
+    popLoginForm: function() {
+        sd.instantiateLoginModal();
+        sd.loginModal.open();
+    },
+    instantiateLoginModal: function() {
+        sd.loginModal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['escape'],
+            closeLabel: "Close",
+        });
+
+        sd.loginModal.setContent(sd.loginForm());
+
+        sd.loginModal.addFooterBtn('Login', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            // sd.sendStrain('POST', function() {
+            //     sd.loginModal.close();
+            // });
+        });
+
+        sd.loginModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
+            sd.loginModal.close();
+        });
+    },
+    loginForm: function() {
+        return "" +
+        "<form action='/login' method='POST'>" +
+        "<div id='login_form_container'>" +
+        "   <div id='login_form_heading_1'>Strain Diary</div>" +
+        "   <div id='login_form_heading_2'>Track Your Trees</div>" +
+        "   <div class='login_form_row'>" +
+        "       <div class='login_form_row_left'>" +
+        "           <label class='login_form_label' for='un'>Email:</label>" +
+        "       </div>" +
+        "       <div class='login_form_row_right'>" +
+        "           <input type='text' id='un' name='un' />" +
+        "       </div>" +
+        "    </div>" +
+        "    <div class='login_form_row'>" +
+        "       <div class='login_form_row_left'>" +
+        "           <label class='login_form_label' for='pw'>Password:</label>" +
+        "       </div>" +
+        "       <div class='login_form_row_right'>" +
+        "           <input type='password' id='pw' name='pw' />" +
+        "       </div>" +
+        "    </div>" +
+        "    <div id='login_form_msg_row'>" +
+        "        <div id='login_form_msg'></div>" +
+        "   </div>" +
+        "</div>" +
+        "</form>";
+    },
     viewStrains: function(sortBy, orderBy) {
         if(!sortBy) {
             sortBy = "1";

@@ -28,6 +28,6 @@ var RoutesAuthRequired = map[string]bool{
 	"/strain":     true,
 	"/ui":         false,
 	"/ui/index":   false,
-	"/ui/strains": true,
+	"/ui/strains": false,
 	"/login":      false,
 }

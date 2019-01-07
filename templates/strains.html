@@ -37,11 +37,16 @@
 
 <link rel="stylesheet" type="text/css" href="{{ .Common.StaticAssetUrlBase }}star-rating-widget/stars.css?{{.Nonce}}" media="all">
 <script src="{{ .Common.StaticAssetUrlBase }}strains.js?{{.Nonce}}"></script>
+<script src="{{ .Common.StaticAssetUrlBase }}cookies/cookies_min.js?{{.Nonce}}"></script>
 
 <script type="text/javascript">
 sd.staticPath = "{{.StaticPath}}";
 sd.userId = "{{.UserId}}";
-sd.viewStrains();
+if(sd.tokenExists()) {
+    sd.viewStrains();
+} else {
+    sd.popLoginForm();
+}
 </script>
 
 {{template "footer" .}}
