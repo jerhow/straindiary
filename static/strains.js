@@ -11,7 +11,7 @@ var sd = {
     authToken: '',
     manageUiBasedOnUserState: function() {
         if(sd.validLogin()) {
-            document.getElementById("functional_row_top").style.display = 'inline';
+            document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
             sd.viewStrains();
         } else {
