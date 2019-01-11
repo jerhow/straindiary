@@ -1,14 +1,10 @@
 var sd = {
-    // request: new XMLHttpRequest(),
-    // resp: null,
     data: null,
     newModal: null, // new strain
     editModal: null,
     deleteModal: null,
     loginModal: null,
-    userId: null,
     staticPath: '',
-    authToken: '',
     logout: function() {
         docCookies.removeItem('user_id');
         docCookies.removeItem('auth_token');
@@ -49,18 +45,11 @@ var sd = {
                 var msg = payload['Msg'];
                 var loginStatus = payload['LoginStatus'];
                 if(loginStatus === true) {
-                    sd.userId = payload['UserId'];
-                    sd.authToken = payload['AuthToken'];
-
-                    docCookies.setItem('user_id', sd.userId, 86400);
-                    docCookies.setItem('auth_token', sd.authToken, 86400);
-
+                    docCookies.setItem('user_id', payload['UserId'], 86400);
+                    docCookies.setItem('auth_token', payload['AuthToken'], 86400);
                     sd.loginModal.close();
-                    // Set id and auth headers
                     sd.viewStrains();
                 } else {
-                    sd.userId = null;
-                    sd.authToken = null;
                     document.getElementById('login_form_msg').innerHTML = msg;
                     document.getElementById('btn_forgot_password').style.visibility = 'visible';
                 }
@@ -107,19 +96,21 @@ var sd = {
         console.log("This doesn't do anything yet");
     },
     viewStrains: function(sortBy, orderBy) {
+        var userId = docCookies.getItem('user_id');
+        var authToken = docCookies.getItem('auth_token');
+
         if(!sortBy) {
             sortBy = "1";
         }
         if(!orderBy) {
             orderBy = "0";
         }
-        var url = '/strain?user_id=' + sd.userId + '&sb=' + sortBy + '&ob=' + orderBy;
+
+        var url = '/strain?user_id=' + userId + '&sb=' + sortBy + '&ob=' + orderBy;
         var XHR = new XMLHttpRequest();
         XHR.open('GET', url, true);
-        XHR.setRequestHeader('X-user-id', docCookies.getItem('user_id'));
-        XHR.setRequestHeader('X-auth-token', docCookies.getItem('auth_token'));
-        // XHR.setRequestHeader('X-user-id', sd.userId);
-        // XHR.setRequestHeader('X-auth-token', sd.authToken);
+        XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-auth-token', authToken);
 
         XHR.onload = function() {
             if (XHR.status >= 200 && XHR.status < 400) {
@@ -255,7 +246,7 @@ var sd = {
                 console.log(XHR.responseText);
                 _callback();
                 sd.viewStrains();
-            }
+            } else 
         };
 
         // Finally, send our data.
@@ -431,7 +422,8 @@ var sd = {
         "</div>";
     },
     popEditStrainForm: function(strainId) {
-        sd.instantiateEditFormModal(sd.userId, strainId);
+        var userId = docCookies.getItem('user_id');
+        sd.instantiateEditFormModal(userId, strainId);
         sd.editModal.open();
         sd.setStarWidgetValue(document.getElementById("stars").value);
     },
@@ -441,6 +433,8 @@ var sd = {
         }
     },
     instantiateNewFormModal: function() {
+        var userId = docCookies.getItem('user_id');
+        
         sd.newModal = new tingle.modal({
             footer: true,
             stickyFooter: false,
@@ -448,7 +442,7 @@ var sd = {
             closeLabel: "Close",
         });
 
-        sd.newModal.setContent(sd.newStrainForm(sd.userId));
+        sd.newModal.setContent(sd.newStrainForm(userId));
 
         sd.newModal.addFooterBtn('Submit', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.sendStrain('POST', function() {
@@ -481,7 +475,8 @@ var sd = {
         });
     },
     popDeleteModal: function(strainId, strainName) {
-        sd.instantiateDeleteModal(sd.userId, strainId, strainName);
+        var userId = docCookies.getItem('user_id');
+        sd.instantiateDeleteModal(userId, strainId, strainName);
         sd.deleteModal.open();
     },
     instantiateDeleteModal: function(userId, strainId, strainName) {
@@ -521,7 +516,7 @@ var sd = {
     // _callback gets executed when the asynchronous call finishes
     sendDeletion: function(userId, strainId, _callback) {
         var XHR = new XMLHttpRequest();
-
+        
         XHR.addEventListener('load', function(event) {
             console.log('Yeah! Deletion sent and response loaded');
         });
