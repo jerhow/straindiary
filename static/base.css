@@ -208,6 +208,48 @@ HR {
     width: 3rem;
 }
 
+#heading_row {
+    /* border: 1px solid black; */
+    width: 90%;
+    /* margin: 15px; */
+    /* padding: 3px; */
+    margin-left: 15px;
+    /* padding-left: 3px; */
+    /* padding-right: 3px; */
+    overflow: auto;
+    /* margin: 0 auto; */
+    /* display: block; */
+}
+
+#heading_column_left {
+    /* border: 1px solid red; */
+    float: left;
+    width: 30%;
+    /* display: inline; */
+    /* vertical-align: top; */
+}
+
+#heading_column_center {
+    /* border: 1px solid red; */
+    float: left;
+}
+
+#heading_column_right {
+    /* border: 1px solid red; */
+    overflow: hidden; /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
+}
+
+#btn_logout {
+    float: right;
+    border-radius: 2em;
+    /* background-color: #57ab57; */
+    background-color: #2b2f3a;
+    color: white;
+    font-size: .70rem;
+    vertical-align: top;
+    /* text-align: right; */
+}
+
 #functional_row_top {
     /* border: 1px solid black; */
     width: 90%;

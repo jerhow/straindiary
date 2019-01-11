@@ -4,7 +4,21 @@
 
 <div id="outer_container">
 
-<div style="font-size: 1.2em; font-weight: bold;">Strain Diary</div>
-<div>{{.Common.MastheadTagline}}</div>
+<div id='heading_row'>
+
+    <div id='heading_column_left'>
+        &nbsp;
+    </div>
+    <div id='heading_column_center'>
+        <div style="font-size: 1.2em; font-weight: bold;">Strain Diary</div>
+        <div>{{.Common.MastheadTagline}}</div>
+    </div>
+    <div id='heading_column_right'>
+        <button id="btn_logout" onclick="sd.logout();">Logout</button>
+    </div>
+
+    <!-- <br style="clear: left;" /> --> <!-- Do we still need this? -->
+
+</div> <!-- 'heading_row' -->
 
 {{end}}

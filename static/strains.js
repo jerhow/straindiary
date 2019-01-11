@@ -9,14 +9,21 @@ var sd = {
     userId: null,
     staticPath: '',
     authToken: '',
+    logout: function() {
+        docCookies.removeItem('user_id');
+        docCookies.removeItem('auth_token');
+        window.location.replace('/ui/strains');
+    },
     manageUiBasedOnUserState: function() {
         if(sd.validLogin()) {
             document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
+            document.getElementById('btn_logout').style.display = 'inline';
             sd.viewStrains();
         } else {
-            document.getElementById("functional_row_top").style.display = 'none';
-            document.getElementById("strains_page_login_msg").style.display = 'inline';
+            document.getElementById('functional_row_top').style.display = 'none';
+            document.getElementById('strains_page_login_msg').style.display = 'inline';
+            document.getElementById('btn_logout').style.display = 'none';
             sd.popLoginForm();
         }
     },
@@ -118,6 +125,7 @@ var sd = {
         XHR.onload = function() {
             if (XHR.status >= 200 && XHR.status < 400) {
                 sd.data = JSON.parse(XHR.responseText);
+                sd.manageUiBasedOnUserState();
                 sd.buildStrainOutput();
             } else {
                 console.log("We reached our target server, but it returned an error: ");
