@@ -102,8 +102,8 @@ var sd = {
         console.log("This doesn't do anything yet");
     },
     viewStrains: function(sortBy, orderBy) {
-        var userId = docCookies.getItem('user_id');
-        var authToken = docCookies.getItem('auth_token');
+        var userId = sd.userId();
+        var authToken = sd.authToken();
 
         if(!sortBy) {
             sortBy = "1";
@@ -433,7 +433,7 @@ var sd = {
         "</div>";
     },
     popEditStrainForm: function(strainId) {
-        var userId = docCookies.getItem('user_id');
+        var userId = sd.userId();
         sd.instantiateEditFormModal(userId, strainId);
         sd.editModal.open();
         sd.setStarWidgetValue(document.getElementById("stars").value);
@@ -444,7 +444,7 @@ var sd = {
         }
     },
     instantiateNewFormModal: function() {
-        var userId = docCookies.getItem('user_id');
+        var userId = sd.userId();
         
         sd.newModal = new tingle.modal({
             footer: true,
@@ -486,7 +486,7 @@ var sd = {
         });
     },
     popDeleteModal: function(strainId, strainName) {
-        var userId = docCookies.getItem('user_id');
+        var userId = sd.userId();
         sd.instantiateDeleteModal(userId, strainId, strainName);
         sd.deleteModal.open();
     },
