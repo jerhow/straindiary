@@ -48,7 +48,9 @@
 <script type="text/javascript">
 sd.staticPath = "{{.StaticPath}}";
 sd.manageUiBasedOnUserState();
-sd.viewStrains();
+if(sd.validSession()) {
+    sd.viewStrains();
+}
 </script>
 
 {{template "footer" .}}

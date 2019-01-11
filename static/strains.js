@@ -17,7 +17,7 @@ var sd = {
         window.location.replace('/ui/strains');
     },
     manageUiBasedOnUserState: function() {
-        if(sd.validLogin()) {
+        if(sd.validSession()) {
             document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
             document.getElementById('btn_logout').style.display = 'inline';
@@ -28,7 +28,7 @@ var sd = {
             sd.popLoginForm();
         }
     },
-    validLogin: function() {
+    validSession: function() {
         return (docCookies.hasItem('user_id') && docCookies.hasItem('auth_token'));
     },
     popLoginForm: function() {
@@ -119,19 +119,25 @@ var sd = {
         XHR.setRequestHeader('X-auth-token', authToken);
 
         XHR.onload = function() {
-            if (XHR.status >= 200 && XHR.status < 400) {
+            if (XHR.status === 200) {
                 sd.data = JSON.parse(XHR.responseText);
                 sd.manageUiBasedOnUserState();
                 sd.buildStrainOutput();
-            } else {
-                console.log("We reached our target server, but it returned an error: ");
+            } else if (XHR.status === 401) {
+                // 401 Unauthorized, meaning the backend rejected us based on session
+                console.log("ERROR in viewStrains(): HTTP 401 Unauthorized");
+                console.log("Error number: " + XHR.status);
+                console.log("Error msg: " + XHR.statusText);
+            }
+            else {
+                console.log("ERROR in viewStrains(): We reached the server, but it returned an error");
                 console.log("Error number: " + XHR.status);
                 console.log("Error msg: " + XHR.statusText);
             }
         };
 
         XHR.onerror = function() {
-            // There was a connection error of some sort
+            console.log("ERROR in viewStrains(): There was a connection error of some sort");
         };
 
         XHR.send();
