@@ -45,14 +45,16 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 	var newSessionMsg string
 
 	type Payload struct {
-		Msg       string
-		UserId    int
-		AuthToken string
+		Msg         string
+		LoginStatus bool
+		UserId      int
+		AuthToken   string
 	}
 	payload := Payload{
-		Msg:       "",
-		UserId:    -1,
-		AuthToken: "",
+		Msg:         "",
+		LoginStatus: false,
+		UserId:      -1,
+		AuthToken:   "",
 	}
 
 	util.SetCommonHttpHeaders(w)
@@ -63,6 +65,7 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 		newSessionResult, newSessionMsg, authToken = auth.NewSession(userId)
 		if newSessionResult {
 			payload.Msg = "Login successful"
+			payload.LoginStatus = true
 			payload.UserId = userId
 			payload.AuthToken = authToken
 			w.WriteHeader(http.StatusOK) // 200

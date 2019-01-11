@@ -7,7 +7,8 @@ var sd = {
     deleteModal: null,
     loginModal: null,
     userId: null,
-    staticPath: "",
+    staticPath: '',
+    authToken: '',
     tokenExists: function() {
         if(!docCookies.hasItem('auth_token')) {
             // pop login modal
@@ -31,9 +32,21 @@ var sd = {
         sd.loginModal.setContent(sd.loginForm());
 
         sd.loginModal.addFooterBtn('Login', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            // sd.sendStrain('POST', function() {
-            //     sd.loginModal.close();
-            // });
+            sd.login(function(responseText) {
+                var payload = JSON.parse(responseText);
+                var msg = payload['Msg'];
+                var loginStatus = payload['LoginStatus'];
+                if(loginStatus === true) {
+                    sd.userId = payload['UserId'];
+                    sd.authToken = payload['AuthToken'];
+                } else {
+                    sd.userId = null;
+                    sd.authToken = null;
+                }
+                
+                // display "message to the user somehow"
+
+            });
         });
 
         sd.loginModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default tingle-btn--pull-right', function() {
@@ -212,6 +225,46 @@ var sd = {
                 console.log(XHR.responseText);
                 _callback();
                 sd.viewStrains();
+            }
+        };
+
+        // Finally, send our data.
+        XHR.send(urlEncodedData);
+    },
+    login: function(_callback) {
+        var XHR = new XMLHttpRequest();
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+
+        var un = document.getElementById("un").value;
+        var pw = document.getElementById("pw").value;
+
+        urlEncodedDataPairs.push(encodeURIComponent("un") + '=' + encodeURIComponent(un));
+        urlEncodedDataPairs.push(encodeURIComponent("pw") + '=' + encodeURIComponent(pw));
+  
+        // Combine the pairs into a single string and replace all %-encoded spaces to 
+        // the '+' character; matches the behaviour of browser form submissions.
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+
+        // Define what happens on successful data submission
+        XHR.addEventListener('load', function(event) {
+            console.log('Yeah! Data sent and response loaded.');
+        });
+
+        // Define what happens in case of error
+        XHR.addEventListener('error', function(event) {
+            console.log('Oops! Something goes wrong.');
+        });
+
+        // Set up our request
+        XHR.open('POST', '/login');
+
+        // Add the required HTTP header for form data POST requests
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        XHR.onreadystatechange = function () {
+            if(XHR.readyState === 4 && XHR.status === 200) {
+                _callback(XHR.responseText);
             }
         };
 
