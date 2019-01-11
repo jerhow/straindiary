@@ -19,7 +19,6 @@ var sd = {
             document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
             document.getElementById('btn_logout').style.display = 'inline';
-            sd.viewStrains();
         } else {
             document.getElementById('functional_row_top').style.display = 'none';
             document.getElementById('strains_page_login_msg').style.display = 'inline';
