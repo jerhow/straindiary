@@ -253,6 +253,39 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	w.Write(payloadJson)
 }
 
+// Pulls the userId out of the custom header, passes it along,
+// responds based on the result it gets back
+func Logout_DELETE(w http.ResponseWriter, r *http.Request) {
+
+	type Payload struct {
+		Result bool
+		Msg    string
+	}
+	payload := Payload{
+		Result: false,
+		Msg:    "",
+	}
+	userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
+	payload.Result, _ = auth.Logout(userId)
+
+	util.SetCommonHttpHeaders(w)
+
+	if payload.Result == true {
+		payload.Msg = "Session deleted"
+		w.WriteHeader(http.StatusOK)
+	} else {
+		payload.Msg = "ERROR: There was a problem deleting this session on the backend"
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	payloadJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(payloadJson)
+}
+
 // Wherein one or more strains can be deleted, within an individual user's strains
 // Strains will come in as a comma-separated list of strain ids
 func Strain_DELETE(w http.ResponseWriter, r *http.Request) {

@@ -97,3 +97,8 @@ func CheckSession(userId int, authToken string) bool {
 func RefreshSession(userId int, authToken string) {
 	db.RefreshSessionExpiry(userId, authToken)
 }
+
+func Logout(userId int) (bool, string) {
+	result, msg := db.ExpireSessionAuth(userId)
+	return result, msg
+}

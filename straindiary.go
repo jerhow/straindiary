@@ -90,6 +90,7 @@ func main() {
 	r.HandleFunc("/ui/strains", views.Strains).Methods("GET")
 
 	r.HandleFunc("/login", controllers.Login_POST).Methods("POST")
+	r.HandleFunc("/logout", controllers.Logout_DELETE).Methods("DELETE")
 
 	r.Use(authCheck) // middleware which will run before any route controller
 
