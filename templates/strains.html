@@ -48,14 +48,7 @@
 <script type="text/javascript">
 sd.staticPath = "{{.StaticPath}}";
 sd.userId = "{{.UserId}}";
-if(sd.tokenExists()) {
-    // document.getElementById("functional_row_top").style.display = 'inline'; // necessary?
-    sd.viewStrains();
-} else {
-    document.getElementById("functional_row_top").style.display = 'none';
-    document.getElementById("strains_page_login_msg").style.display = 'inline';
-    sd.popLoginForm();
-}
+sd.manageUiBasedOnUserState();
 </script>
 
 {{template "footer" .}}

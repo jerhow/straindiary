@@ -72,11 +72,11 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 		} else {
 			// Problem with auth.NewSession(userId)
 			log.Println("Error from auth.NewSession: " + newSessionMsg)
-			payload.Msg = "Well shit, there's been a server error"
+			payload.Msg = "Well shit, there's been some kind of server error"
 			w.WriteHeader(http.StatusInternalServerError) // 500
 		}
 	} else {
-		payload.Msg = "Login not successful"
+		payload.Msg = "Invalid login, please try again"
 		payload.AuthToken = authToken
 		w.WriteHeader(http.StatusUnauthorized) // 401
 	}

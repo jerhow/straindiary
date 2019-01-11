@@ -1,6 +1,6 @@
 var sd = {
-    request: new XMLHttpRequest(),
-    resp: null,
+    // request: new XMLHttpRequest(),
+    // resp: null,
     data: null,
     newModal: null, // new strain
     editModal: null,
@@ -9,13 +9,19 @@ var sd = {
     userId: null,
     staticPath: '',
     authToken: '',
-    tokenExists: function() {
-        if(!docCookies.hasItem('auth_token')) {
-            // pop login modal
-            return false;
+    manageUiBasedOnUserState: function() {
+        if(sd.validLogin()) {
+            document.getElementById("functional_row_top").style.display = 'inline';
+            document.getElementById("strains_page_login_msg").style.display = 'none';
+            sd.viewStrains();
         } else {
-            return true;
+            document.getElementById("functional_row_top").style.display = 'none';
+            document.getElementById("strains_page_login_msg").style.display = 'inline';
+            sd.popLoginForm();
         }
+    },
+    validLogin: function() {
+        return (docCookies.hasItem('user_id') && docCookies.hasItem('auth_token'));
     },
     popLoginForm: function() {
         sd.instantiateLoginModal();
@@ -39,13 +45,19 @@ var sd = {
                 if(loginStatus === true) {
                     sd.userId = payload['UserId'];
                     sd.authToken = payload['AuthToken'];
+
+                    docCookies.setItem('user_id', sd.userId, 86400);
+                    docCookies.setItem('auth_token', sd.authToken, 86400);
+
+                    sd.loginModal.close();
+                    // Set id and auth headers
+                    sd.viewStrains();
                 } else {
                     sd.userId = null;
                     sd.authToken = null;
+                    document.getElementById('login_form_msg').innerHTML = msg;
+                    document.getElementById('btn_forgot_password').style.visibility = 'visible';
                 }
-                
-                // display "message to the user somehow"
-
             });
         });
 
@@ -76,10 +88,17 @@ var sd = {
         "       </div>" +
         "    </div>" +
         "    <div id='login_form_msg_row'>" +
-        "        <div id='login_form_msg'></div>" +
-        "   </div>" +
+        "       <div id='login_form_msg'></div>" +
+        "       <div id='login_form_forgot_password'>" +
+        "           <button id='btn_forgot_password' onclick='sd.forgotPassword(); return false;'>Forgot Password?</button>" +
+        "       </div>" +
+        "    </div>" +
         "</div>" +
         "</form>";
+    },
+    forgotPassword: function() {
+        // TODO
+        console.log("This doesn't do anything yet");
     },
     viewStrains: function(sortBy, orderBy) {
         if(!sortBy) {
@@ -89,25 +108,29 @@ var sd = {
             orderBy = "0";
         }
         var url = '/strain?user_id=' + sd.userId + '&sb=' + sortBy + '&ob=' + orderBy;
-        sd.request.open('GET', url, true);
+        var XHR = new XMLHttpRequest();
+        XHR.open('GET', url, true);
+        XHR.setRequestHeader('X-user-id', docCookies.getItem('user_id'));
+        XHR.setRequestHeader('X-auth-token', docCookies.getItem('auth_token'));
+        // XHR.setRequestHeader('X-user-id', sd.userId);
+        // XHR.setRequestHeader('X-auth-token', sd.authToken);
 
-        sd.request.onload = function() {
-            if (sd.request.status >= 200 && sd.request.status < 400) {
-                sd.resp = sd.request.responseText;
-                sd.data = JSON.parse(sd.resp);
+        XHR.onload = function() {
+            if (XHR.status >= 200 && XHR.status < 400) {
+                sd.data = JSON.parse(XHR.responseText);
                 sd.buildStrainOutput();
             } else {
                 console.log("We reached our target server, but it returned an error: ");
-                console.log("Error number: " + sd.request.status);
-                console.log("Error msg: " + sd.request.statusText);
+                console.log("Error number: " + XHR.status);
+                console.log("Error msg: " + XHR.statusText);
             }
         };
 
-        sd.request.onerror = function() {
+        XHR.onerror = function() {
             // There was a connection error of some sort
         };
 
-        sd.request.send();
+        XHR.send();
     },
     buildStrainOutput: function() {
         var strainDivs = [];
@@ -248,12 +271,12 @@ var sd = {
 
         // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
-            console.log('Yeah! Data sent and response loaded.');
+            console.log('Success: Data sent and response loaded');
         });
 
         // Define what happens in case of error
         XHR.addEventListener('error', function(event) {
-            console.log('Oops! Something goes wrong.');
+            console.log('Hmm something went wrong with the call');
         });
 
         // Set up our request
@@ -263,7 +286,7 @@ var sd = {
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
         XHR.onreadystatechange = function () {
-            if(XHR.readyState === 4 && XHR.status === 200) {
+            if(XHR.readyState === 4 && (XHR.status === 200 || XHR.status === 401)) {
                 _callback(XHR.responseText);
             }
         };

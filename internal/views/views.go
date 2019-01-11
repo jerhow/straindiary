@@ -55,7 +55,7 @@ func Strains(w http.ResponseWriter, r *http.Request) {
 		UserMsg:    template.HTML(""),
 		Common:     util.TmplCommon,
 		Nonce:      time.Now().UnixNano(),
-		UserId:     3, // TODO: This is obviously temporary
+		UserId:     -1, // TODO: We need to deal with this
 		StaticPath: config.STATIC_ASSET_URL_BASE_LOCAL,
 	}
 

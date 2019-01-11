@@ -61,7 +61,7 @@ HR {
 #login_form_heading_2 {
     text-align: center;
     font-size: 1rem;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
 }
 
 #login_form_title {
@@ -76,7 +76,7 @@ HR {
     text-align: center;
     clear: both;
     padding-left: 15px;
-    margin-bottom: 45px;
+    padding-bottom: 27px;
 }
 
 .login_form_row_left {
@@ -86,6 +86,31 @@ HR {
 
 .login_form_row_right {
     float: right;
+}
+
+#login_form_msg_row {
+    text-align: center;
+    clear: both;
+    padding-left: 15px;
+    /* padding-bottom: 5px; */
+    padding-top: 5px;
+}
+
+#login_form_msg {
+    color: red;
+    /* font-weight: bold; */
+}
+
+#login_form_forgot_password {
+    padding-top: 5px;
+}
+
+#btn_forgot_password {
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .8rem;
+    visibility: hidden;
 }
 
 #new_strain_form_container, #edit_strain_form_container {
@@ -189,6 +214,10 @@ HR {
     margin: 15px;
     padding: 3px;
     overflow: auto;
+}
+
+#strains_page_login_msg {
+    display: none;
 }
 
 #btn_add_a_strain {
@@ -308,10 +337,6 @@ HR {
 .delete_confirm {
     text-align: center;
     font-size: 1.25rem;
-}
-
-#strains_page_login_msg {
-    display: none;
 }
 
 #btn_strains_page_login {
