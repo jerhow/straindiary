@@ -5,6 +5,12 @@ var sd = {
     deleteModal: null,
     loginModal: null,
     staticPath: '',
+    userId: function() {
+        return docCookies.getItem('user_id');
+    },
+    authToken: function() {
+        return docCookies.getItem('auth_token');
+    },
     logout: function() {
         docCookies.removeItem('user_id');
         docCookies.removeItem('auth_token');
@@ -240,13 +246,18 @@ var sd = {
 
         // Add the required HTTP header for form data POST requests
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        XHR.setRequestHeader('X-user-id', sd.userId());
+        XHR.setRequestHeader('X-auth-token', sd.authToken());
 
         XHR.onreadystatechange = function () {
             if(XHR.readyState === 4 && XHR.status === 200) {
                 console.log(XHR.responseText);
                 _callback();
                 sd.viewStrains();
-            } else 
+            } else {
+                console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                    'We got an undesirable response code back.');
+            }
         };
 
         // Finally, send our data.
@@ -516,7 +527,7 @@ var sd = {
     // _callback gets executed when the asynchronous call finishes
     sendDeletion: function(userId, strainId, _callback) {
         var XHR = new XMLHttpRequest();
-        
+
         XHR.addEventListener('load', function(event) {
             console.log('Yeah! Deletion sent and response loaded');
         });
@@ -529,6 +540,7 @@ var sd = {
 
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-auth-token', sd.authToken());
         XHR.setRequestHeader('X-ids-for-deletion', strainId);
 
         XHR.onreadystatechange = function () {
