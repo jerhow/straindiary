@@ -101,10 +101,10 @@ var sd = {
     },
     loginForm: function() {
         return "" +
-        "<form action='/login' method='POST'>" +
         "<div id='login_form_container'>" +
         "   <div id='login_form_heading_1'>Strain Diary</div>" +
         "   <div id='login_form_heading_2'>Track Your Trees</div>" +
+        "   <form action='/login' method='POST'>" +
         "   <div class='login_form_row'>" +
         "       <div class='login_form_row_left'>" +
         "           <label class='login_form_label' for='un'>Email:</label>" +
@@ -121,14 +121,14 @@ var sd = {
         "           <input type='password' id='pw' name='pw' />" +
         "       </div>" +
         "    </div>" +
+        "   </form>" +
         "    <div id='login_form_msg_row'>" +
         "       <div id='login_form_msg'></div>" +
         "       <div id='login_form_forgot_password'>" +
         "           <button id='btn_forgot_password' onclick='sd.forgotPassword(); return false;'>Forgot Password?</button>" +
         "       </div>" +
         "    </div>" +
-        "</div>" +
-        "</form>";
+        "</div>";
     },
     forgotPassword: function() {
         // TODO
