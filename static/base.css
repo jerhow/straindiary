@@ -262,7 +262,17 @@ HR {
 
 #strains_page_login_msg {
     display: none;
-    /* clear: left; */
+    width: 90%;
+    margin: 15px;
+    clear: both;
+}
+
+#btn_strains_page_login {
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .9rem;
+    text-align: center;
 }
 
 #btn_add_a_strain {
@@ -382,13 +392,6 @@ HR {
 .delete_confirm {
     text-align: center;
     font-size: 1.25rem;
-}
-
-#btn_strains_page_login {
-    border-radius: 2em;
-    background-color: #57ab57;
-    color: white;
-    font-size: .9rem;
 }
 
 .clear {

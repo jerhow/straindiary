@@ -56,7 +56,7 @@ var sd = {
             document.getElementById('btn_logout').style.display = 'inline';
         } else {
             document.getElementById('functional_row_top').style.display = 'none';
-            document.getElementById('strains_page_login_msg').style.display = 'inline';
+            document.getElementById('strains_page_login_msg').style.display = 'block';
             document.getElementById('btn_logout').style.display = 'none';
             sd.popLoginForm();
         }
