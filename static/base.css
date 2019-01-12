@@ -250,6 +250,16 @@ HR {
     /* text-align: right; */
 }
 
+#btn_user_settings {
+    float: left;
+    border-radius: 2em;
+    background-color: #2b2f3a;
+    color: white;
+    font-size: .70rem;
+    vertical-align: top;
+    /* text-align: right; */
+}
+
 #functional_row_top {
     /* border: 1px solid black; */
     width: 90%;

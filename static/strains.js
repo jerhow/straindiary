@@ -5,6 +5,10 @@ var sd = {
     deleteModal: null,
     loginModal: null,
     staticPath: '',
+    userSettings: function() {
+        // TODO
+        console.log("This doesn't do anything yet");
+    },
     userId: function() {
         return docCookies.getItem('user_id');
     },
