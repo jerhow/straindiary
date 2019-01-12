@@ -266,7 +266,8 @@ func Logout_DELETE(w http.ResponseWriter, r *http.Request) {
 		Msg:    "",
 	}
 	userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
-	payload.Result, _ = auth.Logout(userId)
+	authToken := r.Header.Get("X-auth-token")
+	payload.Result, _ = auth.Logout(userId, authToken)
 
 	util.SetCommonHttpHeaders(w)
 

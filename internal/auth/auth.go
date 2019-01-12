@@ -5,7 +5,6 @@
 package auth
 
 import (
-	"fmt"
 	"github.com/jerhow/straindiary/internal/db"
 	"github.com/jerhow/straindiary/internal/util"
 	"golang.org/x/crypto/bcrypt"
@@ -56,13 +55,6 @@ func NewSession(userId int) (bool, string, string) {
 	var msg string = ""
 	var authToken string = ""
 
-	// NOTE: We're expiring auth by userId altogether because if we're logging in,
-	// everything that proceeded this session is irrelevant
-	expireResult, expireMsg := db.ExpireSessionAuth(userId)
-	if !expireResult {
-		fmt.Println(expireMsg)
-	}
-
 	// TODO: Add salt
 	someRandomString := generateRandomAlphaNumericString(10) // TODO: How long really?
 
@@ -98,7 +90,7 @@ func RefreshSession(userId int, authToken string) {
 	db.RefreshSessionExpiry(userId, authToken)
 }
 
-func Logout(userId int) (bool, string) {
-	result, msg := db.ExpireSessionAuth(userId)
+func Logout(userId int, authToken string) (bool, string) {
+	result, msg := db.ExpireSessionAuth(userId, authToken)
 	return result, msg
 }

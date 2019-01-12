@@ -291,7 +291,7 @@ func WriteNewSessionAuth(userId int, authToken string) (bool, string) {
 }
 
 // Expires any sessions for a given userId (by deleting them)
-func ExpireSessionAuth(userId int) (bool, string) {
+func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 	var result bool = true
 	var msg string = ""
 
@@ -302,14 +302,16 @@ func ExpireSessionAuth(userId int) (bool, string) {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	sql := `DELETE FROM t_session_auth WHERE user_id = ?;`
+	sql := `DELETE FROM t_session_auth 
+			WHERE user_id = ?
+			AND auth_token = ?;`
 
 	stmtIns, err := dbh.Prepare(sql)
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
 	// first return value is 'result', but it's db driver dependent as to whether it gets populated, so it's not reliable
-	_, execErr := stmtIns.Exec(userId)
+	_, execErr := stmtIns.Exec(userId, authToken)
 
 	if execErr != nil {
 		// set the result flag and investigate based on the error message

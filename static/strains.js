@@ -12,14 +12,15 @@ var sd = {
         return docCookies.getItem('auth_token');
     },
     logout: function() {
-        var userId = docCookies.getItem('user_id');
+        var userId = sd.userId();
+        var authToken = sd.authToken();
         docCookies.removeItem('user_id');
         docCookies.removeItem('auth_token');
-        sd.sendLogout(userId, function() {
+        sd.sendLogout(userId, authToken, function() {
             window.location.replace('/ui/strains');
         });
     },
-    sendLogout: function(userId, _callback) {
+    sendLogout: function(userId, authToken, _callback) {
         var XHR = new XMLHttpRequest();
 
         XHR.addEventListener('load', function(event) {
@@ -34,6 +35,7 @@ var sd = {
 
         XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-auth-token', authToken);
 
         XHR.onreadystatechange = function () {
             if(XHR.readyState === 4 && XHR.status === 200) {
