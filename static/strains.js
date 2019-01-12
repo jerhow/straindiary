@@ -12,9 +12,42 @@ var sd = {
         return docCookies.getItem('auth_token');
     },
     logout: function() {
+        var userId = docCookies.getItem('user_id');
         docCookies.removeItem('user_id');
         docCookies.removeItem('auth_token');
-        window.location.replace('/ui/strains');
+        sd.sendLogout(userId, function() {
+            window.location.replace('/ui/strains');
+        });
+    },
+    sendLogout: function(userId, _callback) {
+        var XHR = new XMLHttpRequest();
+
+        XHR.addEventListener('load', function(event) {
+            console.log('Logout request sent and response loaded');
+        });
+
+        XHR.addEventListener('error', function(event) {
+            console.log('ERROR: Crap something went wrong in sd.sendLogout()');
+        });
+
+        XHR.open('DELETE', '/logout');
+
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        XHR.setRequestHeader('X-user-id', userId);
+
+        XHR.onreadystatechange = function () {
+            if(XHR.readyState === 4 && XHR.status === 200) {
+                console.log(XHR.responseText);
+                _callback();
+            } else {
+                console.log(XHR.responseText);
+                console.log("ERROR in sd.sendLogout():");
+                console.log("Error number: " + XHR.status);
+                console.log("Error msg: " + XHR.statusText);
+            }
+        };
+
+        XHR.send();
     },
     manageUiBasedOnUserState: function() {
         if(sd.validSession()) {

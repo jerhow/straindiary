@@ -28,7 +28,7 @@ import (
 // NOTE: The routes, and whether they require auth are stored in config.RoutesAuthRequired.
 func authCheck(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// log.Println(r.RequestURI)
+		log.Println(r.RequestURI)
 		userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
 		authToken := r.Header.Get("X-auth-token")
 
