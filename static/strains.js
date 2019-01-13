@@ -12,6 +12,9 @@ var sd = {
     userId: function() {
         return docCookies.getItem('user_id');
     },
+    nickname: function() {
+        return docCookies.getItem('nickname');
+    },
     authToken: function() {
         return docCookies.getItem('auth_token');
     },
@@ -19,6 +22,7 @@ var sd = {
         var userId = sd.userId();
         var authToken = sd.authToken();
         docCookies.removeItem('user_id');
+        docCookies.removeItem('nickname');
         docCookies.removeItem('auth_token');
         sd.sendLogout(userId, authToken, function() {
             window.location.replace('/ui/strains');
@@ -91,6 +95,7 @@ var sd = {
                 var loginStatus = payload['LoginStatus'];
                 if(loginStatus === true) {
                     docCookies.setItem('user_id', payload['UserId'], 86400);
+                    docCookies.setItem('nickname', payload['Nickname'], 86400);
                     docCookies.setItem('auth_token', payload['AuthToken'], 86400);
                     sd.loginModal.close();
                     sd.viewStrains();
