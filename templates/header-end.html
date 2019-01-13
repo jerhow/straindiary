@@ -7,14 +7,19 @@
 <div id='heading_row'>
 
     <div id='heading_column_left'>
-        <button id="btn_user_settings" onclick="sd.userSettings();">Settings</button>
+        <div id="user_stuff">
+            <a href="#" onclick="sd.userSettings();" title="User settings"><img 
+                id='face_icon' alt="User settings" src="{{ .Common.StaticAssetUrlBase }}soulmate-50x50-trans.png" /></a>
+            <div id="nickname"></div>
+        </div>
     </div>
     <div id='heading_column_center'>
         <div style="font-size: 1.2em; font-weight: bold;">Strain Diary</div>
         <div>{{.Common.MastheadTagline}}</div>
     </div>
     <div id='heading_column_right'>
-        <button id="btn_logout" onclick="sd.logout();">Logout</button>
+        <a href="#" onclick="sd.logout();" title="Log out"><img 
+            id='logout_icon' alt="Log out" src="{{ .Common.StaticAssetUrlBase }}logout-door-50x83-trans.png" /></a>
     </div>
 
     <!-- <br style="clear: left;" /> --> <!-- Do we still need this? -->

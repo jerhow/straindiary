@@ -65,11 +65,13 @@ var sd = {
         if(sd.validSession()) {
             document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
-            document.getElementById('btn_logout').style.display = 'inline';
+            document.getElementById('face_icon').style.display = 'inline';
+            document.getElementById('logout_icon').style.display = 'inline';
         } else {
             document.getElementById('functional_row_top').style.display = 'none';
             document.getElementById('strains_page_login_msg').style.display = 'block';
-            document.getElementById('btn_logout').style.display = 'none';
+            document.getElementById('face_icon').style.display = 'none';
+            document.getElementById('logout_icon').style.display = 'none';
             sd.popLoginForm();
         }
     },
@@ -99,6 +101,7 @@ var sd = {
                     docCookies.setItem('user_id', payload['UserId'], (sd.oneDayInSeconds * sd.sessionFactor));
                     docCookies.setItem('nickname', payload['Nickname'], (sd.oneDayInSeconds * sd.sessionFactor));
                     docCookies.setItem('auth_token', payload['AuthToken'], (sd.oneDayInSeconds * sd.sessionFactor));
+                    document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
                     sd.loginModal.close();
                     sd.viewStrains();
                 } else {

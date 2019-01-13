@@ -47,6 +47,8 @@
 sd.staticPath = "{{.StaticPath}}";
 sd.sessionFactor = {{.JsSessionFactor}};
 sd.manageUiBasedOnUserState();
+document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
+
 if(sd.validSession()) {
     sd.viewStrains();
 }

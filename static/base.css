@@ -234,6 +234,8 @@ HR {
     padding-top: 3px;
     /* display: inline; */
     /* vertical-align: top; */
+    word-break: break-all; 
+    word-wrap: break-word;
 }
 
 #heading_column_center {
@@ -244,6 +246,7 @@ HR {
 #heading_column_right {
     /* border: 1px solid red; */
     padding-top: 3px;
+    text-align: right;
     overflow: hidden; /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
 }
 
@@ -255,7 +258,6 @@ HR {
     color: white;
     font-size: .70rem;
     vertical-align: top;
-    /* text-align: right; */
 }
 
 #btn_user_settings {
@@ -265,11 +267,30 @@ HR {
     color: white;
     font-size: .70rem;
     vertical-align: top;
-    /* text-align: right; */
+}
+
+#user_stuff {
+    text-align: left;
+}
+
+#nickname {
+    clear: right;
+    font-size: .70rem;
+    font-style: italic;
+    width: 95%;
+}
+
+#face_icon {
+    width: 25px;
+    height: 25px;
+}
+
+#logout_icon {
+    width: 25px;
+    height: 25px;
 }
 
 #functional_row_top {
-    /* border: 1px solid black; */
     width: 90%;
     margin: 15px;
     padding: 3px;
