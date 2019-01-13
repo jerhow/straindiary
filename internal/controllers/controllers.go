@@ -40,6 +40,7 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 	var pw string = r.PostFormValue("pw")
 	var authResult bool = false
 	var userId int = -1
+	var nickname string = ""
 	var authToken string = ""
 	var newSessionResult bool
 	var newSessionMsg string
@@ -48,18 +49,20 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 		Msg         string
 		LoginStatus bool
 		UserId      int
+		Nickname    string
 		AuthToken   string
 	}
 	payload := Payload{
 		Msg:         "",
 		LoginStatus: false,
 		UserId:      -1,
+		Nickname:    "",
 		AuthToken:   "",
 	}
 
 	util.SetCommonHttpHeaders(w)
 
-	authResult, userId = auth.Login(un, pw)
+	authResult, userId, nickname = auth.Login(un, pw)
 
 	if authResult {
 		newSessionResult, newSessionMsg, authToken = auth.NewSession(userId)
@@ -67,6 +70,7 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 			payload.Msg = "Login successful"
 			payload.LoginStatus = true
 			payload.UserId = userId
+			payload.Nickname = nickname
 			payload.AuthToken = authToken
 			w.WriteHeader(http.StatusOK) // 200
 		} else {

@@ -56,11 +56,13 @@ func Db1() {
 	// defer insert.Close()
 }
 
-func FetchPwdHashAndUserId(un string) (string, int) {
+func FetchPwdHashAndUserInfo(un string) (string, int, string) {
 	var pwdHashFromDb string
 	var idFromDb int
+	var nicknameFromDb string
 	var retHash string = ""
 	var retId int = -1
+	var retNickname string = ""
 
 	dbh, err := sql.Open(DRIVER, dsn())
 	util.ErrChk(err)
@@ -69,7 +71,9 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	err = dbh.QueryRow("SELECT id, pw FROM t_user WHERE un = ?", un).Scan(&idFromDb, &pwdHashFromDb)
+	err = dbh.QueryRow(`SELECT id, pw, IFNULL(nickname, 'Anonymous') as 'nickname' 
+						FROM t_user 
+						WHERE un = ?`, un).Scan(&idFromDb, &pwdHashFromDb, &nicknameFromDb)
 
 	switch {
 	case err == sql.ErrNoRows:
@@ -82,9 +86,10 @@ func FetchPwdHashAndUserId(un string) (string, int) {
 		// fmt.Println("Hey something happened")
 		retHash = pwdHashFromDb
 		retId = idFromDb
+		retNickname = nicknameFromDb
 	}
 
-	return retHash, retId
+	return retHash, retId, retNickname
 }
 
 func FetchSessionAuth(userId int, authToken string) int {
