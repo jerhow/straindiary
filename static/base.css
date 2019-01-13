@@ -292,8 +292,8 @@ HR {
 
 #functional_row_top {
     width: 90%;
-    margin: 15px;
-    padding: 3px;
+    margin-left: 15px;
+    /* padding: 3px; */
     overflow: auto;
     /* margin: 0 auto; */
     display: block;
