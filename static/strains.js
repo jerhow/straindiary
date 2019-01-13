@@ -5,6 +5,8 @@ var sd = {
     deleteModal: null,
     loginModal: null,
     staticPath: '',
+    sessionFactor: 0,
+    oneDayInSeconds: 86400,
     userSettings: function() {
         // TODO
         console.log("This doesn't do anything yet");
@@ -94,9 +96,9 @@ var sd = {
                 var msg = payload['Msg'];
                 var loginStatus = payload['LoginStatus'];
                 if(loginStatus === true) {
-                    docCookies.setItem('user_id', payload['UserId'], 86400);
-                    docCookies.setItem('nickname', payload['Nickname'], 86400);
-                    docCookies.setItem('auth_token', payload['AuthToken'], 86400);
+                    docCookies.setItem('user_id', payload['UserId'], (sd.oneDayInSeconds * sd.sessionFactor));
+                    docCookies.setItem('nickname', payload['Nickname'], (sd.oneDayInSeconds * sd.sessionFactor));
+                    docCookies.setItem('auth_token', payload['AuthToken'], (sd.oneDayInSeconds * sd.sessionFactor));
                     sd.loginModal.close();
                     sd.viewStrains();
                 } else {

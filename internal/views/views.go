@@ -41,20 +41,22 @@ func Index(w http.ResponseWriter, r *http.Request) {
 func Strains(w http.ResponseWriter, r *http.Request) {
 
 	type PageData struct {
-		BodyTitle  string
-		LoginMsg   string
-		UserMsg    template.HTML
-		Common     util.TemplateCommon
-		Nonce      int64
-		StaticPath string
+		BodyTitle       string
+		LoginMsg        string
+		UserMsg         template.HTML
+		Common          util.TemplateCommon
+		Nonce           int64
+		StaticPath      string
+		JsSessionFactor int
 	}
 	data := PageData{
-		BodyTitle:  "Welcome!",
-		LoginMsg:   "",
-		UserMsg:    template.HTML(""),
-		Common:     util.TmplCommon,
-		Nonce:      time.Now().UnixNano(),
-		StaticPath: config.STATIC_ASSET_URL_BASE_LOCAL,
+		BodyTitle:       "Welcome!",
+		LoginMsg:        "",
+		UserMsg:         template.HTML(""),
+		Common:          util.TmplCommon,
+		Nonce:           time.Now().UnixNano(),
+		StaticPath:      config.STATIC_ASSET_URL_BASE_LOCAL,
+		JsSessionFactor: config.JS_SESSION_FACTOR,
 	}
 
 	tmpl := template.Must(template.ParseFiles(

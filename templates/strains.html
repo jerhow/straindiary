@@ -45,6 +45,7 @@
 
 <script type="text/javascript">
 sd.staticPath = "{{.StaticPath}}";
+sd.sessionFactor = {{.JsSessionFactor}};
 sd.manageUiBasedOnUserState();
 if(sd.validSession()) {
     sd.viewStrains();
