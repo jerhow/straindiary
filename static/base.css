@@ -237,7 +237,7 @@ HR {
 }
 
 #heading_column_left {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     float: left;
     width: 36%;
     padding-top: 3px;
@@ -248,13 +248,13 @@ HR {
 }
 
 #heading_column_center {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     width: 34%;
     float: left;
 }
 
 #heading_column_right {
-    border: 1px solid red;
+    /* border: 1px solid red; */
     padding-top: 3px;
     text-align: right;
     overflow: hidden; /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
