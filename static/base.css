@@ -142,8 +142,42 @@ HR {
     padding-bottom: .5rem;
 }
 
+#con_price, #con_currency, #con_unit_of_measure {
+    float: left;
+    padding-bottom: .5rem;
+}
+
+#currency_symbol {
+    font-size: .9rem;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+#price {
+    width: 4rem;
+}
+
+#ddl_currency {
+    font-size: .8rem;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+#unit_of_measure_label {
+    font-size: .9rem;
+    margin-left: 4px;
+    margin-right: 1px;
+}
+
+#unit_of_measure {
+    width: 2rem;
+    background-color: #57ab57;
+    color: white;
+}
+
 #con_sativa_pct {
     float: left;
+    clear: left;
     padding-bottom: .5rem;
 }
 

@@ -9,25 +9,45 @@ var sd = {
     oneDayInSeconds: 86400,
     currency: {
         "USD": "$",
-        "AUD": "AU$",
         "CAD": "C$",
+        "EUR": "€",
+        "GBP": "£",
+        "AUD": "AU$",
+        "MXN": "MX$",
         "CHF": "Fr",
         "JPY": "¥",
         "NZD": "NZ$",
-        "EUR": "€",
-        "GBP": "£",
         "SEK": "kr",
         "DKK": "kr",
         "NOK": "kr",
         "SGD": "S$",
         "CZK": "Kč",
         "HKD": "HK$",
-        "MXN": "MX$",
         "CNH": "¥",
         "PLN": "zł",
         "RUB": "₽",
         "TRY": "₺",
         "ZAR": "R"
+    },
+    currencyDdl: function() {
+        var arr = [];
+        var defaultValue = "USD";
+        var selected = "";
+        arr.push("<select id='ddl_currency' name='ddl_currency' onchange='sd.currencyChange(this);'>");
+        // arr.push("<option value=''>Currency</option>");
+        for(var key in sd.currency) {
+            if(key === defaultValue) {
+                selected = " selected ";
+            } else {
+                selected = " ";
+            }
+            arr.push("<option value='" + sd.currency[key] + "' " + selected + ">" + key + "</option>");
+        }
+        arr.push("</select>");
+        return arr.join("");
+    },
+    currencyChange: function(obj) {
+        document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value;
     },
     userSettings: function() {
         // TODO
@@ -433,6 +453,23 @@ var sd = {
         "               <input id='rating1' type='radio' name='rating' value='1' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating1'>1</label>" +
         "           </span>" +
+        "       </div>" +
+        "       <div id='con_price'>" +
+        "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
+        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' />" +
+        "       </div>" +
+        "       <div id='con_currency'>" +
+                    sd.currencyDdl() +
+        "       </div>" +
+        "       <div id='con_unit_of_measure'>" +
+        "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
+        "           <select id='ddl_unit_of_measure' name='ddl_unit_of_measure'>" +
+        "               <option value='gram'>Gram</option>" +
+        "               <option value='eighth' selected>Eighth</option>" +
+        "               <option value='quarter'>Quarter</option>" +
+        "               <option value='half'>Half</option>" +
+        "               <option value='ounce'>Ounce</option>" +
+        "           </select>" +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
         "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' /> %" +
