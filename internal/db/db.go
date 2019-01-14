@@ -147,20 +147,22 @@ func RefreshSessionExpiry(userId int, authToken string) {
 }
 
 type StrainRow struct {
-	Id         int
-	UserId     int
-	StrainName string
-	Price      float64
-	SativaPct  float64
-	IndicaPct  float64
-	ThcPct     float64
-	CbdPct     float64
-	Stars      int
-	Comments   string
-	Company    string
-	Dispensary string
-	CreatedAt  string
-	ModifiedAt string
+	Id                   int
+	UserId               int
+	StrainName           string
+	Price                float64
+	CurrencyAbbreviation string
+	UnitOfMeasure        string
+	SativaPct            float64
+	IndicaPct            float64
+	ThcPct               float64
+	CbdPct               float64
+	Stars                int
+	Comments             string
+	Company              string
+	Dispensary           string
+	CreatedAt            string
+	ModifiedAt           string
 }
 
 // Expects the user's id, and sortBy and orderBy values
@@ -180,6 +182,8 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 				user_id,
 				strain_name,
 				price,
+				currency_abbreviation,
+				unit_of_measure,
 				ROUND(sativa_pct, 2) AS sativa_pct,
 				ROUND(indica_pct, 2) AS indica_pct,
 				ROUND(thc_pct, 2) AS thc_pct,
@@ -204,9 +208,9 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	idx := 0
 	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
-		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.Price, &row.SativaPct, &row.IndicaPct,
-			&row.ThcPct, &row.CbdPct, &row.Stars, &row.Comments, &row.Company, &row.Dispensary,
-			&row.CreatedAt, &row.ModifiedAt)
+		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.Price, &row.CurrencyAbbreviation,
+			&row.UnitOfMeasure, &row.SativaPct, &row.IndicaPct, &row.ThcPct, &row.CbdPct, &row.Stars,
+			&row.Comments, &row.Company, &row.Dispensary, &row.CreatedAt, &row.ModifiedAt)
 		util.ErrChk(err)
 
 		// then add the struct containing the row values to the indexed map of rows, and increment the index

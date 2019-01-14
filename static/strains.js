@@ -7,6 +7,28 @@ var sd = {
     staticPath: '',
     sessionFactor: 0,
     oneDayInSeconds: 86400,
+    currency: {
+        "USD": "$",
+        "AUD": "AU$",
+        "CAD": "C$",
+        "CHF": "Fr",
+        "JPY": "¥",
+        "NZD": "NZ$",
+        "EUR": "€",
+        "GBP": "£",
+        "SEK": "kr",
+        "DKK": "kr",
+        "NOK": "kr",
+        "SGD": "S$",
+        "CZK": "Kč",
+        "HKD": "HK$",
+        "MXN": "MX$",
+        "CNH": "¥",
+        "PLN": "zł",
+        "RUB": "₽",
+        "TRY": "₺",
+        "ZAR": "R"
+    },
     userSettings: function() {
         // TODO
         console.log("This doesn't do anything yet");
@@ -196,14 +218,15 @@ var sd = {
         var idx, strainId, userId, strainName, currency, price, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct;
         var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
+        var priceRow;
         
         for(idx = 0; idx < strainCount; idx++) {
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
-            currency = this.data.StrainData[idx]["Currency"] || '$';
             price = this.data.StrainData[idx]["Price"];
-            unitOfMeasure = this.data.StrainData[idx]["UnitOfMeasure"] || 'oz';
+            currency = sd.currency[this.data.StrainData[idx]["CurrencyAbbreviation"]];
+            unitOfMeasure = this.data.StrainData[idx]["UnitOfMeasure"];
             sativaPct = this.data.StrainData[idx]["SativaPct"];
             indicaPct = this.data.StrainData[idx]["IndicaPct"];
             thcPct = this.data.StrainData[idx]["ThcPct"];
@@ -214,6 +237,14 @@ var sd = {
             dispensary = this.data.StrainData[idx]["Dispensary"];
             createdAt = this.data.StrainData[idx]["CreatedAt"];
             modifiedAt = this.data.StrainData[idx]["ModifiedAt"];
+
+            if(price > 0) {
+                priceRow = "<div id='stats_price_" + strainId + "' class='strain_stats_display'>" + currency + price + " / " + unitOfMeasure + ".</div> ";
+            } else {
+                // priceRow = "<div id='stats_price_" + strainId + "' class='strain_stats_display'>&nbsp;</div> "; // this clears the row
+                priceRow = ""; // this collapses the row, allowing everything else in the right column to move up a spot
+            }
+
             strainDivs.push("" +
                 "<div id='strain_" + strainId + "' class='strain_row'>" +
                 "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
@@ -223,7 +254,7 @@ var sd = {
                 "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> " +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
-                "       <div id='stats_price_" + strainId + "' class='strain_stats_display'>" + currency + price + " per " + unitOfMeasure + ".</div> " +
+                        priceRow +
                 "       <div id='stats_sativa_" + strainId + "' class='strain_stats_display'>" + sativaPct + "% Sativa</div> " +
                 "       <div id='stats_indica_" + strainId + "' class='strain_stats_display'>" + indicaPct + "% Indica</div> " +
                 "       <div id='stats_thc_" + strainId + "' class='strain_stats_display'>" + thcPct + "% THC</div> " +
