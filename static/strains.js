@@ -216,8 +216,8 @@ var sd = {
                 "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
                 "       <div id='strain_name_" + strainId + "' class='strain_name_display'>" + strainName + "</div> " +
                 "       <div id='star_rating_" + strainId + "' class='strain_rating_display'>" + sd.displayStars(stars) + "</div> " +
-                "       <div id='strain_company_" + strainId + "' class='strain_company_display'>" + company + "</div> " +
-                "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>" + dispensary + "</div> " +
+                "       <div id='strain_company_" + strainId + "' class='strain_company_display'>Company: <span class='output_italic'>" + company + "</span></div> " +
+                "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> " +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
                 "       <div id='stats_sativa_" + strainId + "' class='strain_stats_display'>" + sativaPct + "% Sativa</div> " +
@@ -231,7 +231,6 @@ var sd = {
                 "   </div>" +
                 "   <div id='action_row_" + strainId + "' class='action_row'>" + 
                 "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain' onclick='sd.popEditStrainForm(" + strainId + ")'>&nbsp;Edit&nbsp;</button>" +
-                // "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain'>Delete</button>" +
                 "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain' onclick=\"sd.popDeleteModal(" + strainId + ", '" + strainName + "')\">Delete</button>" +
                 "   </div>" +
                 "</div>"

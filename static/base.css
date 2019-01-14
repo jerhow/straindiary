@@ -373,6 +373,10 @@ HR {
     height: auto;
 }
 
+.output_italic {
+    font-style: italic;
+}
+
 .strain_name_display {
     font-size: .90rem;
     text-decoration: underline;
