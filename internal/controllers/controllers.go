@@ -146,8 +146,8 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 // Wherein a user's new strain gets written to the DB
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	var userId, stars int
-	var sativaPct, indicaPct, thcPct, cbdPct float64
-	var strainName, comments, company, dispensary string
+	var price, sativaPct, indicaPct, thcPct, cbdPct float64
+	var currency, unitOfMeasure, strainName, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -162,6 +162,9 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainName = r.PostFormValue("strain_name")
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
+	price, _ = strconv.ParseFloat(r.PostFormValue("price"), 64)
+	currency = r.PostFormValue("currency")
+	unitOfMeasure = r.PostFormValue("unit_of_measure")
 	sativaPct, _ = strconv.ParseFloat(r.PostFormValue("sativa_pct"), 64)
 	indicaPct, _ = strconv.ParseFloat(r.PostFormValue("indica_pct"), 64)
 	thcPct, _ = strconv.ParseFloat(r.PostFormValue("thc_pct"), 64)
@@ -183,8 +186,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("strainName: " + strainName)
 
 	// attempt to write to DB
-	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName, stars, sativaPct, indicaPct,
-		thcPct, cbdPct, company, dispensary, comments)
+	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName, stars, price, currency,
+		unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
 		payload.Msg = "Looks like everything was written successfully"

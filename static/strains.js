@@ -8,26 +8,26 @@ var sd = {
     sessionFactor: 0,
     oneDayInSeconds: 86400,
     currency: {
-        "USD": "$",
-        "CAD": "C$",
-        "EUR": "€",
-        "GBP": "£",
-        "AUD": "AU$",
-        "MXN": "MX$",
-        "CHF": "Fr",
-        "JPY": "¥",
-        "NZD": "NZ$",
-        "SEK": "kr",
-        "DKK": "kr",
-        "NOK": "kr",
-        "SGD": "S$",
-        "CZK": "Kč",
-        "HKD": "HK$",
-        "CNH": "¥",
-        "PLN": "zł",
-        "RUB": "₽",
-        "TRY": "₺",
-        "ZAR": "R"
+        "USD": "USD,$",
+        "CAD": "CAD,C$",
+        "EUR": "EUR,€",
+        "GBP": "GBP,£",
+        "AUD": "AUD,AU$",
+        "MXN": "MXN,MX$",
+        "CHF": "CHF,Fr",
+        "JPY": "JPY,¥",
+        "NZD": "NZD,NZ$",
+        "SEK": "SEK,kr",
+        "DKK": "DKK,kr",
+        "NOK": "NOK,kr",
+        "SGD": "SGD,S$",
+        "CZK": "CZK,Kč",
+        "HKD": "HKD,HK$",
+        "CNH": "CNH,¥",
+        "PLN": "PLN,zł",
+        "RUB": "RUB,₽",
+        "TRY": "TRY,₺",
+        "ZAR": "ZAR,R"
     },
     currencyDdl: function() {
         var arr = [];
@@ -47,7 +47,7 @@ var sd = {
         return arr.join("");
     },
     currencyChange: function(obj) {
-        document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value;
+        document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value.split(',')[1];
     },
     userSettings: function() {
         // TODO
@@ -245,7 +245,7 @@ var sd = {
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
             price = this.data.StrainData[idx]["Price"];
-            currency = sd.currency[this.data.StrainData[idx]["CurrencyAbbreviation"]];
+            currency = sd.currency[this.data.StrainData[idx]["CurrencyAbbreviation"]].split(',')[1];
             unitOfMeasure = this.data.StrainData[idx]["UnitOfMeasure"];
             sativaPct = this.data.StrainData[idx]["SativaPct"];
             indicaPct = this.data.StrainData[idx]["IndicaPct"];
@@ -259,7 +259,7 @@ var sd = {
             modifiedAt = this.data.StrainData[idx]["ModifiedAt"];
 
             if(price > 0) {
-                priceRow = "<div id='stats_price_" + strainId + "' class='strain_stats_display'>" + currency + price + " / " + unitOfMeasure + ".</div> ";
+                priceRow = "<div id='stats_price_" + strainId + "' class='strain_stats_display'>" + currency + price + " / " + unitOfMeasure + "</div> ";
             } else {
                 // priceRow = "<div id='stats_price_" + strainId + "' class='strain_stats_display'>&nbsp;</div> "; // this clears the row
                 priceRow = ""; // this collapses the row, allowing everything else in the right column to move up a spot
@@ -309,6 +309,9 @@ var sd = {
         var userId = document.getElementById("user_id").value;
         var strain_name = document.getElementById("strain_name").value;
         var stars = document.getElementById("stars").value;
+        var price = document.getElementById("price").value;
+        var currency = document.getElementById("ddl_currency").value.split(',')[0];
+        var unit_of_measure = document.getElementById("ddl_unit_of_measure").value;
         var sativa_pct = document.getElementById("sativa_pct").value;
         var indica_pct = document.getElementById("indica_pct").value;
         var thc_pct = document.getElementById("thc_pct").value;
@@ -324,6 +327,9 @@ var sd = {
         urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
         urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
         urlEncodedDataPairs.push(encodeURIComponent("stars") + '=' + encodeURIComponent(stars));
+        urlEncodedDataPairs.push(encodeURIComponent("price") + '=' + encodeURIComponent(price));
+        urlEncodedDataPairs.push(encodeURIComponent("currency") + '=' + encodeURIComponent(currency));
+        urlEncodedDataPairs.push(encodeURIComponent("unit_of_measure") + '=' + encodeURIComponent(unit_of_measure));
         urlEncodedDataPairs.push(encodeURIComponent("sativa_pct") + '=' + encodeURIComponent(sativa_pct));
         urlEncodedDataPairs.push(encodeURIComponent("indica_pct") + '=' + encodeURIComponent(indica_pct));
         urlEncodedDataPairs.push(encodeURIComponent("thc_pct") + '=' + encodeURIComponent(thc_pct));
