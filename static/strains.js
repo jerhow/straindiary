@@ -193,7 +193,7 @@ var sd = {
     },
     buildStrainOutput: function() {
         var strainDivs = [];
-        var idx, strainId, userId, strainName, sativaPct, indicaPct, thcPct, cbdPct;
+        var idx, strainId, userId, strainName, currency, price, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct;
         var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
         
@@ -201,6 +201,9 @@ var sd = {
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
+            currency = this.data.StrainData[idx]["Currency"] || '$';
+            price = this.data.StrainData[idx]["Price"];
+            unitOfMeasure = this.data.StrainData[idx]["UnitOfMeasure"] || 'oz';
             sativaPct = this.data.StrainData[idx]["SativaPct"];
             indicaPct = this.data.StrainData[idx]["IndicaPct"];
             thcPct = this.data.StrainData[idx]["ThcPct"];
@@ -220,6 +223,7 @@ var sd = {
                 "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> " +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
+                "       <div id='stats_price_" + strainId + "' class='strain_stats_display'>" + currency + price + " per " + unitOfMeasure + ".</div> " +
                 "       <div id='stats_sativa_" + strainId + "' class='strain_stats_display'>" + sativaPct + "% Sativa</div> " +
                 "       <div id='stats_indica_" + strainId + "' class='strain_stats_display'>" + indicaPct + "% Indica</div> " +
                 "       <div id='stats_thc_" + strainId + "' class='strain_stats_display'>" + thcPct + "% THC</div> " +

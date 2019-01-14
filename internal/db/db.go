@@ -150,6 +150,7 @@ type StrainRow struct {
 	Id         int
 	UserId     int
 	StrainName string
+	Price      float64
 	SativaPct  float64
 	IndicaPct  float64
 	ThcPct     float64
@@ -178,6 +179,7 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 				id,
 				user_id,
 				strain_name,
+				price,
 				ROUND(sativa_pct, 2) AS sativa_pct,
 				ROUND(indica_pct, 2) AS indica_pct,
 				ROUND(thc_pct, 2) AS thc_pct,
@@ -202,7 +204,7 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	idx := 0
 	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
-		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.SativaPct, &row.IndicaPct,
+		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.Price, &row.SativaPct, &row.IndicaPct,
 			&row.ThcPct, &row.CbdPct, &row.Stars, &row.Comments, &row.Company, &row.Dispensary,
 			&row.CreatedAt, &row.ModifiedAt)
 		util.ErrChk(err)

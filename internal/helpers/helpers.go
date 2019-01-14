@@ -26,6 +26,7 @@ func Strain_GET_SortOrderQsParams(sortByRaw string, orderByRaw string) (string, 
 		"9":  "dispensary",
 		"10": "created_at",
 		"11": "modified_at",
+		"12": "price",
 	}
 
 	if sortBySQL, found = sortByMap[sortByRaw]; !found {
