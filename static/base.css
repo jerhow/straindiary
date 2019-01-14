@@ -322,6 +322,15 @@ HR {
     font-size: .9rem;
 }
 
+#btn_support {
+    /* float: right; */
+    border-radius: 2em;
+    color: #57ab57;
+    background-color: #2b2f3a;
+    font-size: .70rem;
+    vertical-align: middle;
+}
+
 #btn_sort {
     float: right;
     border-radius: 2em;
