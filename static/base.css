@@ -428,6 +428,8 @@ HR {
 
 .strain_rating_display {
     font-size: .70rem;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .star_for_list {
@@ -457,6 +459,10 @@ HR {
     overflow: auto;
     font-size: .70rem;
     margin-top: 3px;
+}
+
+.comments_display_label {
+    font-style: normal;
 }
 
 .comment_text {

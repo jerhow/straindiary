@@ -282,7 +282,7 @@ var sd = {
                 "   </div>" +
                 "   <div class='clear'></div>" +
                 "   <div id='comments_row_" + strainId + "' class='comments_row'>" + 
-                "       <div id='comment_text_" + strainId + "' class='comment_text'>" + comments + "</div>" +
+                "       <div id='comment_text_" + strainId + "' class='comment_text'><span class='comments_display_label'>Comments:</span> " + comments + "</div>" +
                 "   </div>" +
                 "   <div id='action_row_" + strainId + "' class='action_row'>" + 
                 "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain' onclick='sd.popEditStrainForm(" + strainId + ")'>&nbsp;Edit&nbsp;</button>" +
