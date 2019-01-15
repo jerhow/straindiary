@@ -7,6 +7,13 @@ var sd = {
     staticPath: '',
     sessionFactor: 0,
     oneDayInSeconds: 86400,
+    readyState: {
+        "UNSENT": 0,
+        "OPENED": 1,
+        "HEADERS_RECEIVED": 2,
+        "LOADING": 3,
+        "DONE": 4
+    },
     currency: {
         "USD": "USD,$",
         "CAD": "CAD,C$",
@@ -374,14 +381,14 @@ var sd = {
         // the '+' character; matches the behaviour of browser form submissions.
         urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
 
-         // Define what happens on successful data submission
+        // Define what happens on successful data submission
         XHR.addEventListener('load', function(event) {
-            console.log('Yeah! Data sent and response loaded.');
+            // console.log('Data sent and response loaded: sd.sendStrain()');
         });
 
         // Define what happens in case of error
         XHR.addEventListener('error', function(event) {
-            console.log('Oops! Something goes wrong.');
+            // console.log('Something went wrong: sd.sendStrain()');
         });
 
         // Set up our request
@@ -393,13 +400,15 @@ var sd = {
         XHR.setRequestHeader('X-auth-token', sd.authToken());
 
         XHR.onreadystatechange = function () {
-            if(XHR.readyState === 4 && XHR.status === 200) {
-                console.log(XHR.responseText);
-                _callback();
-                sd.viewStrains();
-            } else {
-                console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
-                    'We got an undesirable response code back.');
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                if(XHR.status === 200){
+                    console.log(XHR.responseText);
+                    _callback();
+                    sd.viewStrains();
+                } else {
+                    console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                        'We got an undesirable response code back: ' + XHR.status);
+                }
             }
         };
 

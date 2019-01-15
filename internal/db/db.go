@@ -341,9 +341,9 @@ func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct float64,
-	indicaPct float64, thcPct float64, cbdPct float64, stars int, comments string,
-	company string, dispensary string) (bool, string) {
+func UpdateStrainInDb(userId int, strainId int, strainName string, price float64, currency string,
+	unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64, cbdPct float64,
+	stars int, comments string, company string, dispensary string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -356,7 +356,8 @@ func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct flo
 	util.ErrChk(err)
 
 	sql := `UPDATE t_user_strains
-			SET strain_name = ?, sativa_pct = ?, indica_pct = ?, thc_pct = ?, cbd_pct = ?, 
+			SET strain_name = ?, price = ?, currency_abbreviation = ?, unit_of_measure = ?, 
+				sativa_pct = ?, indica_pct = ?, thc_pct = ?, cbd_pct = ?, 
 				stars = ?, comments = ?, company = ?, dispensary = ?, modified_at = NOW()
 			WHERE user_id = ? 
 			AND id = ?;`
@@ -365,8 +366,8 @@ func UpdateStrainInDb(userId int, strainId int, strainName string, sativaPct flo
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
-	_, execErr := stmtIns.Exec(strainName, sativaPct, indicaPct, thcPct, cbdPct,
-		stars, comments, company, dispensary, userId, strainId)
+	_, execErr := stmtIns.Exec(strainName, price, currency, unitOfMeasure, sativaPct, indicaPct,
+		thcPct, cbdPct, stars, comments, company, dispensary, userId, strainId)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false
