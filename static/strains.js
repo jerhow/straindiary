@@ -530,18 +530,18 @@ var sd = {
         "   </form>" +
         "</div>";
     },
-    editStrainForm: function(userId, strainId) {
-        var idx, vals;
+    strainPicker: function(strainId) {
         var strainCount = Object.keys(this.data.StrainData).length;
-        
-        // Find the correct strainId and grab a reference to it from the data object
-        for(idx = 0; idx < strainCount; idx++) {
+        // Find the correct strainId and return a reference to it from the data object
+        for(var idx = 0; idx < strainCount; idx++) {
             if(this.data.StrainData[idx]["Id"] === strainId) {
-                vals = this.data.StrainData[idx];
-                break;
+                return this.data.StrainData[idx];
             }
         }
-        
+        return false;
+    },
+    editStrainForm: function(userId, strainId) {
+        var vals = sd.strainPicker(strainId);
         return "" +
         "<div id='edit_strain_form_container'>" +
         "   <div id='edit_strain_modal_title'>Edit Strain</div>" +
@@ -566,6 +566,23 @@ var sd = {
         "               <input id='rating1' type='radio' name='rating' value='1' onclick='sd.onStarClick(this.value);'>" +
         "               <label for='rating1' id='rating_label_1'>1</label>" +
         "           </span>" +
+        "       </div>" +
+        "       <div id='con_price'>" +
+        "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
+        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' value='" + vals['Price'] + "' />" +
+        "       </div>" +
+        "       <div id='con_currency'>" +
+                    sd.currencyDdl() +
+        "       </div>" +
+        "       <div id='con_unit_of_measure'>" +
+        "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
+        "           <select id='ddl_unit_of_measure' name='ddl_unit_of_measure'>" +
+        "               <option value='gram'>Gram</option>" +
+        "               <option value='eighth' selected>Eighth</option>" +
+        "               <option value='quarter'>Quarter</option>" +
+        "               <option value='half'>Half</option>" +
+        "               <option value='ounce'>Ounce</option>" +
+        "           </select>" +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
         "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' value='" + vals['SativaPct'] + "' /> %" +
@@ -597,6 +614,10 @@ var sd = {
         sd.instantiateEditFormModal(userId, strainId);
         sd.editModal.open();
         sd.setStarWidgetValue(document.getElementById("stars").value);
+
+        var strain = sd.strainPicker(strainId);
+        document.getElementById("ddl_currency").value = sd.currency[strain['CurrencyAbbreviation']];
+        document.getElementById("ddl_unit_of_measure").value = strain['UnitOfMeasure'];
     },
     setStarWidgetValue: function(rating) {
         if(rating > 0) { // In the absence of a rating we get 0
