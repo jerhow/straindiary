@@ -296,8 +296,12 @@ var sd = {
         return true;
     },
     displayStars(rating) {
-        var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
-        return star.repeat(rating);
+        if(rating === 0) {
+            return "&nbsp;"; // sending an encoded space instead of "" lets us retain the vertical spacing of the div
+        } else {
+            var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
+            return star.repeat(rating);
+        }
     },
     // Expects 'POST' or 'PUT'
     // _callback gets executed when the asynchronous call finishes
