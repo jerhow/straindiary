@@ -239,6 +239,7 @@ var sd = {
         var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
         var dispensaryRow, companyRow, priceRow;
+        var commentsRow, commentsRowUpper, commentsRowLower;
         
         for(idx = 0; idx < strainCount; idx++) {
             strainId = this.data.StrainData[idx]["Id"];
@@ -277,6 +278,18 @@ var sd = {
                 dispensaryRow = "<div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> ";
             }
 
+            commentsRow = "<div id='comments_row_" + strainId + "' class='comments_row'>" +
+                "       <div id='comment_text_" + strainId + "' class='comment_text'><span class='comments_display_label'>Comments:</span> " + comments + "</div>" +
+                "   </div>";
+
+            commentsRowUpper = ""; // Must clear these...
+            commentsRowLower = ""; // ...on each iteration
+            if(company === "" || dispensary === "") {
+                commentsRowUpper = commentsRow;
+            } else {
+                commentsRowLower = commentsRow;
+            }
+
             strainDivs.push("" +
                 "<div id='strain_" + strainId + "' class='strain_row'>" +
                 "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
@@ -284,6 +297,7 @@ var sd = {
                 "       <div id='star_rating_" + strainId + "' class='strain_rating_display'>" + sd.displayStars(stars) + "</div> " +
                         companyRow +
                         dispensaryRow +
+                        commentsRowUpper +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
                         priceRow +
@@ -293,9 +307,7 @@ var sd = {
                 "       <div id='stats_cbd_" + strainId + "' class='strain_stats_display'>" + cbdPct + "% CBD</div> " +
                 "   </div>" +
                 "   <div class='clear'></div>" +
-                "   <div id='comments_row_" + strainId + "' class='comments_row'>" + 
-                "       <div id='comment_text_" + strainId + "' class='comment_text'><span class='comments_display_label'>Comments:</span> " + comments + "</div>" +
-                "   </div>" +
+                    commentsRowLower +
                 "   <div id='action_row_" + strainId + "' class='action_row'>" + 
                 "       <button id='btn_edit_strain_" + strainId + "' class='btn_edit_strain' onclick='sd.popEditStrainForm(" + strainId + ")'>&nbsp;Edit&nbsp;</button>" +
                 "       <button id='btn_delete_strain_" + strainId + "' class='btn_delete_strain' onclick=\"sd.popDeleteModal(" + strainId + ", '" + strainName + "')\">Delete</button>" +
