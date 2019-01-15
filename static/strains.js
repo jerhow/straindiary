@@ -238,7 +238,7 @@ var sd = {
         var idx, strainId, userId, strainName, currency, price, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct;
         var stars, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
-        var priceRow;
+        var dispensaryRow, companyRow, priceRow;
         
         for(idx = 0; idx < strainCount; idx++) {
             strainId = this.data.StrainData[idx]["Id"];
@@ -265,13 +265,25 @@ var sd = {
                 priceRow = ""; // this collapses the row, allowing everything else in the right column to move up a spot
             }
 
+            if(company === "") {
+                companyRow = "";
+            } else {
+                companyRow = "<div id='strain_company_" + strainId + "' class='strain_company_display'>Company: <span class='output_italic'>" + company + "</span></div> ";
+            }
+
+            if(dispensary === "") {
+                dispensaryRow = "";
+            } else {
+                dispensaryRow = "<div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> ";
+            }
+
             strainDivs.push("" +
                 "<div id='strain_" + strainId + "' class='strain_row'>" +
                 "   <div id='column_left_" + strainId + "' class='strain_column_left'>" +
                 "       <div id='strain_name_" + strainId + "' class='strain_name_display'>" + strainName + "</div> " +
                 "       <div id='star_rating_" + strainId + "' class='strain_rating_display'>" + sd.displayStars(stars) + "</div> " +
-                "       <div id='strain_company_" + strainId + "' class='strain_company_display'>Company: <span class='output_italic'>" + company + "</span></div> " +
-                "       <div id='strain_dispensary_" + strainId + "' class='strain_dispensary_display'>Dispensary: <span class='output_italic'>" + dispensary + "</span></div> " +
+                        companyRow +
+                        dispensaryRow +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
                         priceRow +
