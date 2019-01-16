@@ -131,15 +131,22 @@ HR {
 }
 
 #con_strain_name {
-    padding-bottom: .5rem;
+    padding-bottom: 3px;
 }
 
 #strain_name {
     width: 14rem;
 }
 
+#strain_name_msg {
+    display: none;
+    clear: left;
+    font-size: .8rem;
+    color: red;
+}
+
 #con_star_rating {
-    padding-bottom: .5rem;
+    padding-bottom: 9px;
 }
 
 #con_price, #con_currency, #con_unit_of_measure {

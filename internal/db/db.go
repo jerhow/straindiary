@@ -256,7 +256,7 @@ func WriteNewStrainToDb(userId int, strainName string, stars int, price float64,
 		result = false
 		// we can stack the possible error cases here, and fail out hard otherwise
 		if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
-			msg = "Duplicate entry"
+			msg = "You already have a strain with this name"
 		} else {
 			log.Fatal(execErr) // something else
 		}

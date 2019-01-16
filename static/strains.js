@@ -399,12 +399,16 @@ var sd = {
         XHR.setRequestHeader('X-user-id', sd.userId());
         XHR.setRequestHeader('X-auth-token', sd.authToken());
 
-        XHR.onreadystatechange = function () {
+        XHR.onreadystatechange = function() {
             if(XHR.readyState === sd.readyState["DONE"]) {
                 if(XHR.status === 200){
                     console.log(XHR.responseText);
                     _callback();
                     sd.viewStrains();
+                } else if(XHR.status === 400) {
+                    console.log(XHR.responseText);
+                    document.getElementById('strain_name_msg').style.display = 'inline-block';
+                    document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
                 } else {
                     console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
                         'We got an undesirable response code back: ' + XHR.status);
@@ -482,6 +486,7 @@ var sd = {
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
         "           <input type='text' id='strain_name' name='strain_name' tabindex='100' />" +
+        "           <div id='strain_name_msg'></div>" +
         "       </div>" +
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +

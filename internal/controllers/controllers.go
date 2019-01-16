@@ -193,7 +193,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 		payload.Msg = "Looks like everything was written successfully"
 		w.WriteHeader(http.StatusOK)
 	} else {
-		payload.Msg = "Error: " + dbWriteMsg
+		payload.Msg = dbWriteMsg
 		w.WriteHeader(http.StatusBadRequest)
 	}
 
