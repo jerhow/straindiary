@@ -4,6 +4,9 @@ body {
     height: 100%;
     color: #001f3f;
     /* background-image: linear-gradient(rgb(239, 255, 239), rgb(75, 134, 75)); */
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 /* unvisited link */
@@ -43,13 +46,13 @@ HR {
 #outer_container {
     width: 100%;
     /* border: 0px solid green; */
-    border: 1px solid #e0e0e0;
+    /* border: 1px solid #e0e0e0; */
     margin: 0 auto;
     text-align: center;
     background-image: linear-gradient(rgb(239, 255, 239), rgb(91, 134, 91));
-    -webkit-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
+    /* -webkit-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
-    box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75); */
 }
 
 #login_form_container {
@@ -257,10 +260,14 @@ HR {
 
 #heading_row {
     /* border: 1px solid black; */
-    width: 90%;
+    
+    /* width: 90%; */
+    
     /* margin: 15px; */
     /* padding: 3px; */
-    margin-left: 15px;
+
+    /* margin-left: 15px; */
+
     /* padding-left: 3px; */
     /* padding-right: 3px; */
     overflow: auto;
@@ -342,8 +349,10 @@ HR {
 }
 
 #functional_row_top {
-    width: 90%;
-    margin-left: 15px;
+    /* width: 90%; */
+
+    /* margin-left: 15px; */
+
     /* padding: 3px; */
     overflow: auto;
     /* margin: 0 auto; */
@@ -352,7 +361,7 @@ HR {
 
 #strains_page_login_msg {
     display: none;
-    width: 90%;
+    /* width: 90%; */
     margin: 15px;
     clear: both;
 }
@@ -397,8 +406,11 @@ HR {
 
 .strain_row {
     border-top: 1px solid black;
-    width: 90%;
-    margin: 15px;
+    
+    /* width: 90%; */
+
+    /* margin: 15px; */
+
     padding: 3px;
     /* display: block; */
     /* margin-left: auto;
