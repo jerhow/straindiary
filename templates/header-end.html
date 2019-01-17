@@ -3,31 +3,31 @@
 <body>
 
 <div class="header">
-    <p>Header</p>
+        <div id='heading_row'>
+
+            <div id='heading_column_left'>
+                <div id="user_stuff">
+                    <a href="#" onclick="sd.userSettings();" title="User settings"><img 
+                        id='face_icon' alt="User settings" src="{{ .Common.StaticAssetUrlBase }}soulmate-50x50-trans.png" /></a>
+                    <div id="nickname"></div>
+                </div>
+            </div>
+            <div id='heading_column_center'>
+                <div id='mastheadTitle'>Strain Diary</div>
+                <div id='mastheadTagline'>{{.Common.MastheadTagline}}</div>
+            </div>
+            <div id='heading_column_right'>
+                <a href="#" onclick="sd.logout();" title="Log out"><img 
+                    id='logout_icon' alt="Log out" src="{{ .Common.StaticAssetUrlBase }}logout-door-50x83-trans.png" /></a>
+            </div>
+        
+            <!-- <br style="clear: left;" /> --> <!-- Do we still need this? -->
+        
+        </div> <!-- 'heading_row' -->
 </div>
 
 <div id="outer_container">
 
-<div id='heading_row'>
 
-    <div id='heading_column_left'>
-        <div id="user_stuff">
-            <a href="#" onclick="sd.userSettings();" title="User settings"><img 
-                id='face_icon' alt="User settings" src="{{ .Common.StaticAssetUrlBase }}soulmate-50x50-trans.png" /></a>
-            <div id="nickname"></div>
-        </div>
-    </div>
-    <div id='heading_column_center'>
-        <div id='mastheadTitle'>Strain Diary</div>
-        <div id='mastheadTagline'>{{.Common.MastheadTagline}}</div>
-    </div>
-    <div id='heading_column_right'>
-        <a href="#" onclick="sd.logout();" title="Log out"><img 
-            id='logout_icon' alt="Log out" src="{{ .Common.StaticAssetUrlBase }}logout-door-50x83-trans.png" /></a>
-    </div>
-
-    <!-- <br style="clear: left;" /> --> <!-- Do we still need this? -->
-
-</div> <!-- 'heading_row' -->
 
 {{end}}

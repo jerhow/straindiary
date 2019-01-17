@@ -112,12 +112,12 @@ var sd = {
     },
     manageUiBasedOnUserState: function() {
         if(sd.validSession()) {
-            document.getElementById("functional_row_top").style.display = 'block';
+            // document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
             document.getElementById('face_icon').style.display = 'inline';
             document.getElementById('logout_icon').style.display = 'inline';
         } else {
-            document.getElementById('functional_row_top').style.display = 'none';
+            // document.getElementById('functional_row_top').style.display = 'none';
             document.getElementById('strains_page_login_msg').style.display = 'block';
             document.getElementById('face_icon').style.display = 'none';
             document.getElementById('logout_icon').style.display = 'none';
@@ -459,14 +459,16 @@ var sd = {
         XHR.send(urlEncodedData);
     },
     clickSort: function() {
-        document.getElementById("btn_sort").style.display = "none";
-        document.getElementById("sort_ddl").style.display = "inline";
+        document.getElementById("sort_icon").style.display = "none";
+        document.getElementById("sort_label").style.display = "none";
+        document.getElementById("ddl_sort").style.display = "inline";
     },
     sortChange: function(obj) {
         var vals = obj.value.split(',');
         sd.viewStrains(vals[0], vals[1]); // (sortBy, orderBy)
-        document.getElementById("sort_ddl").style.display = "none";
-        document.getElementById("btn_sort").style.display = "inline";
+        document.getElementById("ddl_sort").style.display = "none";
+        document.getElementById("sort_icon").style.display = "inline";
+        document.getElementById("sort_label").style.display = "inline";
     },
     onStarClick: function(starValue) {
         document.getElementById('stars').value = starValue;

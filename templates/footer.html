@@ -5,7 +5,49 @@
 <div style="border-top: 1px solid #bfbfbf; font-size: .85em; text-align: center;">&copy; {{.Common.CopyrightYear}} Baklava Software</div>
 
 <div class="footer">
-    <p>Footer</p>
+    <div id='functional_row_bottom'>
+        <div id="con_add_strain">
+            <a href="#" onclick="sd.popNewStrainForm();" title="Add a strain"><img 
+                id='add_strain_icon' alt="Add a strain" src="{{ .Common.StaticAssetUrlBase }}add-new-50x50-trans.png" /></a>
+            <div id="add_strain_label">Add a strain</div>
+        </div>
+
+        <div id="con_middle"> <!-- temporary id/name -->
+            &nbsp;
+        </div>
+    
+        <!-- <button id="btn_support" onclick="sd.support();">UNREGISTERED</button> -->
+        
+        <!-- <button id="btn_sort" onclick="javascript:sd.clickSort();">Order By</button> -->
+        <div id="con_sort">
+            <a href="#" onclick="sd.clickSort();" title="Order By"><img 
+                id='sort_icon' alt="Order By" src="{{ .Common.StaticAssetUrlBase }}order-by-50x50-trans.png" /></a>
+            <div id="sort_label">Order By</div>
+        </div><!-- con_sort -->
+        <select id="ddl_sort" onchange="javascript:sd.sortChange(this);">
+            <option value="1,0">Name (A&rarr;Z)</option>
+            <option value="1,1">Name (Z&rarr;A)</option>
+            <option value="6,1">Rating (Hi&rarr;Lo)</option>
+            <option value="6,0">Rating (Lo&rarr;Hi)</option>
+            <option value="12,0">Price (Lo&rarr;Hi)</option>
+            <option value="12,1">Price (Hi&rarr;Lo)</option>
+            <option value="8,0">Company (A&rarr;Z)</option>
+            <option value="8,1">Company (Z&rarr;A)</option>
+            <option value="9,0">Dispensary (A&rarr;Z)</option>
+            <option value="9,1">Dispensary (Z&rarr;A)</option>
+            <option value="2,1">Sativa (Hi&rarr;Lo)</option>
+            <option value="2,0">Sativa (Lo&rarr;Hi)</option>
+            <option value="3,1">Indica (Hi&rarr;Lo)</option>
+            <option value="3,0">Indica (Lo&rarr;Hi)</option>
+            <option value="4,1">THC (Hi&rarr;Lo)</option>
+            <option value="4,0">THC (Lo&rarr;Hi)</option>
+            <option value="5,1">CBD (Hi&rarr;Lo)</option>
+            <option value="5,0">CBD (Lo&rarr;Hi)</option>
+        </select>
+
+        <!-- <br style="clear: left;" /> -->
+
+    </div> <!-- functional_row_bottom -->
 </div>
 
 </div> <!-- "outer_container" -->

@@ -4,9 +4,9 @@
 
 <!-- <div class="break" style="height: 15px;"></div>
 <div style="font-size: .9em; font-style: italic;">{{.UserMsg}}</div> -->
-<div class="break" style="height: 10px;"></div>
+<!-- <div class="break" style="height: 10px;"></div> -->
 
-<div id='functional_row_top'>
+<!-- <div id='functional_row_top'>
     <button id="btn_add_a_strain" onclick="sd.popNewStrainForm();">Add a strain</button>
 
     <button id="btn_support" onclick="sd.support();">UNREGISTERED</button>
@@ -32,7 +32,7 @@
         <option value="5,1">CBD (Hi&rarr;Lo)</option>
         <option value="5,0">CBD (Lo&rarr;Hi)</option>
     </select>
-</div>
+</div> -->
 
 <div id='strains_page_login_msg'>
     <button id="btn_strains_page_login" onclick="sd.popLoginForm();">Please sign in</button>
@@ -48,14 +48,17 @@
 <script src="{{ .Common.StaticAssetUrlBase }}cookies/cookies_min.js?{{.Nonce}}"></script>
 
 <script type="text/javascript">
-sd.staticPath = "{{.StaticPath}}";
-sd.sessionFactor = {{.JsSessionFactor}};
-sd.manageUiBasedOnUserState();
-document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
 
-if(sd.validSession()) {
-    sd.viewStrains();
-}
+document.addEventListener("DOMContentLoaded", function() {
+    sd.staticPath = "{{.StaticPath}}";
+    sd.sessionFactor = {{.JsSessionFactor}};
+    sd.manageUiBasedOnUserState();
+    document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
+
+    if(sd.validSession()) {
+        sd.viewStrains();
+    }
+});
 </script>
 
 {{template "footer" .}}
