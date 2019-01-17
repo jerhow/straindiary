@@ -401,17 +401,16 @@ var sd = {
 
         XHR.onreadystatechange = function() {
             if(XHR.readyState === sd.readyState["DONE"]) {
-                if(XHR.status === 200){
-                    console.log(XHR.responseText);
+                if(XHR.status === 200) { // success
                     _callback();
                     sd.viewStrains();
-                } else if(XHR.status === 400) {
-                    console.log(XHR.responseText);
+                } else if(XHR.status === 400) { // a handled error state
                     document.getElementById('strain_name_msg').style.display = 'inline-block';
                     document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
-                } else {
+                } else { // TODO: Unhandled error states
                     console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
                         'We got an undesirable response code back: ' + XHR.status);
+                    console.log(XHR.responseText);
                 }
             }
         };
