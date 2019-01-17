@@ -43,6 +43,28 @@ HR {
   display: block;
 }
 
+.header {
+    overflow: hidden;
+    background-color: white;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+    height: 40px;
+    text-align: center;
+    border: 1px solid black;
+  }
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: black;
+    text-align: center;
+    border: 1px solid black;
+  }
+
 #outer_container {
     width: 100%;
     /* border: 0px solid green; */
@@ -53,6 +75,10 @@ HR {
     /* -webkit-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
     -moz-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75); */
+
+    margin-top: 40px; /* Add a top margin to avoid content overlay */
+    margin-bottom: 20px;
+    margin-left: 0px;
 }
 
 #login_form_container {
