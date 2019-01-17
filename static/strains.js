@@ -565,6 +565,7 @@ var sd = {
         "       <div id='con_strain_name'>" +
         "           <label>Name:</label> " +
         "           <input type='text' id='strain_name' name='strain_name' tabindex='100' value=\"" + vals['StrainName'] + "\" />" +
+        "           <div id='strain_name_msg'></div>" +
         "       </div>" +
         "       <div id='con_star_rating'>" +
         "           <label>Rating:</label> <span class='starRating'>" +

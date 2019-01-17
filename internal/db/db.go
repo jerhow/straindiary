@@ -341,7 +341,7 @@ func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func UpdateStrainInDb(userId int, strainId int, strainName string, price float64, currency string,
+func UpdateStrain(userId int, strainId int, strainName string, price float64, currency string,
 	unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64, cbdPct float64,
 	stars int, comments string, company string, dispensary string) (bool, string) {
 
@@ -373,7 +373,7 @@ func UpdateStrainInDb(userId int, strainId int, strainName string, price float64
 		result = false
 		// we can stack the possible error cases here, and fail out hard otherwise
 		if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
-			msg = "Duplicate entry"
+			msg = "You already have a strain with this name"
 		} else {
 			log.Fatal(execErr) // something else
 		}

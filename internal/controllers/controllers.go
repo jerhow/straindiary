@@ -245,14 +245,14 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	util.SetCommonHttpHeaders(w)
 
 	// attempt to write to DB
-	dbWriteResult, dbWriteMsg = db.UpdateStrainInDb(userId, strainId, strainName,
+	dbWriteResult, dbWriteMsg = db.UpdateStrain(userId, strainId, strainName,
 		price, currency, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, stars,
 		comments, company, dispensary)
 	if dbWriteResult {
 		payload.Msg = "Looks like everything was updated successfully"
 		w.WriteHeader(http.StatusOK)
 	} else {
-		payload.Msg = "Error: " + dbWriteMsg
+		payload.Msg = dbWriteMsg
 		w.WriteHeader(http.StatusBadRequest)
 	}
 
