@@ -408,9 +408,19 @@ HR {
     font-size: .7rem;
 }
 
-#con_middle { /* temporary */
+#con_support {
     width: 60%;
     float: left;
+    vertical-align: middle;
+}
+
+#support_icon {
+    width: 40px;
+}
+
+#support_label {
+    clear: left;
+    font-size: .7rem;
 }
 
 #con_sort {
