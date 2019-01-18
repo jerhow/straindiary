@@ -14,6 +14,14 @@ var sd = {
         "LOADING": 3,
         "DONE": 4
     },
+    unitsOfMeasure: { // for display in the list (a display concern only)
+        "gram": "g",
+        "eighth": "eighth",
+        "quarter": "quarter",
+        "half": "half",
+        "ounce": "oz",
+        "item": "Item"
+    },
     currency: {
         "USD": "USD,$",
         "CAD": "CAD,C$",
@@ -53,19 +61,36 @@ var sd = {
         arr.push("</select>");
         return arr.join("");
     },
+    currencyChange: function(obj) {
+        document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value.split(',')[1];
+    },
     strainTypeDdl: function() {
         return "" +
-            "<select id='ddl_strain_type' name='ddl_strain_type'>" +
+            "<select id='ddl_strain_type' name='ddl_strain_type' onchange='sd.strainTypeChange(this);'>" +
             "<option value='Flower' selected>Flower</option>" +
             "<option value='Oil'>Oil</option>" +
             "<option value='Wax'>Wax</option>" +
             "<option value='Edible'>Edible</option>" +
             "<option value='Tincture'>Tincture</option>" +
-            "<option value='Other'>Other</option>" +
             "</select>";
     },
-    currencyChange: function(obj) {
-        document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value.split(',')[1];
+    strainTypeChange: function(obj) {
+        if(obj.options[obj.selectedIndex].value === "Flower") {
+            document.getElementById('ddl_unit_of_measure').value = 'eighth';
+        } else {
+            document.getElementById('ddl_unit_of_measure').value = 'item';
+        }
+    },
+    unitOfMeasureDdl: function() {
+        return(
+        "<select id='ddl_unit_of_measure' name='ddl_unit_of_measure'>" +
+        "   <option value='gram'>Gram</option>" +
+        "   <option value='eighth' selected>Eighth</option>" +
+        "   <option value='quarter'>Quarter</option>" +
+        "   <option value='half'>Half</option>" +
+        "   <option value='ounce'>Ounce</option>" +
+        "   <option value='item'>Item</option>" +
+        "</select>");
     },
     userSettings: function() {
         // TODO
@@ -251,13 +276,6 @@ var sd = {
         };
 
         XHR.send();
-    },
-    unitsOfMeasure: { // for display in the list
-        "gram": "g",
-        "eighth": "eighth",
-        "quarter": "quarter",
-        "half": "half",
-        "ounce": "oz"
     },
     buildStrainOutput: function() {
         var strainDivs = [];
@@ -539,13 +557,7 @@ var sd = {
         "       </div>" +
         "       <div id='con_unit_of_measure'>" +
         "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
-        "           <select id='ddl_unit_of_measure' name='ddl_unit_of_measure'>" +
-        "               <option value='gram'>Gram</option>" +
-        "               <option value='eighth' selected>Eighth</option>" +
-        "               <option value='quarter'>Quarter</option>" +
-        "               <option value='half'>Half</option>" +
-        "               <option value='ounce'>Ounce</option>" +
-        "           </select>" +
+                    sd.unitOfMeasureDdl() +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
         "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' /> %" +
@@ -623,13 +635,7 @@ var sd = {
         "       </div>" +
         "       <div id='con_unit_of_measure'>" +
         "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
-        "           <select id='ddl_unit_of_measure' name='ddl_unit_of_measure'>" +
-        "               <option value='gram'>Gram</option>" +
-        "               <option value='eighth' selected>Eighth</option>" +
-        "               <option value='quarter'>Quarter</option>" +
-        "               <option value='half'>Half</option>" +
-        "               <option value='ounce'>Ounce</option>" +
-        "           </select>" +
+                    sd.unitOfMeasureDdl() +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
         "           <label id='sativa_pct_label'>Sativa:</label> <input type='number' step='.01' id='sativa_pct' name='sativa_pct' tabindex='101' value='" + vals['SativaPct'] + "' /> %" +

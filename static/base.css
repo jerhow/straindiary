@@ -227,11 +227,15 @@ HR {
     margin-right: 1px;
 }
 
-#unit_of_measure {
+#ddl_unit_of_measure {
+    font-size: .8rem;
+}
+
+/* #unit_of_measure {
     width: 2rem;
     background-color: #57ab57;
     color: white;
-}
+} */
 
 #con_sativa_pct {
     float: left;
