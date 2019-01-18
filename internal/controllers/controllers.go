@@ -147,7 +147,7 @@ func Strain_GET(w http.ResponseWriter, r *http.Request) {
 func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	var userId, stars int
 	var price, sativaPct, indicaPct, thcPct, cbdPct float64
-	var currency, unitOfMeasure, strainName, comments, company, dispensary string
+	var currency, unitOfMeasure, strainName, strainType, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -161,6 +161,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainName = r.PostFormValue("strain_name")
+	strainType = r.PostFormValue("strain_type")
 	stars, _ = strconv.Atoi(r.PostFormValue("stars"))
 	price, _ = strconv.ParseFloat(r.PostFormValue("price"), 64)
 	currency = r.PostFormValue("currency")
@@ -186,8 +187,8 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	// fmt.Println("strainName: " + strainName)
 
 	// attempt to write to DB
-	dbWriteResult, dbWriteMsg = db.WriteNewStrainToDb(userId, strainName, stars, price, currency,
-		unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
+	dbWriteResult, dbWriteMsg = db.WriteNewStrain(userId, strainName, strainType, stars, price,
+		currency, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
 		payload.Msg = "Looks like everything was written successfully"
@@ -209,7 +210,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	var userId, strainId, stars int
 	var price, sativaPct, indicaPct, thcPct, cbdPct float64
-	var strainName, currency, unitOfMeasure, comments, company, dispensary string
+	var strainName, strainType, currency, unitOfMeasure, comments, company, dispensary string
 	var validateResult bool = false
 	var dbWriteResult bool = false
 	var dbWriteMsg string = ""
@@ -224,6 +225,7 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	userId, _ = strconv.Atoi(r.PostFormValue("user_id"))
 	strainId, _ = strconv.Atoi(r.PostFormValue("strain_id"))
 	strainName = r.PostFormValue("strain_name")
+	strainType = r.PostFormValue("strain_type")
 	price, _ = strconv.ParseFloat(r.PostFormValue("price"), 64)
 	currency = r.PostFormValue("currency")
 	unitOfMeasure = r.PostFormValue("unit_of_measure")
@@ -245,7 +247,7 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 	util.SetCommonHttpHeaders(w)
 
 	// attempt to write to DB
-	dbWriteResult, dbWriteMsg = db.UpdateStrain(userId, strainId, strainName,
+	dbWriteResult, dbWriteMsg = db.UpdateStrain(userId, strainId, strainName, strainType,
 		price, currency, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, stars,
 		comments, company, dispensary)
 	if dbWriteResult {

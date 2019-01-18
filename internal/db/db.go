@@ -225,9 +225,9 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 
 // Takes the relevant values for the INSERT
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func WriteNewStrainToDb(userId int, strainName string, stars int, price float64, currency string,
-	unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64, cbdPct float64,
-	company string, dispensary string, comments string) (bool, string) {
+func WriteNewStrain(userId int, strainName string, strainType string, stars int, price float64,
+	currency string, unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64,
+	cbdPct float64, company string, dispensary string, comments string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -241,18 +241,18 @@ func WriteNewStrainToDb(userId int, strainName string, stars int, price float64,
 
 	sql := `
 		INSERT INTO t_user_strains
-		(user_id, strain_name, stars, price, currency_abbreviation, unit_of_measure, 
+		(user_id, strain_name, strain_type, stars, price, currency_abbreviation, unit_of_measure, 
 			sativa_pct, indica_pct, thc_pct, cbd_pct, company, dispensary, comments)
 		VALUES 
-		(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
+		(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`
 
 	stmtIns, err := dbh.Prepare(sql)
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
 	// first return value is 'result', but it's db driver dependent as to whether it gets populated
-	_, execErr := stmtIns.Exec(userId, strainName, stars, price, currency, unitOfMeasure,
-		sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
+	_, execErr := stmtIns.Exec(userId, strainName, strainType, stars, price, currency,
+		unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false
@@ -343,9 +343,9 @@ func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 
 // Takes the relevant values for the UPDATE
 // Returns a boolean indicating success|failure, and a message which will be "" on success
-func UpdateStrain(userId int, strainId int, strainName string, price float64, currency string,
-	unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64, cbdPct float64,
-	stars int, comments string, company string, dispensary string) (bool, string) {
+func UpdateStrain(userId int, strainId int, strainName string, strainType string, price float64,
+	currency string, unitOfMeasure string, sativaPct float64, indicaPct float64, thcPct float64,
+	cbdPct float64, stars int, comments string, company string, dispensary string) (bool, string) {
 
 	var result bool = true
 	var msg string = ""
@@ -358,8 +358,8 @@ func UpdateStrain(userId int, strainId int, strainName string, price float64, cu
 	util.ErrChk(err)
 
 	sql := `UPDATE t_user_strains
-			SET strain_name = ?, price = ?, currency_abbreviation = ?, unit_of_measure = ?, 
-				sativa_pct = ?, indica_pct = ?, thc_pct = ?, cbd_pct = ?, 
+			SET strain_name = ?, strain_type = ?, price = ?, currency_abbreviation = ?, 
+				unit_of_measure = ?, sativa_pct = ?, indica_pct = ?, thc_pct = ?, cbd_pct = ?, 
 				stars = ?, comments = ?, company = ?, dispensary = ?, modified_at = NOW()
 			WHERE user_id = ? 
 			AND id = ?;`
@@ -368,8 +368,8 @@ func UpdateStrain(userId int, strainId int, strainName string, price float64, cu
 	util.ErrChk(err)
 	defer stmtIns.Close()
 
-	_, execErr := stmtIns.Exec(strainName, price, currency, unitOfMeasure, sativaPct, indicaPct,
-		thcPct, cbdPct, stars, comments, company, dispensary, userId, strainId)
+	_, execErr := stmtIns.Exec(strainName, strainType, price, currency, unitOfMeasure, sativaPct,
+		indicaPct, thcPct, cbdPct, stars, comments, company, dispensary, userId, strainId)
 	if execErr != nil {
 		// set the result flag and investigate based on the error message
 		result = false

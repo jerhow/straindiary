@@ -181,6 +181,25 @@ HR {
     padding-bottom: 9px;
 }
 
+#con_strain_type {
+    float: left;
+    margin-bottom: 8px;
+}
+
+#strain_type_label {
+    float: left;
+    margin-right: 15px;
+}
+
+#ddl_strain_type {
+    float: left;
+    font-size: .8rem;
+}
+
+#con_price {
+    clear: left;
+}
+
 #con_price, #con_currency, #con_unit_of_measure {
     float: left;
     padding-bottom: .5rem;
@@ -189,7 +208,7 @@ HR {
 #currency_symbol {
     font-size: .9rem;
     padding-left: 2px;
-    padding-right: 2px;
+    /* padding-right: 1px; */
 }
 
 #price {
@@ -198,7 +217,7 @@ HR {
 
 #ddl_currency {
     font-size: .8rem;
-    margin-left: 3px;
+    margin-left: 4px;
     margin-right: 3px;
 }
 

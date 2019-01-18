@@ -53,6 +53,17 @@ var sd = {
         arr.push("</select>");
         return arr.join("");
     },
+    strainTypeDdl: function() {
+        return "" +
+            "<select id='ddl_strain_type' name='ddl_strain_type'>" +
+            "<option value='Flower' selected>Flower</option>" +
+            "<option value='Oil'>Oil</option>" +
+            "<option value='Wax'>Wax</option>" +
+            "<option value='Edible'>Edible</option>" +
+            "<option value='Tincture'>Tincture</option>" +
+            "<option value='Other'>Other</option>" +
+            "</select>";
+    },
     currencyChange: function(obj) {
         document.getElementById("currency_symbol").innerHTML = obj.options[obj.selectedIndex].value.split(',')[1];
     },
@@ -353,6 +364,7 @@ var sd = {
 
         var userId = document.getElementById("user_id").value;
         var strain_name = document.getElementById("strain_name").value;
+        var strain_type = document.getElementById("ddl_strain_type").value;
         var stars = document.getElementById("stars").value;
         var price = document.getElementById("price").value;
         var currency = document.getElementById("ddl_currency").value.split(',')[0];
@@ -371,6 +383,7 @@ var sd = {
 
         urlEncodedDataPairs.push(encodeURIComponent("user_id") + '=' + encodeURIComponent(userId));
         urlEncodedDataPairs.push(encodeURIComponent("strain_name") + '=' + encodeURIComponent(strain_name));
+        urlEncodedDataPairs.push(encodeURIComponent("strain_type") + '=' + encodeURIComponent(strain_type));
         urlEncodedDataPairs.push(encodeURIComponent("stars") + '=' + encodeURIComponent(stars));
         urlEncodedDataPairs.push(encodeURIComponent("price") + '=' + encodeURIComponent(price));
         urlEncodedDataPairs.push(encodeURIComponent("currency") + '=' + encodeURIComponent(currency));
@@ -513,6 +526,10 @@ var sd = {
         "               <label for='rating1'>1</label>" +
         "           </span>" +
         "       </div>" +
+        "       <div id='con_strain_type'>" +
+        "           <div id='strain_type_label'>Type: </div>" +
+                    sd.strainTypeDdl() +
+        "       </div>" +
         "       <div id='con_price'>" +
         "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
         "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' />" +
@@ -593,6 +610,10 @@ var sd = {
         "               <label for='rating1' id='rating_label_1'>1</label>" +
         "           </span>" +
         "       </div>" +
+        "       <div id='con_strain_type'>" +
+        "           <div id='strain_type_label'>Type: </div>" +
+                    sd.strainTypeDdl() +
+        "       </div>" +
         "       <div id='con_price'>" +
         "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
         "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' value='" + vals['Price'] + "' />" +
@@ -642,6 +663,7 @@ var sd = {
         sd.setStarWidgetValue(document.getElementById("stars").value);
 
         var strain = sd.strainPicker(strainId);
+        document.getElementById("ddl_strain_type").value = strain['StrainType'];
         document.getElementById("ddl_currency").value = sd.currency[strain['CurrencyAbbreviation']];
         document.getElementById("ddl_unit_of_measure").value = strain['UnitOfMeasure'];
     },
