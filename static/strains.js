@@ -242,10 +242,10 @@ var sd = {
         var authToken = sd.authToken();
 
         if(!sortBy) {
-            sortBy = "1";
+            sortBy = docCookies.getItem('sort') || "1";
         }
         if(!orderBy) {
-            orderBy = "0";
+            orderBy = docCookies.getItem('order') || "0";
         }
 
         var url = '/strain?user_id=' + userId + '&sb=' + sortBy + '&ob=' + orderBy;
@@ -508,6 +508,8 @@ var sd = {
     sortChange: function(obj) {
         var vals = obj.value.split(',');
         sd.viewStrains(vals[0], vals[1]); // (sortBy, orderBy)
+        docCookies.setItem('sort', vals[0], (sd.oneDayInSeconds * sd.sessionFactor));
+        docCookies.setItem('order', vals[1], (sd.oneDayInSeconds * sd.sessionFactor));
         document.getElementById("ddl_sort").style.display = "none";
         document.getElementById("sort_icon").style.display = "inline";
         document.getElementById("sort_label").style.display = "inline";
