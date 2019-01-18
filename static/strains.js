@@ -241,6 +241,13 @@ var sd = {
 
         XHR.send();
     },
+    unitsOfMeasure: { // for display in the list
+        "gram": "g",
+        "eighth": "eighth",
+        "quarter": "quarter",
+        "half": "half",
+        "ounce": "oz"
+    },
     buildStrainOutput: function() {
         var strainDivs = [];
         var idx, strainId, userId, strainName, currency, price, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct;
@@ -255,7 +262,7 @@ var sd = {
             strainName = this.data.StrainData[idx]["StrainName"];
             price = this.data.StrainData[idx]["Price"];
             currency = sd.currency[this.data.StrainData[idx]["CurrencyAbbreviation"]].split(',')[1];
-            unitOfMeasure = this.data.StrainData[idx]["UnitOfMeasure"];
+            unitOfMeasure = sd.unitsOfMeasure[this.data.StrainData[idx]["UnitOfMeasure"]];
             sativaPct = this.data.StrainData[idx]["SativaPct"];
             indicaPct = this.data.StrainData[idx]["IndicaPct"];
             thcPct = this.data.StrainData[idx]["ThcPct"];
