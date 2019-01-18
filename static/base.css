@@ -46,10 +46,9 @@ HR {
 .header {
     overflow: hidden;
     background-color: white;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-    /* height: 40px; */
+    position: fixed;
+    top: 0;
+    width: 100%;
     text-align: center;
     border-bottom: 1px solid black;
     /* margin: 0 auto; */
@@ -77,8 +76,6 @@ HR {
 
 #outer_container {
     width: 100%;
-    /* border: 0px solid green; */
-    /* border: 1px solid #e0e0e0; */
     margin: 0 auto;
     text-align: center;
     background-color: rgb(239, 255, 239);
@@ -89,16 +86,10 @@ HR {
 
     margin-top: 65px; /* Add a top margin to avoid content overlay */
     margin-bottom: 55px;
-    /* margin-left: 5px;
-    margin-right: 5px; */
-    /* padding-left: 5px;
-    padding-right: 5px; */
 }
 
 #login_form_container {
     border: 0px solid black;
-    /* margin: 0 auto; */
-    /* text-align: center; */
 }
 
 #login_form_heading_1 {
@@ -141,13 +132,11 @@ HR {
     text-align: center;
     clear: both;
     padding-left: 15px;
-    /* padding-bottom: 5px; */
     padding-top: 5px;
 }
 
 #login_form_msg {
     color: red;
-    /* font-weight: bold; */
 }
 
 #login_form_forgot_password {
@@ -298,13 +287,6 @@ HR {
     width: 3rem;
 }
 
-/* #heading_row {
-    display: none;
-    padding-left: 3px;
-    padding-right: 3px;
-    overflow: auto;
-} */
-
 #mastheadTitle {
     font-size: 1.1rem;
     font-weight: bold;
@@ -313,47 +295,6 @@ HR {
 #mastheadTagline {
     font-size: .75rem;
 }
-
-/* #heading_column_left {
-    float: left;
-    width: 36%;
-    padding-top: 3px;
-    word-break: break-all; 
-    word-wrap: break-word;
-} */
-
-/* #heading_column_center {
-    width: 34%;
-    float: left;
-} */
-
-/* #heading_column_right {
-    padding-top: 3px;
-    text-align: right;
-    overflow: hidden; This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width)
-} */
-
-/* #btn_logout {
-    float: right;
-    border-radius: 2em;
-    background-color: #2b2f3a;
-    color: white;
-    font-size: .70rem;
-    vertical-align: top;
-} */
-
-/* #btn_user_settings {
-    float: left;
-    border-radius: 2em;
-    background-color: #2b2f3a;
-    color: white;
-    font-size: .70rem;
-    vertical-align: top;
-} */
-
-/* #user_stuff {
-    text-align: left;
-} */
 
 /* #nickname {
     clear: right;
@@ -384,7 +325,6 @@ HR {
     width: 60%;
     float: left;
     vertical-align: middle;
-    /* border: 1px solid black; */
 }
 
 #con_user {
@@ -396,7 +336,6 @@ HR {
 
 #user_icon {
     width: 35px;
-    /* height: 35px; */
 }
 
 #user_label {
@@ -412,7 +351,6 @@ HR {
 #con_logout {
     text-align: center;
     overflow: auto;
-    /* border: 1px solid black; */
     width: 18%;
     float: left;
 }
@@ -428,27 +366,18 @@ HR {
 }
 
 #functional_row_bottom {
-    /* overflow: auto; */
-    /* margin: 0 auto; */
-    /* display: block; */
-    /* text-align: left; */
     padding-top: 3px;
-    /* border: 1px solid black; */
 }
 
 #con_add_strain {
     text-align: center;
     overflow: auto;
-    /* margin: 0 auto; */
-    /* display: inline; */
-    /* border: 1px solid black; */
     width: 20%;
     float: left;
 }
 
 #add_strain_icon {
     width: 35px;
-    /* height: 35px; */
 }
 
 #add_strain_label {
@@ -457,7 +386,6 @@ HR {
 }
 
 #con_middle { /* temporary */
-    /* border: 1px solid black; */
     width: 60%;
     float: left;
 }
@@ -465,7 +393,6 @@ HR {
 #con_sort {
     text-align: center;
     overflow: auto;
-    /* border: 1px solid black; */
     width: 18%;
     float: left;
     /* overflow: hidden; */ /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
@@ -473,7 +400,6 @@ HR {
 
 #sort_icon {
     width: 35px;
-    /* height: 42px; */
 }
 
 #sort_label {
@@ -597,10 +523,7 @@ HR {
 
 .comments_row {
     border: 0px solid orange;
-    /* float: left; */
-    /* width: 98%; */
     text-align: left;
-    /* font-size: .75rem; */
     height: auto;
     overflow: auto;
     font-size: .70rem;
