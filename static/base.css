@@ -521,6 +521,10 @@ HR {
     font-size: .70rem;
 }
 
+.strain_type_display {
+    font-size: .70rem;
+}
+
 .comments_row {
     border: 0px solid orange;
     text-align: left;

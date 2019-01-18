@@ -250,8 +250,8 @@ var sd = {
     },
     buildStrainOutput: function() {
         var strainDivs = [];
-        var idx, strainId, userId, strainName, currency, price, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct;
-        var stars, comments, company, dispensary, createdAt, modifiedAt;
+        var idx, strainId, userId, strainName, strainType, stars, currency, price, unitOfMeasure;
+        var sativaPct, indicaPct, thcPct, cbdPct, comments, company, dispensary, createdAt, modifiedAt;
         var strainCount = Object.keys(this.data.StrainData).length;
         var dispensaryRow, companyRow, priceRow;
         var commentsRow, commentsRowUpper, commentsRowLower;
@@ -260,6 +260,7 @@ var sd = {
             strainId = this.data.StrainData[idx]["Id"];
             userId = this.data.StrainData[idx]["UserId"];
             strainName = this.data.StrainData[idx]["StrainName"];
+            strainType = this.data.StrainData[idx]["StrainType"];
             price = this.data.StrainData[idx]["Price"];
             currency = sd.currency[this.data.StrainData[idx]["CurrencyAbbreviation"]].split(',')[1];
             unitOfMeasure = sd.unitsOfMeasure[this.data.StrainData[idx]["UnitOfMeasure"]];
@@ -315,6 +316,7 @@ var sd = {
                         commentsRowUpper +
                 "   </div>" +
                 "   <div id='column_right_" + strainId + "' class='strain_column_right'>" +
+                "       <div id='strain_type_" + strainId + "' class='strain_type_display'>" + strainType + "</div> " +
                         priceRow +
                 "       <div id='stats_sativa_" + strainId + "' class='strain_stats_display'>" + sativaPct + "% Sativa</div> " +
                 "       <div id='stats_indica_" + strainId + "' class='strain_stats_display'>" + indicaPct + "% Indica</div> " +

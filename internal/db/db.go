@@ -150,6 +150,7 @@ type StrainRow struct {
 	Id                   int
 	UserId               int
 	StrainName           string
+	StrainType           string
 	Price                float64
 	CurrencyAbbreviation string
 	UnitOfMeasure        string
@@ -181,6 +182,7 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 				id,
 				user_id,
 				strain_name,
+				strain_type,
 				price,
 				currency_abbreviation,
 				unit_of_measure,
@@ -208,7 +210,7 @@ func UserStrainList(userId int, sortBy string, orderBy string) map[int]StrainRow
 	idx := 0
 	for rows.Next() { // for each row, instantiate a StrainRow and scan the values into its fields
 		var row StrainRow
-		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.Price, &row.CurrencyAbbreviation,
+		err := rows.Scan(&row.Id, &row.UserId, &row.StrainName, &row.StrainType, &row.Price, &row.CurrencyAbbreviation,
 			&row.UnitOfMeasure, &row.SativaPct, &row.IndicaPct, &row.ThcPct, &row.CbdPct, &row.Stars,
 			&row.Comments, &row.Company, &row.Dispensary, &row.CreatedAt, &row.ModifiedAt)
 		util.ErrChk(err)
