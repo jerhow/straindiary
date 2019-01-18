@@ -72,6 +72,7 @@ var sd = {
             "<option value='Wax'>Wax</option>" +
             "<option value='Edible'>Edible</option>" +
             "<option value='Tincture'>Tincture</option>" +
+            "<option value='Other'>Other</option>" +
             "</select>";
     },
     strainTypeChange: function(obj) {
