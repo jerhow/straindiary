@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function() {
     sd.staticPath = "{{.StaticPath}}";
     sd.sessionFactor = {{.JsSessionFactor}};
     sd.manageUiBasedOnUserState();
-    document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
+    // document.getElementById('nickname').innerHTML = docCookies.getItem('nickname') || '';
+    document.getElementById('user_icon').title = docCookies.getItem('nickname') || '';
 
     if(sd.validSession()) {
         sd.viewStrains();

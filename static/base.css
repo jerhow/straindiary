@@ -87,8 +87,8 @@ HR {
     -moz-box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75);
     box-shadow: 7px 17px 5px 0px rgba(0,0,0,0.75); */
 
-    margin-top: 45px; /* Add a top margin to avoid content overlay */
-    margin-bottom: 40px;
+    margin-top: 65px; /* Add a top margin to avoid content overlay */
+    margin-bottom: 55px;
     /* margin-left: 5px;
     margin-right: 5px; */
     /* padding-left: 5px;
@@ -298,22 +298,12 @@ HR {
     width: 3rem;
 }
 
-#heading_row {
-    /* border: 1px solid black; */
-    
-    /* width: 90%; */
-    
-    /* margin: 15px; */
-    /* padding: 3px; */
-
-    /* margin-left: 15px; */
-
+/* #heading_row {
+    display: none;
     padding-left: 3px;
     padding-right: 3px;
     overflow: auto;
-    /* margin: 0 auto; */
-    /* display: block; */
-}
+} */
 
 #mastheadTitle {
     font-size: 1.1rem;
@@ -324,58 +314,56 @@ HR {
     font-size: .75rem;
 }
 
-#heading_column_left {
-    /* border: 1px solid red; */
+/* #heading_column_left {
     float: left;
     width: 36%;
     padding-top: 3px;
-    /* display: inline; */
-    /* vertical-align: top; */
     word-break: break-all; 
     word-wrap: break-word;
-}
+} */
 
-#heading_column_center {
-    /* border: 1px solid red; */
+/* #heading_column_center {
     width: 34%;
     float: left;
-}
+} */
 
-#heading_column_right {
-    /* border: 1px solid red; */
+/* #heading_column_right {
     padding-top: 3px;
     text-align: right;
-    overflow: hidden; /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
-}
+    overflow: hidden; This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width)
+} */
 
-#btn_logout {
+/* #btn_logout {
     float: right;
     border-radius: 2em;
-    /* background-color: #57ab57; */
     background-color: #2b2f3a;
     color: white;
     font-size: .70rem;
     vertical-align: top;
-}
+} */
 
-#btn_user_settings {
+/* #btn_user_settings {
     float: left;
     border-radius: 2em;
     background-color: #2b2f3a;
     color: white;
     font-size: .70rem;
     vertical-align: top;
-}
+} */
 
-#user_stuff {
+/* #user_stuff {
     text-align: left;
-}
+} */
 
-#nickname {
+/* #nickname {
     clear: right;
     font-size: .70rem;
     font-style: italic;
-    width: 95%;
+    overflow-wrap: break-word;
+} */
+
+#user_icon_label {
+    font-size: .70rem;
 }
 
 #face_icon {
@@ -388,7 +376,57 @@ HR {
     height: 25px;
 }
 
-/* #functional_row_top,  */
+#functional_row_top {
+    padding-top: 3px;
+}
+
+#con_masthead {
+    width: 60%;
+    float: left;
+    vertical-align: middle;
+    /* border: 1px solid black; */
+}
+
+#con_user {
+    text-align: center;
+    overflow: auto;
+    width: 20%;
+    float: left;
+}
+
+#user_icon {
+    width: 35px;
+    /* height: 35px; */
+}
+
+#user_label {
+    clear: left;
+    font-size: .7rem;
+}
+
+#con_masthead {
+    width: 60%;
+    float: left;
+}
+
+#con_logout {
+    text-align: center;
+    overflow: auto;
+    /* border: 1px solid black; */
+    width: 18%;
+    float: left;
+}
+
+#logout_icon {
+    width: 35px;
+    height: 35px;
+}
+
+#logout_label {
+    clear: left;
+    font-size: .7rem;
+}
+
 #functional_row_bottom {
     /* overflow: auto; */
     /* margin: 0 auto; */
@@ -430,6 +468,7 @@ HR {
     /* border: 1px solid black; */
     width: 18%;
     float: left;
+    /* overflow: hidden; */ /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
 }
 
 #sort_icon {
