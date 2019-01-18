@@ -258,7 +258,7 @@ func WriteNewStrain(userId int, strainName string, strainType string, stars int,
 		result = false
 		// we can stack the possible error cases here, and fail out hard otherwise
 		if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
-			msg = "You already have a strain with this name"
+			msg = "You already have a strain with this name and type"
 		} else {
 			log.Fatal(execErr) // something else
 		}
@@ -375,7 +375,7 @@ func UpdateStrain(userId int, strainId int, strainName string, strainType string
 		result = false
 		// we can stack the possible error cases here, and fail out hard otherwise
 		if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
-			msg = "You already have a strain with this name"
+			msg = "You already have a strain with this name and type"
 		} else {
 			log.Fatal(execErr) // something else
 		}
