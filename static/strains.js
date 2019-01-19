@@ -371,8 +371,9 @@ var sd = {
         if(rating === 0) {
             return "&nbsp;"; // sending an encoded space instead of "" lets us retain the vertical spacing of the div
         } else {
-            var star = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
-            return star.repeat(rating);
+            var starOn = "<img src='" + sd.staticPath + "star-rating-widget/star-on.svg' class='star_for_list'>";
+            var starOff = "<img src='" + sd.staticPath + "star-rating-widget/star-off.svg' class='star_for_list'>";
+            return starOn.repeat(rating) + starOff.repeat(5 - rating);
         }
     },
     // Expects 'POST' or 'PUT'
