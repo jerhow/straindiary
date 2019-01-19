@@ -423,6 +423,18 @@ HR {
     font-size: .7rem;
 }
 
+.support_msg {
+    font-size: .8rem;
+    /* font-style: italic; */
+}
+
+.support_img_01 {
+    /* background-image: url('http://192.168.1.153:8080/paypal01.png'); */
+    /* width: 25%; */
+    width: 313px;
+    height: 95px;
+}
+
 #con_sort {
     text-align: center;
     overflow: auto;

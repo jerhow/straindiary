@@ -4,6 +4,7 @@ var sd = {
     editModal: null,
     deleteModal: null,
     loginModal: null,
+    supportModal: null,
     staticPath: '',
     sessionFactor: 0,
     oneDayInSeconds: 86400,
@@ -790,5 +791,39 @@ var sd = {
         };
 
         XHR.send();
+    },
+    popSupportModal: function() {
+        sd.instantiateSupportModal(sd.userId());
+        sd.supportModal.open();
+        // document.getElementById('img_paypal01').src = 'http://192.168.1.153:8080/paypal01.png';
+    },
+    instantiateSupportModal: function(userId) {
+        sd.supportModal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['escape'],
+            closeLabel: "Close",
+            cssClass: ['support_msg'],
+        });
+
+        sd.supportModal.setContent(sd.supportModalContent());
+
+        sd.supportModal.addFooterBtn('Close', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
+            sd.supportModal.close();
+        });
+    },
+    supportModalContent: function(strainName) {
+        return "" +
+        "<div class='support_msg'>" + 
+        "Thank you for using Strain Diary! <br /><br />" +
+        "This web app is free for all to use. If you get value from it, I would appreciate your support " +
+        "to help cover the cost of running and maintaining it. Any amount is appreciated. <br /><br />" +
+        "Thanks again, and keep it lit. <br /><br />" +
+        "Peace, <br />" +
+        "Jerry" +
+        "</div>" +
+        "<div class='tingle-content-wrapper'>" +
+        "<img src='" + sd.staticPath + "paypal01.png' />" +
+        "</div>";
     }
 };

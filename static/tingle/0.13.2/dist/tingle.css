@@ -145,8 +145,12 @@
 }
 
 .tingle-enabled .tingle-content-wrapper {
-  -webkit-filter: blur(8px);
-  filter: blur(8px);
+  /* This is what was here. Only by disabling the blur and wrapping my images in a tingle-content-wrapper classed div
+     am I able to get images to display in the modal. I'll unpack this and fix in a less-hacky way when I have time. */
+  /* -webkit-filter: blur(8px);
+  filter: blur(8px); */
+  -webkit-filter: none;
+    filter: none;
 }
 
 .tingle-modal--visible {
