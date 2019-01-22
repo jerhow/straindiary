@@ -1,3 +1,10 @@
+// String.trim() polyfill
+if (!String.prototype.trim) {
+    String.prototype.trim = function () {
+        return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+    };
+}
+
 var sd = {
     data: null,
     newModal: null, // new strain
@@ -7,7 +14,6 @@ var sd = {
     supportModal: null,
     userSettingsModal: null,
     userSettings: null,
-    // userSettingsFieldChange: null,
     updateUserSettingsConfDisplayed: false,
     staticPath: '',
     sessionFactor: 0,
@@ -852,28 +858,27 @@ var sd = {
         sd.userSettingsModal.setContent(sd.userSettingsModalContent());
 
         sd.userSettingsModal.addFooterBtn('Update', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.sendUserSettings(true, function() {
+            sd.closeUserSettingsModal(true, function() {
                 sd.userSettingsModal.close();
-                sd.userSettingsModal = null;
-                sd.sendUserSettingsConfirmed = false; // reset
+                sd.userSettingsModal = null; // reset
+                sd.updateUserSettingsConfDisplayed = false; // reset
+                console.log("_callback() called");
             });
         });
 
         sd.userSettingsModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
-            sd.userSettingsModal.close();
+            sd.closeUserSettingsModal(false, function() {
+                sd.userSettingsModal.close();
+                sd.userSettingsModal = null; // reset
+                sd.updateUserSettingsConfDisplayed = false; // reset
+                console.log("_callback() called");
+            });
         });
     },
     userSettingsModalContent: function(userSettings) {
-        console.log(sd.userSettings);
         var un = sd.userSettings['UserSettings']['Un'];
         var createdAt = sd.userSettings['UserSettings']['CreatedAt'];
         var nickname = sd.userSettings['UserSettings']['Nickname'];
-
-        // resets on each instantiation
-        sd.userSettingsFieldChange = {
-            'email': false,
-            'nickname': false,
-        };
 
         return "" +
         "<div id='con_user_settings'>" +
@@ -906,46 +911,75 @@ var sd = {
         "   </div>" +
         "</div>";
     },
-    sendUserSettings: function(submitForm, _callback) {
+    closeUserSettingsModal: function(submitForm, _callback) {
         if(submitForm) {
             if(!sd.updateUserSettingsConfDisplayed) {
-                document.getElementById('user_settings_msg').innerHTML = "Are you sure? ";
+
+                var existingVals = {
+                    email: sd.userSettings['UserSettings']['Un'],
+                    nickname: sd.userSettings['UserSettings']['Nickname']
+                };
+
+                var newVals = {
+                    email: document.getElementById("txt_email").value.trim(),
+                    nickname: document.getElementById("txt_nickname").value.trim()
+                };
+
+                document.getElementById("txt_email").value = newVals.email;
+                document.getElementById("txt_nickname").value = newVals.nickname;
+
+                // TODO: validate and check availability of email address
+                // TODO: validate and check availability of nickname
+
+                if(newVals.email === existingVals.email && newVals.nickname === existingVals.nickname) {
+                    document.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
+                    return false;
+                } else if(newVals.email !== existingVals.email) {
+                    document.getElementById('user_settings_msg').innerHTML = "Are you sure? " +
+                        "We will send a confirmation to the original email address";
+                } else {
+                    document.getElementById('user_settings_msg').innerHTML = "Are you sure?";
+                }
+
                 document.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
                 sd.updateUserSettingsConfDisplayed = true;
             } else {
-                var XHR = new XMLHttpRequest();
-                var urlEncodedData = "";
-                var urlEncodedDataPairs = [];
-                var email = document.getElementById("txt_email").value;
-                var nickname = document.getElementById("txt_nickname").value;
-                urlEncodedDataPairs.push(encodeURIComponent("email") + '=' + encodeURIComponent(email));
-                urlEncodedDataPairs.push(encodeURIComponent("nickname") + '=' + encodeURIComponent(nickname));
-                urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
-                XHR.open('PUT', '/user');
-                XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                XHR.setRequestHeader('X-user-id', sd.userId());
-                XHR.setRequestHeader('X-auth-token', sd.authToken());
-
-                XHR.onreadystatechange = function() {
-                    if(XHR.readyState === sd.readyState["DONE"]) {
-                        if(XHR.status === 200) { // success
-                            _callback();
-                        } else if(XHR.status === 400) { // a handled error state
-                            // document.getElementById('strain_name_msg').style.display = 'inline-block';
-                            // document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
-                        } else { // TODO: Unhandled error states
-                            // console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
-                            //     'We got an undesirable response code back: ' + XHR.status);
-                            // console.log(XHR.responseText);
-                        }
-                    }
-                };
-
-                XHR.send(urlEncodedData);
+                sd.sendUserSettings(_callback);          
             }
         } else {
             _callback();
         }
+    },
+    sendUserSettings: function(_callback) {
+        var XHR = new XMLHttpRequest();
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        var email = document.getElementById("txt_email").value;
+        var nickname = document.getElementById("txt_nickname").value;
+        urlEncodedDataPairs.push(encodeURIComponent("email") + '=' + encodeURIComponent(email));
+        urlEncodedDataPairs.push(encodeURIComponent("nickname") + '=' + encodeURIComponent(nickname));
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        XHR.open('PUT', '/user');
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        XHR.setRequestHeader('X-user-id', sd.userId());
+        XHR.setRequestHeader('X-auth-token', sd.authToken());
+
+        XHR.onreadystatechange = function() {
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                if(XHR.status === 200) { // success
+                    _callback();
+                } else if(XHR.status === 400) { // a handled error state
+                    // document.getElementById('strain_name_msg').style.display = 'inline-block';
+                    // document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
+                } else { // TODO: Unhandled error states
+                    // console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                    //     'We got an undesirable response code back: ' + XHR.status);
+                    // console.log(XHR.responseText);
+                }
+            }
+        };
+
+        XHR.send(urlEncodedData);
     },
     fetchUserSettings: function(userId, authToken, _callback) {
         var url = '/user';
