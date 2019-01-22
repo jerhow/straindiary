@@ -60,14 +60,16 @@ type UserSettings struct {
 	Un        string
 	CreatedAt string
 	Nickname  string
+	Legit     bool
 }
 
-func FetchUserSettings(userId int) UserSettings {
+func FetchUserSettings(userId int, authToken string) UserSettings {
 
 	userSettings := UserSettings{
 		Un:        "",
 		CreatedAt: "",
 		Nickname:  "",
+		Legit:     false,
 	}
 
 	dbh, err := sql.Open(DRIVER, dsn())
@@ -77,23 +79,26 @@ func FetchUserSettings(userId int) UserSettings {
 	err = dbh.Ping()
 	util.ErrChk(err)
 
-	err = dbh.QueryRow(`SELECT 
-							un, 
-							date_format(created_at, '%c/%e/%Y %r') AS created_at, 
-							IFNULL(nickname, 'Anonymous') as 'nickname'
-						FROM 
-							t_user 
-						WHERE id = ?`, userId).Scan(&userSettings.Un, &userSettings.CreatedAt, &userSettings.Nickname)
+	err = dbh.QueryRow(`
+		SELECT 
+			u.un, 
+			date_format(u.created_at, '%c/%e/%Y %r') AS created_at, 
+			u.nickname
+		FROM 
+			t_user AS u 
+			INNER JOIN t_session_auth AS sa 
+				ON u.id = sa.user_id
+		WHERE u.id = ? 
+		AND sa.auth_token = ?`, userId, authToken).Scan(&userSettings.Un, &userSettings.CreatedAt, &userSettings.Nickname)
 
 	switch {
 	case err == sql.ErrNoRows:
-		// TODO: Handle this case
-		fmt.Println("No user with that ID")
+		userSettings.Legit = false
 	case err != nil:
 		// TODO: Handle this case
 		log.Fatal(err) // Fatal is equivalent to Print() followed by a call to os.Exit(1)
 	default:
-		fmt.Println("Hey something happened")
+		userSettings.Legit = true
 	}
 
 	return userSettings
