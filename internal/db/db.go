@@ -56,6 +56,49 @@ func Db1() {
 	// defer insert.Close()
 }
 
+type UserSettings struct {
+	Un        string
+	CreatedAt string
+	Nickname  string
+}
+
+func FetchUserSettings(userId int) UserSettings {
+
+	userSettings := UserSettings{
+		Un:        "",
+		CreatedAt: "",
+		Nickname:  "",
+	}
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	err = dbh.QueryRow(`SELECT 
+							un, 
+							date_format(created_at, '%c/%e/%Y %r') AS created_at, 
+							IFNULL(nickname, 'Anonymous') as 'nickname'
+						FROM 
+							t_user 
+						WHERE id = ?`, userId).Scan(&userSettings.Un, &userSettings.CreatedAt, &userSettings.Nickname)
+
+	switch {
+	case err == sql.ErrNoRows:
+		// TODO: Handle this case
+		fmt.Println("No user with that ID")
+	case err != nil:
+		// TODO: Handle this case
+		log.Fatal(err) // Fatal is equivalent to Print() followed by a call to os.Exit(1)
+	default:
+		fmt.Println("Hey something happened")
+	}
+
+	return userSettings
+}
+
 func FetchPwdHashAndUserInfo(un string) (string, int, string) {
 	var pwdHashFromDb string
 	var idFromDb int
