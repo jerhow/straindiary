@@ -89,7 +89,9 @@
   width: 60%;
   border-radius: 4px;
   /* background: #fff; */
-  background-image: linear-gradient(white, green);
+  /* background-image: linear-gradient(rgb(239, 255, 239), #85ac85); */
+  background-image: linear-gradient(white, #478147);
+  /* background-color: #85ac85; */
   opacity: 1;
   cursor: auto;
   -webkit-transition: -webkit-transform .3s cubic-bezier(.175, .885, .32, 1.275);
@@ -192,7 +194,8 @@
 
 .tingle-btn--primary {
   /* background-color: #9c3; */
-  background-color: #57ab57;
+  /* background-color: #57ab57; */
+  background-color: #4c9c4c;
   font-size: 1.25rem;
 }
 
