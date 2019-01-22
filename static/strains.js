@@ -4,8 +4,11 @@ var sd = {
     editModal: null,
     deleteModal: null,
     loginModal: null,
-    userSettingsModal: null,
     supportModal: null,
+    userSettingsModal: null,
+    userSettings: null,
+    // userSettingsFieldChange: null,
+    updateUserSettingsConfDisplayed: false,
     staticPath: '',
     sessionFactor: 0,
     oneDayInSeconds: 86400,
@@ -829,15 +832,16 @@ var sd = {
         "</div>";
     },
 
-
-
-
+// === USER SETTINGS =========================================================================
     popUserSettingsModal: function() {
         var userId = sd.userId();
-        sd.instantiateUserSettingsModal(userId);
-        sd.userSettingsModal.open();
+        var authToken = sd.authToken();
+        sd.fetchUserSettings(userId, authToken, function() {
+            sd.instantiateUserSettingsModal();
+            sd.userSettingsModal.open();
+        });
     },
-    instantiateUserSettingsModal: function(userId, strainId, strainName) {
+    instantiateUserSettingsModal: function() {
         sd.userSettingsModal = new tingle.modal({
             footer: true,
             stickyFooter: false,
@@ -847,9 +851,11 @@ var sd = {
 
         sd.userSettingsModal.setContent(sd.userSettingsModalContent());
 
-        sd.userSettingsModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary_delete tingle-btn--pull-left', function() {
-            sd.sendUserSettings(userId, function() {
+        sd.userSettingsModal.addFooterBtn('Update', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+            sd.sendUserSettings(true, function() {
                 sd.userSettingsModal.close();
+                sd.userSettingsModal = null;
+                sd.sendUserSettingsConfirmed = false; // reset
             });
         });
 
@@ -857,20 +863,130 @@ var sd = {
             sd.userSettingsModal.close();
         });
     },
-    userSettingsModalContent: function() {
+    userSettingsModalContent: function(userSettings) {
+        console.log(sd.userSettings);
+        var un = sd.userSettings['UserSettings']['Un'];
+        var createdAt = sd.userSettings['UserSettings']['CreatedAt'];
+        var nickname = sd.userSettings['UserSettings']['Nickname'];
+
+        // resets on each instantiation
+        sd.userSettingsFieldChange = {
+            'email': false,
+            'nickname': false,
+        };
+
         return "" +
-        "</div>" +
-        "Here's some shit and shit" +
+        "<div id='con_user_settings'>" +
+        "   <div id='user_settings_heading_row'>" +
+        "       Settings" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='con_since'>" +
+        "           Account created on " + createdAt.split(" ")[0] +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='con_lbl_email'>" +
+        "           <label id='lbl_email' for='txt_email'>Email:</label>" +
+        "       </div>" +
+        "       <div id='con_txt_email'>" +
+        "           <input type='text' id='txt_email' name='txt_email' value='" + un + "' />" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='con_lbl_nickname'>" +
+        "           <label id='lbl_nickname' for='txt_nickname'>Nickname:</label>" +
+        "       </div>" +
+        "       <div id='con_txt_nickname'>" +
+        "           <input type='text' id='txt_nickname' name='txt_nickname' value='" + nickname + "' />" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='user_settings_msg'>&nbsp;</div>" +
+        "   </div>" +
         "</div>";
     },
-    closeUserSettingsModal: function(submitForm, userId) {
+    sendUserSettings: function(submitForm, _callback) {
         if(submitForm) {
-            sd.sendUserSettings(userId);
+            if(!sd.updateUserSettingsConfDisplayed) {
+                document.getElementById('user_settings_msg').innerHTML = "Are you sure? ";
+                document.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                sd.updateUserSettingsConfDisplayed = true;
+            } else {
+                var XHR = new XMLHttpRequest();
+                var urlEncodedData = "";
+                var urlEncodedDataPairs = [];
+                var email = document.getElementById("txt_email").value;
+                var nickname = document.getElementById("txt_nickname").value;
+                urlEncodedDataPairs.push(encodeURIComponent("email") + '=' + encodeURIComponent(email));
+                urlEncodedDataPairs.push(encodeURIComponent("nickname") + '=' + encodeURIComponent(nickname));
+                urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+                XHR.open('PUT', '/user');
+                XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                XHR.setRequestHeader('X-user-id', sd.userId());
+                XHR.setRequestHeader('X-auth-token', sd.authToken());
+
+                XHR.onreadystatechange = function() {
+                    if(XHR.readyState === sd.readyState["DONE"]) {
+                        if(XHR.status === 200) { // success
+                            _callback();
+                        } else if(XHR.status === 400) { // a handled error state
+                            // document.getElementById('strain_name_msg').style.display = 'inline-block';
+                            // document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
+                        } else { // TODO: Unhandled error states
+                            // console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                            //     'We got an undesirable response code back: ' + XHR.status);
+                            // console.log(XHR.responseText);
+                        }
+                    }
+                };
+
+                XHR.send(urlEncodedData);
+            }
+        } else {
+            _callback();
         }
-        sd.userSettingsModal.close();
-        sd.userSettingsModal = null;
     },
-    sendUserSettings: function(userId) {
-        console.log("userId: " + userId);
+    fetchUserSettings: function(userId, authToken, _callback) {
+        var url = '/user';
+        var XHR = new XMLHttpRequest();
+
+        XHR.addEventListener('load', function(event) {
+            // console.log('GET /user request sent and response loaded');
+        });
+
+        XHR.addEventListener('error', function(event) {
+            console.log('ERROR: Something went wrong in sd.fetchUserSettings()');
+        });
+
+        XHR.open('GET', url, true);
+        XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-auth-token', authToken);
+
+        XHR.onreadystatechange = function() {
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                if(XHR.status === 200) { // success
+                    // sd.userSettings = JSON.parse(XHR.responseText);
+                } else if(XHR.status === 400) { // a handled error state
+                    console.log("ERROR in fetchUserSettings(): HTTP 400 Bad Request");
+                    console.log("Error number: " + XHR.status);
+                    console.log("Error msg: " + XHR.statusText);
+                } else if(XHR.status === 400) { // a handled error state
+                    // 401 Unauthorized, meaning the backend rejected us based on session
+                    console.log("ERROR in fetchUserSettings(): HTTP 401 Unauthorized");
+                    console.log("Error number: " + XHR.status);
+                    console.log("Error msg: " + XHR.statusText);
+                } else { // TODO: Unhandled error states
+                    console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                        'We got an undesirable response code back: ' + XHR.status);
+                    console.log(XHR.responseText);
+                }
+                
+                sd.userSettings = JSON.parse(XHR.responseText);
+                _callback();
+            }
+        };
+
+        XHR.send();
     }
 };

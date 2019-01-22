@@ -151,6 +151,54 @@ HR {
     visibility: hidden;
 }
 
+/* #con_user_settings {
+    border: 1px solid black;
+} */
+
+#user_settings_heading_row {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-decoration: underline;
+}
+
+.user_settings_row {
+    /* border: 1px solid black; */
+    width: 100%;
+    display: inline-block;
+    font-size: 1rem;
+}
+
+#con_lbl_email, #con_lbl_nickname {
+    float: left;
+}
+
+#con_since {
+    margin-bottom: 15px;
+}
+
+#con_txt_email, #con_txt_nickname {
+    float: right;
+}
+
+#txt_email, #txt_nickname {
+    width: 14rem;
+    font-size: .95rem;
+}
+
+#user_settings_msg_row {
+    width: 100%;
+}
+
+#user_settings_msg {
+    font-size: 1rem;
+    color: red;
+
+    width: 100%;
+    text-align: center;
+}
+
 #new_strain_form_container, #edit_strain_form_container {
     border: 0px solid black;
 }
