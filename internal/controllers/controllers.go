@@ -93,6 +93,37 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 	w.Write(dataJson)
 }
 
+func User_GET(w http.ResponseWriter, r *http.Request) {
+	type Payload struct {
+		Msg          string
+		UserSettings db.UserSettings
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
+	authToken := r.Header.Get("X-auth-token")
+
+	result, userSettings := db.FetchUserSettings(userId, authToken)
+	if !result {
+		payload.Msg = "Something went wrong with this request"
+		w.WriteHeader(http.StatusBadRequest)
+	} else {
+		payload.Msg = "Success"
+		payload.UserSettings = userSettings
+		util.SetCommonHttpHeaders(w)
+		w.WriteHeader(http.StatusOK)
+	}
+
+	dataJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(dataJson)
+}
+
 func Strain_GET(w http.ResponseWriter, r *http.Request) {
 	userIdRaw := r.Header.Get("X-user-id")
 	sortByRaw := r.URL.Query().Get("sb")

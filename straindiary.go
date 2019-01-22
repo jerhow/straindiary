@@ -84,6 +84,9 @@ func main() {
 	r.HandleFunc("/strain", controllers.Strain_PUT).Methods("PUT")
 	r.HandleFunc("/strain", controllers.Strain_DELETE).Methods("DELETE")
 
+	r.HandleFunc("/user", controllers.User_GET).Methods("GET")
+	// r.HandleFunc("/user", controllers.User_PUT).Methods("PUT")
+
 	r.HandleFunc("/ui", views.Index).Methods("GET")
 	r.HandleFunc("/ui/", views.Index).Methods("GET")
 	r.HandleFunc("/ui/index", views.Index).Methods("GET")

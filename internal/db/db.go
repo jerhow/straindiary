@@ -60,16 +60,14 @@ type UserSettings struct {
 	Un        string
 	CreatedAt string
 	Nickname  string
-	Legit     bool
 }
 
-func FetchUserSettings(userId int, authToken string) UserSettings {
-
+func FetchUserSettings(userId int, authToken string) (bool, UserSettings) {
+	var result bool = false
 	userSettings := UserSettings{
 		Un:        "",
 		CreatedAt: "",
 		Nickname:  "",
-		Legit:     false,
 	}
 
 	dbh, err := sql.Open(DRIVER, dsn())
@@ -93,15 +91,15 @@ func FetchUserSettings(userId int, authToken string) UserSettings {
 
 	switch {
 	case err == sql.ErrNoRows:
-		userSettings.Legit = false
+		result = false
 	case err != nil:
 		// TODO: Handle this case
 		log.Fatal(err) // Fatal is equivalent to Print() followed by a call to os.Exit(1)
 	default:
-		userSettings.Legit = true
+		result = true
 	}
 
-	return userSettings
+	return result, userSettings
 }
 
 func FetchPwdHashAndUserInfo(un string) (string, int, string) {
