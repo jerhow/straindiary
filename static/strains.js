@@ -4,6 +4,7 @@ var sd = {
     editModal: null,
     deleteModal: null,
     loginModal: null,
+    userSettingsModal: null,
     supportModal: null,
     staticPath: '',
     sessionFactor: 0,
@@ -826,5 +827,50 @@ var sd = {
         "<div class='tingle-content-wrapper'>" +
         "<img src='" + sd.staticPath + "paypal01.png' />" +
         "</div>";
+    },
+
+
+
+
+    popUserSettingsModal: function() {
+        var userId = sd.userId();
+        sd.instantiateUserSettingsModal(userId);
+        sd.userSettingsModal.open();
+    },
+    instantiateUserSettingsModal: function(userId, strainId, strainName) {
+        sd.userSettingsModal = new tingle.modal({
+            footer: true,
+            stickyFooter: false,
+            closeMethods: ['escape'],
+            closeLabel: "Close",
+        });
+
+        sd.userSettingsModal.setContent(sd.userSettingsModalContent());
+
+        sd.userSettingsModal.addFooterBtn('Delete', 'tingle-btn tingle-btn--primary_delete tingle-btn--pull-left', function() {
+            sd.sendUserSettings(userId, function() {
+                sd.userSettingsModal.close();
+            });
+        });
+
+        sd.userSettingsModal.addFooterBtn('Cancel', 'tingle-btn tingle-btn--default_delete tingle-btn--pull-right', function() {
+            sd.userSettingsModal.close();
+        });
+    },
+    userSettingsModalContent: function() {
+        return "" +
+        "</div>" +
+        "Here's some shit and shit" +
+        "</div>";
+    },
+    closeUserSettingsModal: function(submitForm, userId) {
+        if(submitForm) {
+            sd.sendUserSettings(userId);
+        }
+        sd.userSettingsModal.close();
+        sd.userSettingsModal = null;
+    },
+    sendUserSettings: function(userId) {
+        console.log("userId: " + userId);
     }
 };
