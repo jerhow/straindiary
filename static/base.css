@@ -159,7 +159,7 @@ HR {
     text-align: center;
     font-weight: bold;
     font-size: 1.1rem;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     text-decoration: underline;
 }
 
@@ -170,7 +170,7 @@ HR {
     font-size: 1rem;
 }
 
-#con_lbl_email, #con_lbl_nickname {
+#con_lbl_email, #con_lbl_nickname, #con_lbl_password_current, #con_lbl_password_new {
     float: left;
 }
 
@@ -178,11 +178,18 @@ HR {
     margin-bottom: 15px;
 }
 
-#con_txt_email, #con_txt_nickname {
+#con_password_heading {
+    /* clear: left; */
+    margin-top: 15px;
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+
+#con_txt_email, #con_txt_nickname, #con_txt_password_current, #con_txt_password_new {
     float: right;
 }
 
-#txt_email, #txt_nickname {
+#txt_email, #txt_nickname, #txt_password_current, #txt_password_new {
     width: 14rem;
     font-size: .95rem;
 }

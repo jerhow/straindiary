@@ -907,6 +907,27 @@ var sd = {
         "       </div>" +
         "   </div>" +
         "   <div class='user_settings_row'>" +
+        "       <div id='con_password_heading'>" +
+        "           Change Password?" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='con_lbl_password_current'>" +
+        "           <label id='lbl_password_current' for='txt_password_current'>Current:</label>" +
+        "       </div>" +
+        "       <div id='con_txt_password_current'>" +
+        "           <input type='password' id='txt_password_current' name='txt_password_current' value='' />" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
+        "       <div id='con_lbl_password_new'>" +
+        "           <label id='lbl_password_new' for='txt_password_new'>New:</label>" +
+        "       </div>" +
+        "       <div id='con_txt_password_new'>" +
+        "           <input type='password' id='txt_password_new' name='txt_password_new' value='' />" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row'>" +
         "       <div id='user_settings_msg'>&nbsp;</div>" +
         "   </div>" +
         "</div>";
