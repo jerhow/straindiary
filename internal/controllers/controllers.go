@@ -93,6 +93,68 @@ func Login_POST(w http.ResponseWriter, r *http.Request) {
 	w.Write(dataJson)
 }
 
+func CheckAvailableEmail_GET(w http.ResponseWriter, r *http.Request) {
+	var available bool = false
+
+	type Payload struct {
+		Msg string
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	email := r.Header.Get("X-email")
+	available = db.CheckAvailableEmail(email)
+
+	util.SetCommonHttpHeaders(w)
+
+	if !available {
+		payload.Msg = "This email address already exists in the system"
+		w.WriteHeader(http.StatusPreconditionFailed) // HTTP 412
+	} else {
+		payload.Msg = "Email address can be used" // does not imply that it has been input-validated
+		w.WriteHeader(http.StatusOK)
+	}
+
+	dataJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(dataJson)
+}
+
+func CheckAvailableNickname_GET(w http.ResponseWriter, r *http.Request) {
+	var available bool = false
+
+	type Payload struct {
+		Msg string
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	nickname := r.Header.Get("X-nickname")
+	available = db.CheckAvailableNickname(nickname)
+
+	util.SetCommonHttpHeaders(w)
+
+	if !available {
+		payload.Msg = "This nickname is already in use"
+		w.WriteHeader(http.StatusPreconditionFailed) // HTTP 412
+	} else {
+		payload.Msg = "Nickname is free to use"
+		w.WriteHeader(http.StatusOK)
+	}
+
+	dataJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(dataJson)
+}
+
 func User_GET(w http.ResponseWriter, r *http.Request) {
 	type Payload struct {
 		Msg          string

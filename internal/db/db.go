@@ -102,6 +102,46 @@ func FetchUserSettings(userId int, authToken string) (bool, UserSettings) {
 	return result, userSettings
 }
 
+func CheckAvailableEmail(email string) bool {
+	var result bool = false
+	var count int = 0
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	err = dbh.QueryRow(`SELECT COUNT(id) AS rowcount FROM t_user WHERE un = ?`, email).Scan(&count)
+
+	if count == 0 {
+		result = true
+	}
+
+	return result
+}
+
+func CheckAvailableNickname(nickname string) bool {
+	var result bool = false
+	var count int = 0
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	err = dbh.QueryRow(`SELECT COUNT(id) AS rowcount FROM t_user WHERE nickname = ?`, nickname).Scan(&count)
+
+	if count == 0 {
+		result = true
+	}
+
+	return result
+}
+
 func FetchPwdHashAndUserInfo(un string) (string, int, string) {
 	var pwdHashFromDb string
 	var idFromDb int

@@ -67,6 +67,7 @@ func authCheck(next http.Handler) http.Handler {
 		} else {
 			// this is an error state: The route must be added to config.RoutesAuthRequired
 			// TODO: Handle this case
+			w.WriteHeader(http.StatusBadRequest)
 			fmt.Println("This is an error state: The route must be added to config.RoutesAuthRequired")
 		}
 	})
@@ -86,6 +87,8 @@ func main() {
 
 	r.HandleFunc("/user", controllers.User_GET).Methods("GET")
 	// r.HandleFunc("/user", controllers.User_PUT).Methods("PUT")
+	r.HandleFunc("/service/available/email", controllers.CheckAvailableEmail_GET).Methods("GET")
+	r.HandleFunc("/service/available/nickname", controllers.CheckAvailableNickname_GET).Methods("GET")
 
 	r.HandleFunc("/ui", views.Index).Methods("GET")
 	r.HandleFunc("/ui/", views.Index).Methods("GET")

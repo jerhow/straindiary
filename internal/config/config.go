@@ -25,12 +25,14 @@ const SQL_SESSION_OFFSET string = "INTERVAL 30 DAY" // meaning that sessions tim
 const JS_SESSION_FACTOR int = 30                    // 30 days
 
 var RoutesAuthRequired = map[string]bool{
-	"/":           false,
-	"/strain":     true,
-	"/ui":         false,
-	"/ui/index":   false,
-	"/ui/strains": false,
-	"/login":      false,
-	"/logout":     false,
-	"/user":       true,
+	"/":                           false,
+	"/strain":                     true,
+	"/ui":                         false,
+	"/ui/index":                   false,
+	"/ui/strains":                 false,
+	"/login":                      false,
+	"/logout":                     false,
+	"/user":                       true,
+	"/service/available/email":    true,
+	"/service/available/nickname": true,
 }
