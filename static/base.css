@@ -168,6 +168,7 @@ HR {
     width: 100%;
     display: inline-block;
     font-size: 1rem;
+    padding-bottom: 5px;
 }
 
 #con_lbl_email, #con_lbl_nickname, #con_lbl_password_current, #con_lbl_password_new {
@@ -185,12 +186,42 @@ HR {
     text-decoration: underline;
 }
 
+#display_email, #display_nickname {
+    float: right;
+    font-size: .9rem;
+    padding-right: 20px;
+}
+
+#close_edit_email, #close_edit_nickname {
+    width: 15px;
+    margin-left: 3px;
+    display: none;
+}
+
 #con_txt_email, #con_txt_nickname, #con_txt_password_current, #con_txt_password_new {
     float: right;
 }
 
-#txt_email, #txt_nickname, #txt_password_current, #txt_password_new {
-    width: 14rem;
+#btn_update_email, #btn_update_nickname {
+    float: right;
+    display: inline;
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .8rem;
+}
+
+#txt_email, #txt_nickname {
+    display: none;
+}
+
+#txt_email, #txt_password_current, #txt_password_new {
+    width: 13rem;
+    font-size: .95rem;
+}
+
+#txt_nickname {
+    width: 12rem;
     font-size: .95rem;
 }
 

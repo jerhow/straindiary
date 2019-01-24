@@ -895,7 +895,10 @@ var sd = {
         "           <label id='lbl_email' for='txt_email'>Email:</label>" +
         "       </div>" +
         "       <div id='con_txt_email'>" +
+        "           <button id='btn_update_email' onclick='sd.openEdit(\"email\");'>Update</button>" +
+        "           <span id='display_email'>" + un + "</span>" +
         "           <input type='text' id='txt_email' name='txt_email' value='" + un + "' />" +
+        "           <input type='image' id='close_edit_email' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"email\");' />" +
         "       </div>" +
         "   </div>" +
         "   <div class='user_settings_row'>" +
@@ -903,7 +906,10 @@ var sd = {
         "           <label id='lbl_nickname' for='txt_nickname'>Nickname:</label>" +
         "       </div>" +
         "       <div id='con_txt_nickname'>" +
+        "           <button id='btn_update_nickname' onclick='sd.openEdit(\"nickname\");'>Update</button>" +
+        "           <span id='display_nickname'>" + nickname + "</span>" +
         "           <input type='text' id='txt_nickname' name='txt_nickname' value='" + nickname + "' />" +
+        "           <input type='image' id='close_edit_nickname' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"nickname\");' />" +
         "       </div>" +
         "   </div>" +
         "   <div class='user_settings_row'>" +
@@ -931,6 +937,32 @@ var sd = {
         "       <div id='user_settings_msg'>&nbsp;</div>" +
         "   </div>" +
         "</div>";
+    },
+    openEdit: function(field) {
+        document.getElementById('btn_update_' + field).style.display = 'none';
+        document.getElementById('display_' + field).style.display = 'none';
+        document.getElementById('txt_' + field).style.display = 'inline';
+        document.getElementById('close_edit_' + field).style.display = 'inline';
+        if(field === 'email') {
+            document.getElementById('btn_update_nickname').disabled = true;
+            document.getElementById('btn_update_nickname').style.backgroundColor = '#bfbfbf';
+        } else if(field === 'nickname') {
+            document.getElementById('btn_update_email').disabled = true;
+            document.getElementById('btn_update_email').style.backgroundColor = '#bfbfbf';
+        }
+    },
+    closeEdit: function(field) {
+        document.getElementById('btn_update_' + field).style.display = 'inline';
+        document.getElementById('display_' + field).style.display = 'inline';
+        document.getElementById('txt_' + field).style.display = 'none';
+        document.getElementById('close_edit_' + field).style.display = 'none';
+        if(field === 'email') {
+            document.getElementById('btn_update_nickname').disabled = false;
+            document.getElementById('btn_update_nickname').style.backgroundColor = '#57ab57';
+        } else if(field === 'nickname') {
+            document.getElementById('btn_update_email').disabled = false;
+            document.getElementById('btn_update_email').style.backgroundColor = '#57ab57';
+        }
     },
     closeUserSettingsModal: function(submitForm, _callback) {
         if(submitForm) {
