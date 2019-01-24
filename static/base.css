@@ -169,9 +169,10 @@ HR {
     display: inline-block;
     font-size: 1rem;
     padding-bottom: 5px;
+    margin-bottom: 3px;
 }
 
-#con_lbl_email, #con_lbl_nickname, #con_lbl_password_current, #con_lbl_password_new {
+#con_lbl_email, #con_lbl_nickname, #con_lbl_password_current, #con_lbl_password_new, #con_lbl_password_new_conf {
     float: left;
 }
 
@@ -181,9 +182,10 @@ HR {
 
 #con_password_heading {
     /* clear: left; */
-    margin-top: 15px;
+    margin-top: 20px;
     margin-bottom: 10px;
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    text-align: right;
 }
 
 #display_email, #display_nickname {
@@ -192,13 +194,13 @@ HR {
     padding-right: 20px;
 }
 
-#close_edit_email, #close_edit_nickname {
+#close_edit_email, #close_edit_nickname, #close_edit_password {
     width: 15px;
     margin-left: 3px;
     display: none;
 }
 
-#con_txt_email, #con_txt_nickname, #con_txt_password_current, #con_txt_password_new {
+#con_txt_email, #con_txt_nickname, #con_txt_password_current, #con_txt_password_new, #con_txt_password_new_conf {
     float: right;
 }
 
@@ -211,18 +213,30 @@ HR {
     font-size: .8rem;
 }
 
+#btn_update_password {
+    display: inline;
+    border-radius: 2em;
+    background-color: #57ab57;
+    color: white;
+    font-size: .8rem;
+}
+
 #txt_email, #txt_nickname {
     display: none;
 }
 
-#txt_email, #txt_password_current, #txt_password_new {
-    width: 13rem;
+#txt_email, #txt_password_current, #txt_password_new, #txt_password_new_conf {
+    width: 12rem;
     font-size: .95rem;
 }
 
 #txt_nickname {
-    width: 12rem;
+    width: 11rem;
     font-size: .95rem;
+}
+
+#password_row_1, #password_row_2, #password_row_3 {
+    display: none;
 }
 
 #user_settings_msg_row {

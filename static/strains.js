@@ -914,23 +914,32 @@ var sd = {
         "   </div>" +
         "   <div class='user_settings_row'>" +
         "       <div id='con_password_heading'>" +
-        "           Change Password?" +
+        "           <button id='btn_update_password' onclick='sd.openEdit(\"password\")'>Change password</button>" +
+        "           <input type='image' id='close_edit_password' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"password\");' />" +
         "       </div>" +
         "   </div>" +
-        "   <div class='user_settings_row'>" +
+        "   <div class='user_settings_row' id='password_row_1'>" +
         "       <div id='con_lbl_password_current'>" +
-        "           <label id='lbl_password_current' for='txt_password_current'>Current:</label>" +
+        "           <label id='lbl_password_current' for='txt_password_current'>Current password:</label>" +
         "       </div>" +
         "       <div id='con_txt_password_current'>" +
         "           <input type='password' id='txt_password_current' name='txt_password_current' value='' />" +
         "       </div>" +
         "   </div>" +
-        "   <div class='user_settings_row'>" +
+        "   <div class='user_settings_row' style='margin-top: 20px;' id='password_row_2'>" +
         "       <div id='con_lbl_password_new'>" +
-        "           <label id='lbl_password_new' for='txt_password_new'>New:</label>" +
+        "           <label id='lbl_password_new' for='txt_password_new'>New password:</label>" +
         "       </div>" +
         "       <div id='con_txt_password_new'>" +
         "           <input type='password' id='txt_password_new' name='txt_password_new' value='' />" +
+        "       </div>" +
+        "   </div>" +
+        "   <div class='user_settings_row' id='password_row_3'>" +
+        "       <div id='con_lbl_password_new_conf'>" +
+        "           <label id='lbl_password_new_conf' for='txt_password_new_conf'>Confirm new password:</label>" +
+        "       </div>" +
+        "       <div id='con_txt_password_new_conf'>" +
+        "           <input type='password' id='txt_password_new_conf' name='txt_password_new_conf' value='' />" +
         "       </div>" +
         "   </div>" +
         "   <div class='user_settings_row'>" +
@@ -939,30 +948,75 @@ var sd = {
         "</div>";
     },
     openEdit: function(field) {
-        document.getElementById('btn_update_' + field).style.display = 'none';
-        document.getElementById('display_' + field).style.display = 'none';
-        document.getElementById('txt_' + field).style.display = 'inline';
-        document.getElementById('close_edit_' + field).style.display = 'inline';
+        var d = document;
+
+        // This one always exists
+        d.getElementById('btn_update_' + field).style.display = 'none';
+        
+        if(d.getElementById('display_' + field)) {
+            d.getElementById('display_' + field).style.display = 'none';
+        }
+        if(d.getElementById('txt_' + field)) {
+            d.getElementById('txt_' + field).style.display = 'inline';
+        }
+        if(d.getElementById('close_edit_' + field)) {
+            d.getElementById('close_edit_' + field).style.display = 'inline';
+        }
+        
         if(field === 'email') {
-            document.getElementById('btn_update_nickname').disabled = true;
-            document.getElementById('btn_update_nickname').style.backgroundColor = '#bfbfbf';
+            sd.disableButton('btn_update_nickname');
+            sd.disableButton('btn_update_password');
         } else if(field === 'nickname') {
-            document.getElementById('btn_update_email').disabled = true;
-            document.getElementById('btn_update_email').style.backgroundColor = '#bfbfbf';
+            sd.disableButton('btn_update_email');
+            sd.disableButton('btn_update_password');
+        } else if(field === 'password') {
+            sd.disableButton('btn_update_email');
+            sd.disableButton('btn_update_nickname');
+            d.getElementById('close_edit_password').style.display = 'inline';
+            d.getElementById('password_row_1').style.display = 'inline-grid';
+            d.getElementById('password_row_2').style.display = 'inline-grid';
+            d.getElementById('password_row_3').style.display = 'inline-grid';
         }
     },
     closeEdit: function(field) {
-        document.getElementById('btn_update_' + field).style.display = 'inline';
-        document.getElementById('display_' + field).style.display = 'inline';
-        document.getElementById('txt_' + field).style.display = 'none';
-        document.getElementById('close_edit_' + field).style.display = 'none';
-        if(field === 'email') {
-            document.getElementById('btn_update_nickname').disabled = false;
-            document.getElementById('btn_update_nickname').style.backgroundColor = '#57ab57';
-        } else if(field === 'nickname') {
-            document.getElementById('btn_update_email').disabled = false;
-            document.getElementById('btn_update_email').style.backgroundColor = '#57ab57';
+        var d = document;
+
+        // This one always exists
+        d.getElementById('btn_update_' + field).style.display = 'inline';
+        
+        if(d.getElementById('display_' + field)) {
+            d.getElementById('display_' + field).style.display = 'inline';
         }
+        if(d.getElementById('txt_' + field)) {
+            d.getElementById('txt_' + field).style.display = 'none';
+        }
+        if(d.getElementById('close_edit_' + field)) {
+            d.getElementById('close_edit_' + field).style.display = 'none';
+        }
+        if(field === 'email') {
+            sd.enableButton('btn_update_nickname');
+            sd.enableButton('btn_update_password');
+        } else if(field === 'nickname') {
+            sd.enableButton('btn_update_email');
+            sd.enableButton('btn_update_password');
+        } else if(field === 'password') {
+            sd.enableButton('btn_update_email');
+            sd.enableButton('btn_update_nickname');
+            d.getElementById('close_edit_password').style.display = 'none';
+            d.getElementById('password_row_1').style.display = 'none';
+            d.getElementById('password_row_2').style.display = 'none';
+            d.getElementById('password_row_3').style.display = 'none';
+        }
+    },
+    disableButton: function(id) {
+        var btn = document.getElementById(id);
+        btn.disabled = true;
+        btn.style.backgroundColor = '#bfbfbf';
+    },
+    enableButton: function(id) {
+        var btn = document.getElementById(id);
+        btn.disabled = false;
+        btn.style.backgroundColor = '#57ab57';
     },
     closeUserSettingsModal: function(submitForm, _callback) {
         if(submitForm) {
