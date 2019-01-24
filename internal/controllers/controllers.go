@@ -319,14 +319,51 @@ func UserEmail_PUT(w http.ResponseWriter, r *http.Request) {
 	prevEmail = r.PostFormValue("prev_email")
 	newEmail = r.PostFormValue("new_email")
 
-	// Use the user_id and auth_token from the X-headers. This assures that they have already
-	// passed the auth middleware check.
-
 	// TODO: Input validation
 
 	util.SetCommonHttpHeaders(w)
 
 	result = db.UpdateUserSettingEmail(userId, prevEmail, newEmail)
+
+	if result {
+		payload.Msg = "Looks like everything was updated successfully"
+		w.WriteHeader(http.StatusOK)
+	} else {
+		payload.Msg = "There was a problem sending this update to the database"
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	payloadJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(payloadJson)
+}
+
+func UserNickname_PUT(w http.ResponseWriter, r *http.Request) {
+
+	// NOTE: If we're here, the request has already passed the auth middleware check
+
+	type Payload struct {
+		Msg string
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	var result bool = false
+	var userId int
+	var newNickname string
+
+	userId, _ = strconv.Atoi(r.Header.Get("X-user-id"))
+	newNickname = r.PostFormValue("new_nickname")
+
+	// TODO: Input validation
+
+	util.SetCommonHttpHeaders(w)
+
+	result = db.UpdateUserSettingNickname(userId, newNickname)
 
 	if result {
 		payload.Msg = "Looks like everything was updated successfully"
