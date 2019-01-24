@@ -15,6 +15,7 @@ var sd = {
     userSettingsModal: null,
     userSettings: null,
     updateUserSettingsConfDisplayed: false,
+    userSettingBeingEdited: null,
     staticPath: '',
     sessionFactor: 0,
     oneDayInSeconds: 86400,
@@ -950,6 +951,8 @@ var sd = {
     openEdit: function(field) {
         var d = document;
 
+        sd.userSettingBeingEdited = field;
+
         // This one always exists
         d.getElementById('btn_update_' + field).style.display = 'none';
         
@@ -981,6 +984,8 @@ var sd = {
     closeEdit: function(field) {
         var d = document;
 
+        sd.userSettingBeingEdited = null;
+
         // This one always exists
         d.getElementById('btn_update_' + field).style.display = 'inline';
         
@@ -994,9 +999,11 @@ var sd = {
             d.getElementById('close_edit_' + field).style.display = 'none';
         }
         if(field === 'email') {
+            d.getElementById('txt_email').value = sd.userSettings['UserSettings']['Un'];
             sd.enableButton('btn_update_nickname');
             sd.enableButton('btn_update_password');
         } else if(field === 'nickname') {
+            d.getElementById('txt_nickname').value = sd.userSettings['UserSettings']['Nickname'];
             sd.enableButton('btn_update_email');
             sd.enableButton('btn_update_password');
         } else if(field === 'password') {
@@ -1006,6 +1013,11 @@ var sd = {
             d.getElementById('password_row_1').style.display = 'none';
             d.getElementById('password_row_2').style.display = 'none';
             d.getElementById('password_row_3').style.display = 'none';
+        }
+
+        if(sd.updateUserSettingsConfDisplayed) {
+            d.getElementById('user_settings_msg').innerHTML = '&nbsp;';
+            sd.updateUserSettingsConfDisplayed = false;
         }
     },
     disableButton: function(id) {
@@ -1019,6 +1031,7 @@ var sd = {
         btn.style.backgroundColor = '#57ab57';
     },
     closeUserSettingsModal: function(submitForm, _callback) {
+        var d = document;
         if(submitForm) {
             if(!sd.updateUserSettingsConfDisplayed) {
 
@@ -1028,27 +1041,31 @@ var sd = {
                 };
 
                 var newVals = {
-                    email: document.getElementById("txt_email").value.trim(),
-                    nickname: document.getElementById("txt_nickname").value.trim()
+                    email: d.getElementById("txt_email").value.trim(),
+                    nickname: d.getElementById("txt_nickname").value.trim()
                 };
 
-                document.getElementById("txt_email").value = newVals.email;
-                document.getElementById("txt_nickname").value = newVals.nickname;
+                d.getElementById("txt_email").value = newVals.email;
+                d.getElementById("txt_nickname").value = newVals.nickname;
 
                 // TODO: validate and check availability of email address
                 // TODO: validate and check availability of nickname
 
                 if(newVals.email === existingVals.email && newVals.nickname === existingVals.nickname) {
-                    document.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
+                    d.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
+                    window.setTimeout(function() {
+                        d.getElementById('user_settings_msg').innerHTML = '&nbsp;';}, 
+                        3000
+                    );
                     return false;
                 } else if(newVals.email !== existingVals.email) {
-                    document.getElementById('user_settings_msg').innerHTML = "Are you sure? " +
+                    d.getElementById('user_settings_msg').innerHTML = "Are you sure? " +
                         "We will send a confirmation to the original email address";
                 } else {
-                    document.getElementById('user_settings_msg').innerHTML = "Are you sure?";
+                    d.getElementById('user_settings_msg').innerHTML = "Are you sure?";
                 }
 
-                document.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
                 sd.updateUserSettingsConfDisplayed = true;
             } else {
                 sd.sendUserSettings(_callback);          
