@@ -971,9 +971,11 @@ var sd = {
         if(field === 'email') {
             sd.disableButton('btn_update_nickname');
             sd.disableButton('btn_update_password');
+            d.getElementById('txt_email').readOnly = false; // just in case
         } else if(field === 'nickname') {
             sd.disableButton('btn_update_email');
             sd.disableButton('btn_update_password');
+            d.getElementById('txt_email').readOnly = false;
         } else if(field === 'password') {
             sd.disableButton('btn_update_email');
             sd.disableButton('btn_update_nickname');
@@ -1003,10 +1005,12 @@ var sd = {
             d.getElementById('close_edit_' + field).style.display = 'none';
         }
         if(field === 'email') {
+            d.getElementById('txt_email').readOnly = false;
             d.getElementById('txt_email').value = sd.userSettings['UserSettings']['Un'];
             sd.enableButton('btn_update_nickname');
             sd.enableButton('btn_update_password');
         } else if(field === 'nickname') {
+            d.getElementById('txt_nickname').readOnly = false;
             d.getElementById('txt_nickname').value = sd.userSettings['UserSettings']['Nickname'];
             sd.enableButton('btn_update_email');
             sd.enableButton('btn_update_password');
@@ -1034,12 +1038,14 @@ var sd = {
         btn.disabled = false;
         btn.style.backgroundColor = '#57ab57';
     },
-    userSettingsNoChangeMsg: function() {
-        document.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
-        window.setTimeout(function() {
-                document.getElementById('user_settings_msg').innerHTML = '&nbsp;';
-            }, 3000
-        );
+    userSettingsMsg: function(msg, timeoutInSeconds) {
+        document.getElementById('user_settings_msg').innerHTML = msg;
+        if(timeoutInSeconds > 0) {
+            window.setTimeout(function() {
+                    document.getElementById('user_settings_msg').innerHTML = '&nbsp;';
+                }, (timeoutInSeconds * 1000) // to get milliseconds
+            );
+        }
     },
     closeUserSettingsModal: function(submitForm, _callback) {
         var d = document;
@@ -1049,7 +1055,7 @@ var sd = {
             if(!sd.updateUserSettingsConfDisplayed) {
 
                 if(!sd.userSettingBeingEdited) {
-                    sd.userSettingsNoChangeMsg();
+                    sd.userSettingsMsg("You haven't changed anything", 3);
                     return false;
                 }
 
@@ -1057,25 +1063,51 @@ var sd = {
                     existingVal = sd.userSettings['UserSettings']['Un'];
                     newVal = d.getElementById("txt_email").value.trim();
                     if(existingVal === newVal) {
-                        sd.userSettingsNoChangeMsg();
+                        sd.userSettingsMsg("You haven't changed anything", 3);
                         return false;
                     } else {
-                        d.getElementById('user_settings_msg').innerHTML = "Are you sure you want to change your email address? " +
-                            "We will send a confirmation to the original address.";
-                        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
-                        sd.updateUserSettingsConfDisplayed = true;
+                        
+                        // Validate for availability
+                        sd.checkAvailability('email', newVal, function(available, msg) {
+                            sd.checkAvailabilityReturned = true;
+                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false; // re-enable the submit button
+                            if(!available) {
+                                sd.userSettingsMsg(msg);
+                            } else {
+                                sd.userSettingsMsg("Are you sure you want to change your email address? " +
+                                    "We will send a confirmation to the original address.");
+                                d.getElementById('txt_email').readOnly = true;
+                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                                sd.updateUserSettingsConfDisplayed = true;
+                            }
+                        });
+                        
+                        
                     }
+
                 } else if(sd.userSettingBeingEdited === 'nickname') {
                     existingVal = sd.userSettings['UserSettings']['Nickname'];
                     newVal = d.getElementById("txt_nickname").value.trim();
                     if(existingVal === newVal) {
-                        sd.userSettingsNoChangeMsg();
+                        sd.userSettingsMsg("You haven't changed anything", 3);
                         return false;
                     } else {
-                        d.getElementById('user_settings_msg').innerHTML = "Are you sure you want to change your nickname?";
-                        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
-                        sd.updateUserSettingsConfDisplayed = true;
+                        
+                        // Validate for availability
+                        sd.checkAvailability('nickname', newVal, function(available, msg) {
+                            sd.checkAvailabilityReturned = true;
+                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false;
+                            if(!available) {
+                                sd.userSettingsMsg(msg);
+                            } else {
+                                sd.userSettingsMsg("Are you sure you want to change your nickname?");
+                                d.getElementById('txt_nickname').readOnly = true;
+                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                                sd.updateUserSettingsConfDisplayed = true;
+                            }
+                        });
                     }
+                    
                 } else if(sd.userSettingBeingEdited === 'password') {
                     // TODO: the logic is more complex for password
                 }  
@@ -1085,6 +1117,62 @@ var sd = {
         } else {
             _callback();
         }
+    },
+    checkAvailability: function(field, val, _callback) {
+        var headerName, response, msg;
+        var available = false;
+
+        // disable the submit button - it must be re-enabled in the callback
+        document.querySelectorAll('.tingle-btn--primary')[0].disabled = true;
+
+        if(field === 'email') {
+            headerName = 'X-email';
+        } else if(field === 'nickname') {
+            headerName = 'X-nickname';
+        } else {
+            return false;
+        }
+
+        var XHR = new XMLHttpRequest();
+
+        XHR.addEventListener('error', function(event) {
+            console.log('ERROR: Something went wrong in sd.checkAvailability()');
+        });
+
+        XHR.open('GET', '/service/available/' + field, true);
+        XHR.setRequestHeader('X-user-id', sd.userId());
+        XHR.setRequestHeader('X-auth-token', sd.authToken());
+        XHR.setRequestHeader(headerName, val);
+
+        XHR.onreadystatechange = function() {
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                response = JSON.parse(XHR.responseText);
+                if(XHR.status === 200) { // the value is available
+                    available = true;
+                    msg = response['Msg'];
+                    // console.log(response['Msg']);
+                    // console.log(XHR.responseText);
+                } else if(XHR.status === 412) { // the value is not available
+                    available = false;
+                    msg = response['Msg'];
+                    // console.log(response['Msg']);
+                    // console.log(XHR.responseText);
+                } else if(XHR.status === 400) { // a handled error state
+                    // 401 Unauthorized, meaning the backend rejected us based on session
+                    console.log("ERROR in sd.checkAvailability(): HTTP 401 Unauthorized");
+                    console.log("Error number: " + XHR.status);
+                    console.log("Error msg: " + XHR.statusText);
+                } else { // TODO: Unhandled error states
+                    console.log('ERROR: Something went wrong in sd.checkAvailability(). ' +
+                        'We got an undesirable response code back: ' + XHR.status);
+                    console.log(XHR.responseText);
+                }
+                
+                _callback(available, msg);
+            }
+        };
+
+        XHR.send();
     },
     sendUserSettings: function(_callback) {
         var XHR = new XMLHttpRequest();
