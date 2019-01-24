@@ -857,7 +857,7 @@ var sd = {
 
         sd.userSettingsModal.setContent(sd.userSettingsModalContent());
 
-        sd.userSettingsModal.addFooterBtn('Update', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
+        sd.userSettingsModal.addFooterBtn('Commit changes', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
             sd.closeUserSettingsModal(true, function() {
                 sd.userSettingsModal.close();
                 sd.userSettingsModal = null; // reset

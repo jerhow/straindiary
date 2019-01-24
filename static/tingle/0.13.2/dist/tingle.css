@@ -217,6 +217,7 @@
 .tingle-btn--default_delete {
   /* background-color: #34495e; */
   background-color: #131418;
+  font-size: 1.25rem;
 }
 
 .tingle-btn--pull-left {
