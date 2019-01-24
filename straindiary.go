@@ -86,7 +86,7 @@ func main() {
 	r.HandleFunc("/strain", controllers.Strain_DELETE).Methods("DELETE")
 
 	r.HandleFunc("/user", controllers.User_GET).Methods("GET")
-	// r.HandleFunc("/user", controllers.User_PUT).Methods("PUT")
+	r.HandleFunc("/user/email", controllers.UserEmail_PUT).Methods("PUT")
 	r.HandleFunc("/service/available/email", controllers.CheckAvailableEmail_GET).Methods("GET")
 	r.HandleFunc("/service/available/nickname", controllers.CheckAvailableNickname_GET).Methods("GET")
 
