@@ -952,6 +952,8 @@ var sd = {
         var d = document;
 
         sd.userSettingBeingEdited = field;
+        d.getElementById('user_settings_msg').innerHTML = '&nbsp;'; // just in case
+        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Commit changes';
 
         // This one always exists
         d.getElementById('btn_update_' + field).style.display = 'none';
@@ -985,6 +987,8 @@ var sd = {
         var d = document;
 
         sd.userSettingBeingEdited = null;
+        d.getElementById('user_settings_msg').innerHTML = '&nbsp;';
+        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Commit changes';
 
         // This one always exists
         d.getElementById('btn_update_' + field).style.display = 'inline';
@@ -1030,43 +1034,51 @@ var sd = {
         btn.disabled = false;
         btn.style.backgroundColor = '#57ab57';
     },
+    userSettingsNoChangeMsg: function() {
+        document.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
+        window.setTimeout(function() {
+                document.getElementById('user_settings_msg').innerHTML = '&nbsp;';
+            }, 3000
+        );
+    },
     closeUserSettingsModal: function(submitForm, _callback) {
         var d = document;
+        var existingVal, newVal;
+
         if(submitForm) {
             if(!sd.updateUserSettingsConfDisplayed) {
 
-                var existingVals = {
-                    email: sd.userSettings['UserSettings']['Un'],
-                    nickname: sd.userSettings['UserSettings']['Nickname']
-                };
-
-                var newVals = {
-                    email: d.getElementById("txt_email").value.trim(),
-                    nickname: d.getElementById("txt_nickname").value.trim()
-                };
-
-                d.getElementById("txt_email").value = newVals.email;
-                d.getElementById("txt_nickname").value = newVals.nickname;
-
-                // TODO: validate and check availability of email address
-                // TODO: validate and check availability of nickname
-
-                if(newVals.email === existingVals.email && newVals.nickname === existingVals.nickname) {
-                    d.getElementById('user_settings_msg').innerHTML = "You haven't changed anything";
-                    window.setTimeout(function() {
-                        d.getElementById('user_settings_msg').innerHTML = '&nbsp;';}, 
-                        3000
-                    );
+                if(!sd.userSettingBeingEdited) {
+                    sd.userSettingsNoChangeMsg();
                     return false;
-                } else if(newVals.email !== existingVals.email) {
-                    d.getElementById('user_settings_msg').innerHTML = "Are you sure? " +
-                        "We will send a confirmation to the original email address";
-                } else {
-                    d.getElementById('user_settings_msg').innerHTML = "Are you sure?";
                 }
 
-                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
-                sd.updateUserSettingsConfDisplayed = true;
+                if(sd.userSettingBeingEdited === 'email') {
+                    existingVal = sd.userSettings['UserSettings']['Un'];
+                    newVal = d.getElementById("txt_email").value.trim();
+                    if(existingVal === newVal) {
+                        sd.userSettingsNoChangeMsg();
+                        return false;
+                    } else {
+                        d.getElementById('user_settings_msg').innerHTML = "Are you sure you want to change your email address? " +
+                            "We will send a confirmation to the original address.";
+                        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                        sd.updateUserSettingsConfDisplayed = true;
+                    }
+                } else if(sd.userSettingBeingEdited === 'nickname') {
+                    existingVal = sd.userSettings['UserSettings']['Nickname'];
+                    newVal = d.getElementById("txt_nickname").value.trim();
+                    if(existingVal === newVal) {
+                        sd.userSettingsNoChangeMsg();
+                        return false;
+                    } else {
+                        d.getElementById('user_settings_msg').innerHTML = "Are you sure you want to change your nickname?";
+                        d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                        sd.updateUserSettingsConfDisplayed = true;
+                    }
+                } else if(sd.userSettingBeingEdited === 'password') {
+                    // TODO: the logic is more complex for password
+                }  
             } else {
                 sd.sendUserSettings(_callback);          
             }
