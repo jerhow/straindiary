@@ -890,7 +890,7 @@ var sd = {
         "           Account created on " + createdAt.split(" ")[0] +
         "       </div>" +
         "   </div>" +
-        "   <div class='user_settings_row'>" +
+        "   <div class='user_settings_row' id='email_row'>" +
         "       <div id='con_lbl_email'>" +
         "           <label id='lbl_email' for='txt_email'>Email:</label>" +
         "       </div>" +
@@ -901,7 +901,7 @@ var sd = {
         "           <input type='image' id='close_edit_email' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"email\");' />" +
         "       </div>" +
         "   </div>" +
-        "   <div class='user_settings_row'>" +
+        "   <div class='user_settings_row' id='nickname_row'>" +
         "       <div id='con_lbl_nickname'>" +
         "           <label id='lbl_nickname' for='txt_nickname'>Nickname:</label>" +
         "       </div>" +
@@ -912,7 +912,7 @@ var sd = {
         "           <input type='image' id='close_edit_nickname' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"nickname\");' />" +
         "       </div>" +
         "   </div>" +
-        "   <div class='user_settings_row'>" +
+        "   <div id='update_password_button_row'>" +
         "       <div id='con_password_heading'>" +
         "           <button id='btn_update_password' onclick='sd.openEdit(\"password\")'>Change password</button>" +
         "           <input type='image' id='close_edit_password' src='" + sd.staticPath + "x-50x50-trans.png' onclick='sd.closeEdit(\"password\");' />" +

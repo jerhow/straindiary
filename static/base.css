@@ -170,6 +170,16 @@ HR {
     font-size: 1rem;
     padding-bottom: 5px;
     margin-bottom: 3px;
+    /* clear: left; */
+}
+
+#update_password_button_row {
+    /* border: 1px solid black; */
+    width: 100%;
+    display: inline-block;
+    font-size: 1rem;
+    /* padding-bottom: 5px;
+    margin-bottom: 3px; */
 }
 
 #con_lbl_email, #con_lbl_nickname, #con_lbl_password_current, #con_lbl_password_new, #con_lbl_password_new_conf {
@@ -182,8 +192,8 @@ HR {
 
 #con_password_heading {
     /* clear: left; */
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin-top: 10px;
+    /* margin-bottom: 10px; */
     /* text-decoration: underline; */
     text-align: right;
 }
