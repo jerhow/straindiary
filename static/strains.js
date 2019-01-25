@@ -859,11 +859,21 @@ var sd = {
         sd.userSettingsModal.setContent(sd.userSettingsModalContent());
 
         sd.userSettingsModal.addFooterBtn('Commit changes', 'tingle-btn tingle-btn--primary tingle-btn--pull-left', function() {
-            sd.closeUserSettingsModal(true, function() {
-                sd.userSettingsModal.close();
-                sd.userSettingsModal = null; // reset
-                sd.updateUserSettingsConfDisplayed = false; // reset
-                console.log("_callback() called");
+            sd.closeUserSettingsModal(true, function(status, msg) {
+                if(status !== 200) {
+                    sd.userSettingsMsg(msg);
+                } else {
+                    sd.userSettingsMsg(msg + ' One moment please...', 'green');
+                    document.querySelectorAll('.tingle-btn--primary')[0].disabled = true;
+                    window.setTimeout(function() {
+                            sd.userSettingsModal.close();
+                            sd.userSettingsModal = null; // reset
+                            sd.updateUserSettingsConfDisplayed = false; // reset
+                            sd.userSettingBeingEdited = null; // reset
+                        }, 3000
+                    );
+                }
+                // console.log("Commit _callback() called");
             });
         });
 
@@ -872,7 +882,7 @@ var sd = {
                 sd.userSettingsModal.close();
                 sd.userSettingsModal = null; // reset
                 sd.updateUserSettingsConfDisplayed = false; // reset
-                console.log("_callback() called");
+                sd.userSettingBeingEdited = null; // reset
             });
         });
     },
@@ -947,6 +957,123 @@ var sd = {
         "       <div id='user_settings_msg'>&nbsp;</div>" +
         "   </div>" +
         "</div>";
+    },
+    closeUserSettingsModal: function(submitForm, _callback) {
+        var d = document;
+        var existingVal, newVal;
+
+        if(submitForm) {
+            if(!sd.updateUserSettingsConfDisplayed) {
+
+                if(!sd.userSettingBeingEdited) {
+                    sd.userSettingsMsg("You haven't changed anything", 'red', 3);
+                    return false;
+                }
+
+                if(sd.userSettingBeingEdited === 'email') {
+                    existingVal = sd.userSettings['UserSettings']['Un'];
+                    newVal = d.getElementById("txt_email").value.trim();
+                    if(existingVal === newVal) {
+                        sd.userSettingsMsg("You haven't changed anything", 'red', 3);
+                        return false;
+                    } else {
+                        
+                        // Validate for availability
+                        sd.checkAvailability('email', newVal, function(available, msg) {
+                            sd.checkAvailabilityReturned = true;
+                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false; // re-enable the submit button
+                            if(!available) {
+                                sd.userSettingsMsg(msg);
+                            } else {
+                                sd.userSettingsMsg("Are you sure you want to change your email address? " +
+                                    "We will send a confirmation to the original address.");
+                                d.getElementById('txt_email').readOnly = true;
+                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                                sd.updateUserSettingsConfDisplayed = true;
+                            }
+                        });
+                        
+                        
+                    }
+
+                } else if(sd.userSettingBeingEdited === 'nickname') {
+                    existingVal = sd.userSettings['UserSettings']['Nickname'];
+                    newVal = d.getElementById("txt_nickname").value.trim();
+                    if(existingVal === newVal) {
+                        sd.userSettingsMsg("You haven't changed anything", 'red', 3);
+                        return false;
+                    } else {
+                        
+                        // Validate for availability
+                        sd.checkAvailability('nickname', newVal, function(available, msg) {
+                            sd.checkAvailabilityReturned = true;
+                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false;
+                            if(!available) {
+                                sd.userSettingsMsg(msg);
+                            } else {
+                                sd.userSettingsMsg("Are you sure you want to change your nickname?");
+                                d.getElementById('txt_nickname').readOnly = true;
+                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                                sd.updateUserSettingsConfDisplayed = true;
+                            }
+                        });
+                    }
+                    
+                } else if(sd.userSettingBeingEdited === 'password') {
+                    // TODO: the logic is more complex for password
+                }  
+            } else {
+                sd.sendUserSettings(sd.userSettingBeingEdited, _callback);
+            }
+        } else {
+            _callback(); // 'Cancel' clicked
+        }
+    },
+    sendUserSettings: function(field, _callback) {
+        var XHR = new XMLHttpRequest();
+        var urlEncodedData = "";
+        var urlEncodedDataPairs = [];
+        var url;
+
+        if(field === 'email') {
+            var existingEmail = sd.userSettings['UserSettings']['Un'];
+            var newEmail = document.getElementById("txt_email").value.trim();
+            urlEncodedDataPairs.push(encodeURIComponent("prev_email") + '=' + encodeURIComponent(existingEmail));
+            urlEncodedDataPairs.push(encodeURIComponent("new_email") + '=' + encodeURIComponent(newEmail));
+            url = '/user/email';
+        } else if(field === 'nickname') {
+            var newNickname = document.getElementById("txt_nickname").value;
+            urlEncodedDataPairs.push(encodeURIComponent("new_nickname") + '=' + encodeURIComponent(newNickname));
+            url = '/user/nickname';
+        } else if(field === 'password') {
+            // TBD
+        } else {
+            // TBD
+        }
+
+        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+        XHR.open('PUT', url);
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        XHR.setRequestHeader('X-user-id', sd.userId());
+        XHR.setRequestHeader('X-auth-token', sd.authToken());
+
+        XHR.onreadystatechange = function() {
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                _callback(XHR.status, JSON.parse(XHR.responseText)['Msg']);
+                if(XHR.status === 200) { // success
+                    // _callback(XHR.status, JSON.parse(XHR.responseText)['Msg']);
+                } else if(XHR.status === 400) { // a handled error state
+                    // document.getElementById('strain_name_msg').style.display = 'inline-block';
+                    // document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
+                } else { // TODO: Unhandled error states
+                    // console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                    //     'We got an undesirable response code back: ' + XHR.status);
+                    // console.log(XHR.responseText);
+                }
+            }
+        };
+
+        XHR.send(urlEncodedData);
     },
     openEdit: function(field) {
         var d = document;
@@ -1038,7 +1165,9 @@ var sd = {
         btn.disabled = false;
         btn.style.backgroundColor = '#57ab57';
     },
-    userSettingsMsg: function(msg, timeoutInSeconds) {
+    userSettingsMsg: function(msg, color, timeoutInSeconds) {
+        color = color || 'red';
+        document.getElementById('user_settings_msg').style.color = color;
         document.getElementById('user_settings_msg').innerHTML = msg;
         if(timeoutInSeconds > 0) {
             window.setTimeout(function() {
@@ -1047,76 +1176,47 @@ var sd = {
             );
         }
     },
-    closeUserSettingsModal: function(submitForm, _callback) {
-        var d = document;
-        var existingVal, newVal;
+    fetchUserSettings: function(userId, authToken, _callback) {
+        var url = '/user';
+        var XHR = new XMLHttpRequest();
 
-        if(submitForm) {
-            if(!sd.updateUserSettingsConfDisplayed) {
+        XHR.addEventListener('load', function(event) {
+            // console.log('GET /user request sent and response loaded');
+        });
 
-                if(!sd.userSettingBeingEdited) {
-                    sd.userSettingsMsg("You haven't changed anything", 3);
-                    return false;
+        XHR.addEventListener('error', function(event) {
+            console.log('ERROR: Something went wrong in sd.fetchUserSettings()');
+        });
+
+        XHR.open('GET', url, true);
+        XHR.setRequestHeader('X-user-id', userId);
+        XHR.setRequestHeader('X-auth-token', authToken);
+
+        XHR.onreadystatechange = function() {
+            if(XHR.readyState === sd.readyState["DONE"]) {
+                if(XHR.status === 200) { // success
+                    // sd.userSettings = JSON.parse(XHR.responseText);
+                } else if(XHR.status === 400) { // a handled error state
+                    console.log("ERROR in fetchUserSettings(): HTTP 400 Bad Request");
+                    console.log("Error number: " + XHR.status);
+                    console.log("Error msg: " + XHR.statusText);
+                } else if(XHR.status === 400) { // a handled error state
+                    // 401 Unauthorized, meaning the backend rejected us based on session
+                    console.log("ERROR in fetchUserSettings(): HTTP 401 Unauthorized");
+                    console.log("Error number: " + XHR.status);
+                    console.log("Error msg: " + XHR.statusText);
+                } else { // TODO: Unhandled error states
+                    console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
+                        'We got an undesirable response code back: ' + XHR.status);
+                    console.log(XHR.responseText);
                 }
-
-                if(sd.userSettingBeingEdited === 'email') {
-                    existingVal = sd.userSettings['UserSettings']['Un'];
-                    newVal = d.getElementById("txt_email").value.trim();
-                    if(existingVal === newVal) {
-                        sd.userSettingsMsg("You haven't changed anything", 3);
-                        return false;
-                    } else {
-                        
-                        // Validate for availability
-                        sd.checkAvailability('email', newVal, function(available, msg) {
-                            sd.checkAvailabilityReturned = true;
-                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false; // re-enable the submit button
-                            if(!available) {
-                                sd.userSettingsMsg(msg);
-                            } else {
-                                sd.userSettingsMsg("Are you sure you want to change your email address? " +
-                                    "We will send a confirmation to the original address.");
-                                d.getElementById('txt_email').readOnly = true;
-                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
-                                sd.updateUserSettingsConfDisplayed = true;
-                            }
-                        });
-                        
-                        
-                    }
-
-                } else if(sd.userSettingBeingEdited === 'nickname') {
-                    existingVal = sd.userSettings['UserSettings']['Nickname'];
-                    newVal = d.getElementById("txt_nickname").value.trim();
-                    if(existingVal === newVal) {
-                        sd.userSettingsMsg("You haven't changed anything", 3);
-                        return false;
-                    } else {
-                        
-                        // Validate for availability
-                        sd.checkAvailability('nickname', newVal, function(available, msg) {
-                            sd.checkAvailabilityReturned = true;
-                            document.querySelectorAll('.tingle-btn--primary')[0].disabled = false;
-                            if(!available) {
-                                sd.userSettingsMsg(msg);
-                            } else {
-                                sd.userSettingsMsg("Are you sure you want to change your nickname?");
-                                d.getElementById('txt_nickname').readOnly = true;
-                                d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
-                                sd.updateUserSettingsConfDisplayed = true;
-                            }
-                        });
-                    }
-                    
-                } else if(sd.userSettingBeingEdited === 'password') {
-                    // TODO: the logic is more complex for password
-                }  
-            } else {
-                sd.sendUserSettings(_callback);          
+                
+                sd.userSettings = JSON.parse(XHR.responseText);
+                _callback();
             }
-        } else {
-            _callback();
-        }
+        };
+
+        XHR.send();
     },
     checkAvailability: function(field, val, _callback) {
         var headerName, response, msg;
@@ -1169,79 +1269,6 @@ var sd = {
                 }
                 
                 _callback(available, msg);
-            }
-        };
-
-        XHR.send();
-    },
-    sendUserSettings: function(_callback) {
-        var XHR = new XMLHttpRequest();
-        var urlEncodedData = "";
-        var urlEncodedDataPairs = [];
-        var email = document.getElementById("txt_email").value;
-        var nickname = document.getElementById("txt_nickname").value;
-        urlEncodedDataPairs.push(encodeURIComponent("email") + '=' + encodeURIComponent(email));
-        urlEncodedDataPairs.push(encodeURIComponent("nickname") + '=' + encodeURIComponent(nickname));
-        urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
-        XHR.open('PUT', '/user');
-        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        XHR.setRequestHeader('X-user-id', sd.userId());
-        XHR.setRequestHeader('X-auth-token', sd.authToken());
-
-        XHR.onreadystatechange = function() {
-            if(XHR.readyState === sd.readyState["DONE"]) {
-                if(XHR.status === 200) { // success
-                    _callback();
-                } else if(XHR.status === 400) { // a handled error state
-                    // document.getElementById('strain_name_msg').style.display = 'inline-block';
-                    // document.getElementById('strain_name_msg').innerHTML = JSON.parse(XHR.responseText)['Msg'];
-                } else { // TODO: Unhandled error states
-                    // console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
-                    //     'We got an undesirable response code back: ' + XHR.status);
-                    // console.log(XHR.responseText);
-                }
-            }
-        };
-
-        XHR.send(urlEncodedData);
-    },
-    fetchUserSettings: function(userId, authToken, _callback) {
-        var url = '/user';
-        var XHR = new XMLHttpRequest();
-
-        XHR.addEventListener('load', function(event) {
-            // console.log('GET /user request sent and response loaded');
-        });
-
-        XHR.addEventListener('error', function(event) {
-            console.log('ERROR: Something went wrong in sd.fetchUserSettings()');
-        });
-
-        XHR.open('GET', url, true);
-        XHR.setRequestHeader('X-user-id', userId);
-        XHR.setRequestHeader('X-auth-token', authToken);
-
-        XHR.onreadystatechange = function() {
-            if(XHR.readyState === sd.readyState["DONE"]) {
-                if(XHR.status === 200) { // success
-                    // sd.userSettings = JSON.parse(XHR.responseText);
-                } else if(XHR.status === 400) { // a handled error state
-                    console.log("ERROR in fetchUserSettings(): HTTP 400 Bad Request");
-                    console.log("Error number: " + XHR.status);
-                    console.log("Error msg: " + XHR.statusText);
-                } else if(XHR.status === 400) { // a handled error state
-                    // 401 Unauthorized, meaning the backend rejected us based on session
-                    console.log("ERROR in fetchUserSettings(): HTTP 401 Unauthorized");
-                    console.log("Error number: " + XHR.status);
-                    console.log("Error msg: " + XHR.statusText);
-                } else { // TODO: Unhandled error states
-                    console.log('ERROR: Something went wrong in sd.sendStrain(). ' +
-                        'We got an undesirable response code back: ' + XHR.status);
-                    console.log(XHR.responseText);
-                }
-                
-                sd.userSettings = JSON.parse(XHR.responseText);
-                _callback();
             }
         };
 

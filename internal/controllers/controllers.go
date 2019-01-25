@@ -284,7 +284,7 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 		currency, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, company, dispensary, comments)
 	if dbWriteResult {
 		fmt.Println("PostToDb() call completed successfully")
-		payload.Msg = "Looks like everything was written successfully"
+		payload.Msg = "Success!"
 		w.WriteHeader(http.StatusOK)
 	} else {
 		payload.Msg = dbWriteMsg
@@ -328,7 +328,7 @@ func UserEmail_PUT(w http.ResponseWriter, r *http.Request) {
 		result = db.UpdateUserSettingEmail(userId, prevEmail, newEmail)
 
 		if result {
-			payload.Msg = "Looks like everything was updated successfully"
+			payload.Msg = "Success!"
 			w.WriteHeader(http.StatusOK)
 		} else {
 			payload.Msg = "There was a problem sending this update to the database"
@@ -372,7 +372,7 @@ func UserNickname_PUT(w http.ResponseWriter, r *http.Request) {
 	if db.NicknameAvailable(newNickname) {
 		result = db.UpdateUserSettingNickname(userId, newNickname)
 		if result {
-			payload.Msg = "Looks like everything was updated successfully"
+			payload.Msg = "Success!"
 			w.WriteHeader(http.StatusOK)
 		} else {
 			payload.Msg = "There was a problem sending this update to the database"
@@ -436,7 +436,7 @@ func Strain_PUT(w http.ResponseWriter, r *http.Request) {
 		price, currency, unitOfMeasure, sativaPct, indicaPct, thcPct, cbdPct, stars,
 		comments, company, dispensary)
 	if dbWriteResult {
-		payload.Msg = "Looks like everything was updated successfully"
+		payload.Msg = "Success!"
 		w.WriteHeader(http.StatusOK)
 	} else {
 		payload.Msg = dbWriteMsg
