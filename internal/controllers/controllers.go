@@ -104,7 +104,7 @@ func CheckAvailableEmail_GET(w http.ResponseWriter, r *http.Request) {
 	}
 
 	email := r.Header.Get("X-email")
-	available = db.CheckAvailableEmail(email)
+	available = db.EmailAvailable(email)
 
 	util.SetCommonHttpHeaders(w)
 
@@ -135,7 +135,7 @@ func CheckAvailableNickname_GET(w http.ResponseWriter, r *http.Request) {
 	}
 
 	nickname := r.Header.Get("X-nickname")
-	available = db.CheckAvailableNickname(nickname)
+	available = db.NicknameAvailable(nickname)
 
 	util.SetCommonHttpHeaders(w)
 
@@ -319,18 +319,24 @@ func UserEmail_PUT(w http.ResponseWriter, r *http.Request) {
 	prevEmail = r.PostFormValue("prev_email")
 	newEmail = r.PostFormValue("new_email")
 
-	// TODO: Input validation
-
 	util.SetCommonHttpHeaders(w)
 
-	result = db.UpdateUserSettingEmail(userId, prevEmail, newEmail)
+	// TODO: Input validation
 
-	if result {
-		payload.Msg = "Looks like everything was updated successfully"
-		w.WriteHeader(http.StatusOK)
+	if db.EmailAvailable(newEmail) {
+
+		result = db.UpdateUserSettingEmail(userId, prevEmail, newEmail)
+
+		if result {
+			payload.Msg = "Looks like everything was updated successfully"
+			w.WriteHeader(http.StatusOK)
+		} else {
+			payload.Msg = "There was a problem sending this update to the database"
+			w.WriteHeader(http.StatusBadRequest)
+		}
 	} else {
-		payload.Msg = "There was a problem sending this update to the database"
-		w.WriteHeader(http.StatusBadRequest)
+		payload.Msg = "This email address is already in use"
+		w.WriteHeader(http.StatusPreconditionFailed) // HTTP 412
 	}
 
 	payloadJson, err := json.Marshal(payload)
@@ -359,18 +365,22 @@ func UserNickname_PUT(w http.ResponseWriter, r *http.Request) {
 	userId, _ = strconv.Atoi(r.Header.Get("X-user-id"))
 	newNickname = r.PostFormValue("new_nickname")
 
-	// TODO: Input validation
-
 	util.SetCommonHttpHeaders(w)
 
-	result = db.UpdateUserSettingNickname(userId, newNickname)
+	// TODO: Input validation
 
-	if result {
-		payload.Msg = "Looks like everything was updated successfully"
-		w.WriteHeader(http.StatusOK)
+	if db.NicknameAvailable(newNickname) {
+		result = db.UpdateUserSettingNickname(userId, newNickname)
+		if result {
+			payload.Msg = "Looks like everything was updated successfully"
+			w.WriteHeader(http.StatusOK)
+		} else {
+			payload.Msg = "There was a problem sending this update to the database"
+			w.WriteHeader(http.StatusBadRequest)
+		}
 	} else {
-		payload.Msg = "There was a problem sending this update to the database"
-		w.WriteHeader(http.StatusBadRequest)
+		payload.Msg = "This nickname is already in use"
+		w.WriteHeader(http.StatusPreconditionFailed) // HTTP 412
 	}
 
 	payloadJson, err := json.Marshal(payload)

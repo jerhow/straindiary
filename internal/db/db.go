@@ -102,7 +102,7 @@ func FetchUserSettings(userId int, authToken string) (bool, UserSettings) {
 	return result, userSettings
 }
 
-func CheckAvailableEmail(email string) bool {
+func EmailAvailable(email string) bool {
 	var result bool = false
 	var count int = 0
 
@@ -122,7 +122,7 @@ func CheckAvailableEmail(email string) bool {
 	return result
 }
 
-func CheckAvailableNickname(nickname string) bool {
+func NicknameAvailable(nickname string) bool {
 	var result bool = false
 	var count int = 0
 
@@ -428,6 +428,7 @@ func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 }
 
 func UpdateUserSettingEmail(userId int, prevEmail string, newEmail string) bool {
+
 	var result bool = true
 
 	dbh, err := sql.Open(DRIVER, dsn())
