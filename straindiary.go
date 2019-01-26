@@ -16,6 +16,11 @@ import (
 	"strings"
 )
 
+func init() {
+	util.Setup()
+	db.SetUpEnv()
+}
+
 // Middleware for checking whether a route requires auth or an existing session,
 // and if it does, whether the request provides credentials which would allow the request
 // to pass through to completion.
@@ -74,9 +79,6 @@ func authCheck(next http.Handler) http.Handler {
 }
 
 func main() {
-
-	util.Setup()
-	db.SetUpEnv()
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", controllers.Index_GET).Methods("GET")
