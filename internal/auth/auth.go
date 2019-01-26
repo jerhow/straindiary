@@ -5,6 +5,7 @@
 package auth
 
 import (
+	"github.com/jerhow/straindiary/internal/config"
 	"github.com/jerhow/straindiary/internal/db"
 	"github.com/jerhow/straindiary/internal/util"
 	"golang.org/x/crypto/bcrypt"
@@ -12,16 +13,32 @@ import (
 	"time"
 )
 
-const BCRYPT_COST int = 10 // TODO: Research the optimal number of rounds (was 14 originally, but that was very slow)
+// Takes a numeric userId and password, checks the password against what exists in the DB, returns a bool
+// WARNING: This function is not necessarily safe unless the request has passed through the auth middleware
+func PasswordValid(userId int, pwd string) bool {
+
+	// NOTE: The original version of this function took an authToken param
+	// and validated the session in addition to what we're doing here now
+	// sessionValid := CheckSession(userId, authToken)
+
+	// Use the user id to get the user name
+	userName := db.FetchUserName(userId)
+
+	// Use the user name to get the hashed password from the DB
+	existingPwdHashed, _, _ := db.FetchPwdHashAndUserInfo(userName)
+
+	// Check the user-provided password against the hashed one from the DB
+	return checkPasswordHash(pwd, existingPwdHashed)
+}
 
 func Pepper() string {
 	// TODO: Store and fetch this as an ENV variable
 	return "MyRandomPepper123"
 }
 
-func HashPassword(password string) (string, error) {
+func hashPassword(password string) (string, error) {
 	// TODO: Add salt
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), BCRYPT_COST)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), config.BCRYPT_COST)
 	util.ErrChk(err)
 	return string(bytes), err
 }
@@ -58,7 +75,7 @@ func NewSession(userId int) (bool, string, string) {
 	// TODO: Add salt
 	someRandomString := generateRandomAlphaNumericString(10) // TODO: How long really?
 
-	bytes, err := bcrypt.GenerateFromPassword([]byte(someRandomString), BCRYPT_COST)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(someRandomString), config.BCRYPT_COST)
 	authToken = string(bytes)
 	db.WriteNewSessionAuth(userId, authToken)
 

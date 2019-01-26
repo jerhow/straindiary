@@ -24,6 +24,8 @@ const HTTP_RESP_LOCATION string = "https://www.straindiary.com"
 const SQL_SESSION_OFFSET string = "INTERVAL 30 DAY" // meaning that sessions time out after this amount of inactivity
 const JS_SESSION_FACTOR int = 30                    // 30 days
 
+const BCRYPT_COST int = 10 // TODO: Research the optimal number of rounds (was 14 originally, but that was very slow)
+
 var RoutesAuthRequired = map[string]bool{
 	"/":                           false,
 	"/strain":                     true,

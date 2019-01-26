@@ -142,6 +142,23 @@ func NicknameAvailable(nickname string) bool {
 	return result
 }
 
+// Returns user name, or empty string if not found
+func FetchUserName(userId int) string {
+	var userName string = ""
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	err = dbh.QueryRow(`SELECT un FROM t_user WHERE id = ?`, userId).Scan(&userName)
+
+	return userName
+}
+
+// Returns hashed password, user id, and nickname
 func FetchPwdHashAndUserInfo(un string) (string, int, string) {
 	var pwdHashFromDb string
 	var idFromDb int
