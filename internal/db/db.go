@@ -444,6 +444,38 @@ func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 	return result, msg
 }
 
+func UpdateUserSettingsPwd(userId int, hashedPwd string) bool {
+	var result bool = true
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `UPDATE t_user
+			SET pw = ?
+			WHERE id = ?;`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	_, execErr := stmtIns.Exec(hashedPwd, userId)
+	if execErr != nil {
+		result = false
+		// we can stack the possible error cases here, and fail out hard otherwise
+		// if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
+		// 	msg = "You already have a strain with this name and type"
+		// } else {
+		// 	log.Fatal(execErr)
+		// }
+	}
+
+	return result
+}
+
 func UpdateUserSettingEmail(userId int, prevEmail string, newEmail string) bool {
 
 	var result bool = true

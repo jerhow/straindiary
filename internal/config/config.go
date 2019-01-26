@@ -37,6 +37,7 @@ var RoutesAuthRequired = map[string]bool{
 	"/user":                       true,
 	"/user/email":                 true,
 	"/user/nickname":              true,
+	"/user/pwd":                   true,
 	"/service/available/email":    true,
 	"/service/available/nickname": true,
 }

@@ -36,7 +36,7 @@ func Pepper() string {
 	return "MyRandomPepper123"
 }
 
-func hashPassword(password string) (string, error) {
+func HashPassword(password string) (string, error) {
 	// TODO: Add salt
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), config.BCRYPT_COST)
 	util.ErrChk(err)

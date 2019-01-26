@@ -299,6 +299,55 @@ func Strain_POST(w http.ResponseWriter, r *http.Request) {
 	w.Write(payloadJson)
 }
 
+func UserPwd_PUT(w http.ResponseWriter, r *http.Request) {
+	// NOTE: If we're here, the request has already passed the auth middleware check
+
+	type Payload struct {
+		Msg string
+	}
+	payload := Payload{
+		Msg: "",
+	}
+
+	util.SetCommonHttpHeaders(w)
+
+	// TODO: Input validation
+	userId, _ := strconv.Atoi(r.Header.Get("X-user-id"))
+	existingPwd := r.PostFormValue("password_current")
+	newPwd := r.PostFormValue("password_new")
+	newPwdConf := r.PostFormValue("password_new_conf")
+
+	newPwdsMatch := (newPwd == newPwdConf)
+
+	if newPwdsMatch {
+		existingPasswordValid := auth.PasswordValid(userId, existingPwd)
+		if existingPasswordValid {
+			newPasswordHashed, _ := auth.HashPassword(newPwd)
+			updateSuccess := db.UpdateUserSettingsPwd(userId, newPasswordHashed)
+			if updateSuccess {
+				payload.Msg = "Success!"
+				w.WriteHeader(http.StatusOK)
+			} else {
+				payload.Msg = "Error in UserPwd_PUT() controller"
+				w.WriteHeader(http.StatusBadRequest)
+			}
+		} else {
+			payload.Msg = "Error in UserPwd_PUT() controller: Pwd provided did not match existing pwd"
+			w.WriteHeader(http.StatusBadRequest)
+		}
+	} else {
+		payload.Msg = "Error in UserPwd_PUT() controller: New password fields did not match"
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	payloadJson, err := json.Marshal(payload)
+	if err != nil {
+		fmt.Fprintf(w, "Error: %s", err)
+	}
+
+	w.Write(payloadJson)
+}
+
 func UserEmail_PUT(w http.ResponseWriter, r *http.Request) {
 
 	// NOTE: If we're here, the request has already passed the auth middleware check
