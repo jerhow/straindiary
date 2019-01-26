@@ -332,11 +332,11 @@ func UserPwd_PUT(w http.ResponseWriter, r *http.Request) {
 				w.WriteHeader(http.StatusBadRequest)
 			}
 		} else {
-			payload.Msg = "Error in UserPwd_PUT() controller: Pwd provided did not match existing pwd"
+			payload.Msg = "Current password provided is invalid"
 			w.WriteHeader(http.StatusBadRequest)
 		}
 	} else {
-		payload.Msg = "Error in UserPwd_PUT() controller: New password fields did not match"
+		payload.Msg = "New password fields did not match"
 		w.WriteHeader(http.StatusBadRequest)
 	}
 

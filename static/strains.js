@@ -862,6 +862,11 @@ var sd = {
             sd.closeUserSettingsModal(true, function(status, msg) {
                 if(status !== 200) {
                     sd.userSettingsMsg(msg);
+                    sd.updateUserSettingsConfDisplayed = false; // reset
+                    
+                    document.getElementById('txt_password_current').readOnly = false;
+                    document.getElementById('txt_password_new').readOnly = false;
+                    document.getElementById('txt_password_new_conf').readOnly = false;
                 } else {
                     sd.userSettingsMsg(msg + ' One moment please...', 'green');
                     document.querySelectorAll('.tingle-btn--primary')[0].disabled = true;
@@ -958,6 +963,23 @@ var sd = {
         "   </div>" +
         "</div>";
     },
+    // TODO: Build out these rules
+    passwordValidate: function(field, pwd) {
+        var valid, msg;
+
+        if(pwd.length === 0) {
+            valid = false;
+            msg = field + " password left blank";
+        } else if(pwd.length < 4) {
+            valid = false;
+            msg = field + " password needs to be at least 4 characters";
+        } else {
+            valid = true;
+            msg = "";
+        }
+
+        return {valid: valid, msg: msg};
+    },
     closeUserSettingsModal: function(submitForm, _callback) {
         var d = document;
         var existingVal, newVal;
@@ -970,6 +992,7 @@ var sd = {
                     return false;
                 }
 
+                // email
                 if(sd.userSettingBeingEdited === 'email') {
                     existingVal = sd.userSettings['UserSettings']['Un'];
                     newVal = d.getElementById("txt_email").value.trim();
@@ -977,7 +1000,6 @@ var sd = {
                         sd.userSettingsMsg("You haven't changed anything", 'red', 3);
                         return false;
                     } else {
-                        
                         // Validate for availability
                         sd.checkAvailability('email', newVal, function(available, msg) {
                             sd.checkAvailabilityReturned = true;
@@ -986,16 +1008,16 @@ var sd = {
                                 sd.userSettingsMsg(msg);
                             } else {
                                 sd.userSettingsMsg("Are you sure you want to change your email address? " +
+                                    "You will need to sign in again. " +
                                     "We will send a confirmation to the original address.");
                                 d.getElementById('txt_email').readOnly = true;
                                 d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
                                 sd.updateUserSettingsConfDisplayed = true;
                             }
-                        });
-                        
-                        
+                        });   
                     }
 
+                // nickname
                 } else if(sd.userSettingBeingEdited === 'nickname') {
                     existingVal = sd.userSettings['UserSettings']['Nickname'];
                     newVal = d.getElementById("txt_nickname").value.trim();
@@ -1019,8 +1041,33 @@ var sd = {
                         });
                     }
                     
+                // password
                 } else if(sd.userSettingBeingEdited === 'password') {
-                    // TODO: the logic is more complex for password
+                    
+                    var existingPwd = d.getElementById("txt_password_current").value.trim();
+                    var newPwd = d.getElementById("txt_password_new").value.trim();
+                    var newPwdConf = d.getElementById("txt_password_new_conf").value.trim();
+
+                    var validation = sd.passwordValidate('Current', existingPwd);
+                    if(!validation.valid) {
+                        sd.userSettingsMsg(validation.msg);
+                        return false;
+                    }
+
+                    if(newPwd !== newPwdConf) {
+                        sd.userSettingsMsg("New passwords don't match");
+                        return false;
+                    }
+
+                    sd.userSettingsMsg("Are you sure you want to change your email address? " +
+                        "(You will need to sign in again)");
+                    d.getElementById('txt_password_current').readOnly = true;
+                    d.getElementById('txt_password_new').readOnly = true;
+                    d.getElementById('txt_password_new_conf').readOnly = true;
+                    d.querySelectorAll('.tingle-btn--primary')[0].innerHTML = 'Confirm update';
+                    sd.updateUserSettingsConfDisplayed = true;
+
+
                 }  
             } else {
                 sd.sendUserSettings(sd.userSettingBeingEdited, _callback);
@@ -1046,7 +1093,16 @@ var sd = {
             urlEncodedDataPairs.push(encodeURIComponent("new_nickname") + '=' + encodeURIComponent(newNickname));
             url = '/user/nickname';
         } else if(field === 'password') {
-            // TBD
+            // var existingPwd = d.getElementById("txt_password_current").value.trim();
+            // var newPwd = d.getElementById("txt_password_new").value.trim();
+            // var newPwdConf = d.getElementById("txt_password_new_conf").value.trim();
+            var existingPwd = document.getElementById("txt_password_current").value.trim();
+            var newPwd = document.getElementById("txt_password_new").value.trim();
+            var newPwdConf = document.getElementById("txt_password_new_conf").value.trim();
+            urlEncodedDataPairs.push(encodeURIComponent("password_current") + '=' + encodeURIComponent(existingPwd));
+            urlEncodedDataPairs.push(encodeURIComponent("password_new") + '=' + encodeURIComponent(newPwd));
+            urlEncodedDataPairs.push(encodeURIComponent("password_new_conf") + '=' + encodeURIComponent(newPwdConf));
+            url = '/user/pwd';
         } else {
             // TBD
         }
