@@ -874,6 +874,9 @@ var sd = {
                             sd.userSettingsModal.close();
                             sd.userSettingsModal = null; // reset
                             sd.updateUserSettingsConfDisplayed = false; // reset
+                            if(sd.userSettingBeingEdited === 'password') {
+                                sd.logout();
+                            }
                             sd.userSettingBeingEdited = null; // reset
                         }, 3000
                     );

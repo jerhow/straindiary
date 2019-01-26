@@ -326,6 +326,7 @@ func UserPwd_PUT(w http.ResponseWriter, r *http.Request) {
 			updateSuccess := db.UpdateUserSettingsPwd(userId, newPasswordHashed)
 			if updateSuccess {
 				payload.Msg = "Success!"
+				_, _ = db.ExpireAllSessionsByUser(userId)
 				w.WriteHeader(http.StatusOK)
 			} else {
 				payload.Msg = "Error in UserPwd_PUT() controller"

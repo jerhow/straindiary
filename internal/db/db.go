@@ -407,7 +407,41 @@ func WriteNewSessionAuth(userId int, authToken string) (bool, string) {
 	return result, msg
 }
 
-// Expires any sessions for a given userId (by deleting them)
+// Expires all sessions for a given userId (by deleting them)
+func ExpireAllSessionsByUser(userId int) (bool, string) {
+	var result bool = true
+	var msg string = ""
+
+	dbh, err := sql.Open(DRIVER, dsn())
+	util.ErrChk(err)
+	defer dbh.Close()
+
+	err = dbh.Ping()
+	util.ErrChk(err)
+
+	sql := `DELETE FROM t_session_auth WHERE user_id = ?;`
+
+	stmtIns, err := dbh.Prepare(sql)
+	util.ErrChk(err)
+	defer stmtIns.Close()
+
+	// first return value is 'result', but it's db driver dependent as to whether it gets populated, so it's not reliable
+	_, execErr := stmtIns.Exec(userId)
+
+	if execErr != nil {
+		result = false
+		// we can stack the possible error cases here, and fail out hard otherwise
+		// if strings.Contains(execErr.Error(), "Error 1062: Duplicate entry") {
+		// 	msg = "Something something"
+		// } else {
+		// 	log.Fatal(execErr)
+		// }
+	}
+
+	return result, msg
+}
+
+// Expires a specific session for a given userId and authToken (by deleting them)
 func ExpireSessionAuth(userId int, authToken string) (bool, string) {
 	var result bool = true
 	var msg string = ""
