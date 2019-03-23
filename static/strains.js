@@ -516,7 +516,7 @@ var sd = {
     clickSort: function() {
         document.getElementById("sort_icon").style.display = "none";
         document.getElementById("sort_label").style.display = "none";
-        document.getElementById("ddl_sort").style.display = "inline";
+        document.getElementById("ddl_sort").style.display = "inline-block";
     },
     sortChange: function(obj) {
         var vals = obj.value.split(',');
@@ -525,7 +525,7 @@ var sd = {
         docCookies.setItem('order', vals[1], (sd.oneDayInSeconds * sd.sessionFactor));
         document.getElementById("ddl_sort").style.display = "none";
         document.getElementById("sort_icon").style.display = "inline";
-        document.getElementById("sort_label").style.display = "inline";
+        document.getElementById("sort_label").style.display = "inline-block";
     },
     onStarClick: function(starValue) {
         document.getElementById('stars').value = starValue;

@@ -508,6 +508,7 @@ HR {
     overflow: auto;
     width: 20%;
     float: left;
+    /* border: 1px solid red; */
 }
 
 #add_strain_icon {
@@ -520,9 +521,12 @@ HR {
 }
 
 #con_support {
-    width: 60%;
+    width: 20%;
     float: left;
+    text-align: center;
     vertical-align: middle;
+    margin-left: 60px;
+    /* border: 1px solid green; */
 }
 
 #support_icon {
@@ -547,20 +551,25 @@ HR {
 }
 
 #con_sort {
+    /* border: 1px solid blue; */
     text-align: center;
     overflow: auto;
-    width: 18%;
+    width: 20%;
     float: left;
+    text-align: right;
+    margin-left: 65px;
     /* overflow: hidden; */ /* This makes the div take up the remaining space in the parent div (https://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width) */
 }
 
 #sort_icon {
     width: 35px;
+    /* clear: right; */
 }
 
 #sort_label {
-    clear: left;
+    /* clear: both; */
     font-size: .7rem;
+    text-align: right;
 }
 
 #strains_page_login_msg {
