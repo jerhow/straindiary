@@ -453,6 +453,9 @@ HR {
 
 #functional_row_top {
     padding-top: 3px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 #con_masthead {
@@ -501,6 +504,9 @@ HR {
 
 #functional_row_bottom {
     padding-top: 3px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
 }
 
 #con_add_strain {
@@ -738,16 +744,16 @@ HR {
     clear: both;
 }
 
-@media screen and (min-width: 275px) and (max-width: 1023px) { 
-    #outer_container {
+@media screen and (min-width: 275px) and (max-width: 767px) { 
+    #outer_container, #functional_row_top, #functional_row_bottom {
         width: 100%;
         /* border-color: blue; */
     }
 }
 
-@media screen and (min-width: 1024px) { 
-    #outer_container {
-        width: 1000px;
+@media screen and (min-width: 768px) { 
+    #outer_container, #functional_row_top, #functional_row_bottom {
+        width: 768px;
         /* border-color: red; */
     }
 }
