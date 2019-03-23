@@ -566,13 +566,13 @@ var sd = {
         "       </div>" +
         "       <div id='con_price'>" +
         "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
-        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' />" +
+        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='6' />" +
         "       </div>" +
         "       <div id='con_currency'>" +
                     sd.currencyDdl() +
         "       </div>" +
         "       <div id='con_unit_of_measure'>" +
-        "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
+        "           <label id='unit_of_measure_label' for='unit_of_measure'>/</label> " +
                     sd.unitOfMeasureDdl() +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
@@ -644,13 +644,13 @@ var sd = {
         "       </div>" +
         "       <div id='con_price'>" +
         "           <label id='price_label'>Price:</label> <span id='currency_symbol'>$</span>" +
-        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='7' value='" + vals['Price'] + "' />" +
+        "           <input type='number' step='.01' id='price' name='price' tabindex='90' maxlength='6' value='" + vals['Price'] + "' />" +
         "       </div>" +
         "       <div id='con_currency'>" +
                     sd.currencyDdl() +
         "       </div>" +
         "       <div id='con_unit_of_measure'>" +
-        "           <label id='unit_of_measure_label' for='unit_of_measure'>per</label> " +
+        "           <label id='unit_of_measure_label' for='unit_of_measure'>/</label> " +
                     sd.unitOfMeasureDdl() +
         "       </div>" +
         "       <div id='con_sativa_pct'>" +
