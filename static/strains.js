@@ -161,15 +161,15 @@ var sd = {
     },
     manageUiBasedOnUserState: function() {
         if(sd.validSession()) {
-            // document.getElementById("functional_row_top").style.display = 'block';
             document.getElementById("strains_page_login_msg").style.display = 'none';
-            document.getElementById('user_icon').style.display = 'inline';
-            document.getElementById('logout_icon').style.display = 'inline';
+            document.getElementById('con_user').style.display = 'inline';
+            document.getElementById('con_logout').style.display = 'inline';
+            document.getElementById('con_masthead').style.width = '60%';
         } else {
-            // document.getElementById('functional_row_top').style.display = 'none';
             document.getElementById('strains_page_login_msg').style.display = 'block';
-            document.getElementById('user_icon').style.display = 'none';
-            document.getElementById('logout_icon').style.display = 'none';
+            document.getElementById('con_user').style.display = 'none';
+            document.getElementById('con_logout').style.display = 'none';
+            document.getElementById('con_masthead').style.width = '100%';
             sd.popLoginForm();
         }
     },

@@ -585,7 +585,7 @@ HR {
     clear: both;
 }
 
-#btn_strains_page_login {
+#btn_strains_page_login, #btn_strains_page_signup {
     border-radius: 2em;
     background-color: #57ab57;
     color: white;
