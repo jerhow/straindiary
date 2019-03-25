@@ -170,7 +170,7 @@ var sd = {
             document.getElementById('con_user').style.display = 'none';
             document.getElementById('con_logout').style.display = 'none';
             document.getElementById('con_masthead').style.width = '100%';
-            sd.popLoginForm();
+            // sd.popLoginForm();
         }
     },
     validSession: function() {
