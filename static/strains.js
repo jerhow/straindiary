@@ -165,11 +165,13 @@ var sd = {
             document.getElementById('con_user').style.display = 'inline';
             document.getElementById('con_logout').style.display = 'inline';
             document.getElementById('con_masthead').style.width = '60%';
+            document.getElementById('fixed_footer').style.display = 'inline';
         } else {
             document.getElementById('strains_page_login_msg').style.display = 'block';
             document.getElementById('con_user').style.display = 'none';
             document.getElementById('con_logout').style.display = 'none';
             document.getElementById('con_masthead').style.width = '100%';
+            document.getElementById('fixed_footer').style.display = 'none';
             // sd.popLoginForm();
         }
     },
