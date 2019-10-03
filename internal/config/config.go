@@ -10,8 +10,8 @@ const LOCAL_PORT string = "8000"
 const PAGE_TITLE string = "Strain Diary: Track Your Trees"
 const MASTHEAD_TAGLINE string = "Track Your Trees"
 
-const STATIC_ASSET_URL_BASE_PROD string = "https://s3.amazonaws.com/straindiary/"
-const STATIC_ASSET_URL_BASE_STAGE string = "https://s3.amazonaws.com/straindiary/"
+const STATIC_ASSET_URL_BASE_PROD string = "https://d3nmkh7m4z5hgu.cloudfront.net/"
+const STATIC_ASSET_URL_BASE_STAGE string = "https://d3nmkh7m4z5hgu.cloudfront.net/"
 const STATIC_ASSET_URL_BASE_DEV string = "http://localhost:8080/"
 
 const STATIC_ASSET_URL_BASE_LOCAL string = "http://localhost:8080/"
