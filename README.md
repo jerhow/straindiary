@@ -1,5 +1,5 @@
 # Strain Diary
-Lightweight tool for tracking and organizing one's experiences with various strains of plant matter. Intended use is on a phone, but it's usable in a desktop browser as well.
+Lightweight tool for tracking and organizing one's experiences with various strains, formulations and dosing of medicinal cannabis. Intended use is on a phone, but it's usable in a desktop browser as well.
 
 Trying to keep this project as simple as possible. The backend is headless, so it might be cool to eventually talk to it from a native app, etc.
 
