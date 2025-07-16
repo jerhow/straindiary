@@ -10,9 +10,9 @@ Trying to keep this project as simple as possible. The backend is headless, so i
 - Responsive UI prioritizes mobile experience first, desktop later
 
 #### External dependencies:
-- [gorilla/mux](https://github.com/gorilla/mux)
-- [madmurphy/cookies.js](https://github.com/madmurphy/cookies.js)
-- [robinparisi/tingle](https://github.com/robinparisi/tingle)
+- [gorilla/mux](https://github.com/gorilla/mux) (Golang HTTP routing library)
+- [madmurphy/cookies.js](https://github.com/madmurphy/cookies.js) (Golang cookie read/write library)
+- [robinparisi/tingle](https://github.com/robinparisi/tingle) (JavaScript modal library)
 
 
 #### License
